@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="de" xml:lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Suchhilfe</title>
+  <meta name="robots" content="index" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="author" content="Markus Mandalka"/>
+  <meta name="description" content="Suchen mit Open Semantic Search" />
+  </head>
+<body>
+<h1>Suchhilfe</h1>
+
+
+
+<h2>Einfache Suche</h2>
+<p>Einfach Suchwort eingeben oder dabei vorschlagen lassen und durch die gefundenen Ergebnisse blättern.</p>
+
+<h2>Einfaches filtern durch Facettensuche</h2>
+<p>Für einfache Verfeinerung der Suchergebnisse werden neben den Ergebnissen auch zum Kontext gefundene Unterkriterien angeboten. Über solche Suchfacetten filtern Sie selbst viele Ergebnisse durch einfachen Klick auf gewünschte Kriterien wie z.B. Kategorien, Verzeichnisse, Tags, Datum, Orte, Schlagworte, AutorInnen, Dateiformate und andere Facetten. So können Sie einfach und bequem die Suche weiter einschränken und zielgerichteter durch die gefundenen Inhalte navigieren.</p>
+
+<h2>Mehrere Suchworte</h2>
+<p><b>Eins Zwei</b> findet sowohl Dokumente, die beide Worte an beliebigen Stellen und in beliebiger Reihenfolge enthalten, wie z.B. "Null <b>Eins Zwei</b> Drei" wie auch "<b>Zwei</b> Drei <b>Eins</b>"
+
+<h2>Zeitliche Verteilung</h2>
+<p>Durch Klick auf "Zeitleiste" können Sie eine interaktive Zeitleiste aufrufen, mit der Sie visuell und übersichtlich die zeitliche Verteilung der Fundstellen und Dokumente überschauen und durch diese navigieren können.</p>
+
+<h2>Erweiterte Suche</h2>
+<p>Über <b>erweiterte Suche</b> lassen sich nachfolgende erweiterte Möglichkeiten mittels einfachem Userinterface zusammenklicken.
+
+<p>Für regelmäßige SucherInnen können folgende Möglichkeiten direkt im Suchfeld im Alltag schneller funktionieren:
+
+
+<h2>Exaktes Vorkommen</h2>
+<p><b>Zwei</b> findet <b>Zwei</b> und das Synonym <b>Zwo</b></p>
+<p><b>"Zwei"</b> findet nur buchstabengetreu <b>Zwei</b>, aber nicht mehr das Synonym <i>Zwo</i></p>
+
+<h2>Exaktes Vorkommen in Reihenfolge mit &quot;&quot;</h2>
+<p><b>"Eins Zwei"</b> findet nur "Vier <b>Eins Zwei</b> Drei" aber wegen Wörtern dazwischen weder "<i>Eins dann Zwei</i>" noch wegen anderer Reihenfolge <i>"Zwei Eins"</i>
+<p>"Brandeburger Tor" findet "ging durchs Brandenburger Tor", jedoch nicht "Der <b>Brandenburger</b> schoß ein <b>Tor</b>"
+<p><b>"<i>Brandenburger Tor</i>" Reisender</b> findet "Ein <b>Reisender</b> ging durchs <b>Brandenburger Tor</b>" aber nicht "Ein <i><b>Brandenburger</b> Reisender</i> hat das <b>Tor</b> abgeschlossen"
+
+<h2>Ausschließen mit -</h2>
+Garten -Haus findet Dokumente zu Garten in denen das Wort "Haus" nicht vorkommt.
+
+<a name="joker" />
+<h2>Beliebig lange Teile mit *</h2>
+<p>Endteile: <b>auto</b>* findet <b>Auto</b>, <b>Auto</b><i>mobil</i>, <b>auto</b><i>matisch</i>, <b>auto</b><i>genes</i>
+<p>Anfangsteile: *wert findet Mehrwert, lebenswert usw.
+<p>Zwischenteile: <b>Au</b>*<b>eiter</b> findet <b>Au</b><i>ssens</i><b>eiter</b>, Außenseiter wie auch Außenleiter
+
+<h2>Genau ein einzelnes unbekanntes Zeichen mit ?</h2>
+
+<p>Mar<b>?</b>us findet Mar<b>k</b>us, Mar<b>c</b>us oder Mar<b>i</b>us.
+
+<p>Mar<b>in</b>us wird nicht gefunden, weil mehr als nur ein <b>einzelnes</b> beliebiges Zeichen dazwischen. Dazu hätte es also Mar<b>??</b>us gebraucht, was wiederrum die ersten beiden nicht gefunden hätte, weil genau zwei beliebige Zeichen verlangt werden.
+
+Für alle drei hätte <a href="#joker">* für beliebig lange Zwischenteile</a> verwendet werden müssen, was aber auch vieles andere findet.
+
+<h2>Ungefähre Suche bzw. Unschärfe mit ~</h2>
+<p>Maier~ findet neben M<b>ai</b>er auch ähnliches wie z.B. M<b>ei</b>er oder M<b>ay</b>er
+<p>Mar<b>k</b>us Maier~ findet Mar<b>k</b>us Ma<b>y</b>er aber nicht Mar<b>c</b>us Maier, weil Mar<b>k</b>us nicht Mar<b>c</b>us ist und dieses Wort nicht auf unscharf gestellt wurde, wie das Wort Mayer
+<p>Mar<b>k</b>us<b>~</b> Ma<b>i</b>er<b>~</b> findet auch Mar<b>c</b>us Mayer
+
+<h2>Und/Oder-Verknüpfungen mit AND und OR</h2>
+<p>Haus OR Auto findet Haus oder Auto oder beide
+<p>Markus AND Marcus findet nur Dokumente, in denen beide Namen oder Worte vorkommen
+
+<h2>Komplexere Verknüpfungen mit Klammern</h2>
+<p>Auto AND (Meier OR Müller) es muss in jedem Fall Auto sowie zudem noch Mayer oder Müller vorkommen
+<p>(Mayer AND Maier) AND (Haus OR Auto) findet nur Dokumente in denen sowohl Mayer wie auch Maier und zusätzlich Haus oder Auto vor kommen
+<p>(Mayer OR Maier) AND (Haus AND Auto) findet nur Dokumente in denen Mayer oder Maier und zusätzlich Haus und Auto vor kommen
+<p>Mayer OR Maier AND Auto: Klammern vergessen, die die Priorität der Kombinationen regeln, weswegen die Suchmaschine ihre eigene nimmt
+
+<h2>Nähe bzw. maximale Entfernung mehrer Suchwörter</h2>
+<p>
+"Markus Mayer"~2 findet Dokumente, in denen nicht mehr als die angegebene Anzahl beliebiger Wörter (im Beispiel maximal zwei) zwischen allen innerhalb der Anführungszeichen angegebenen Suchworten liegen. Die Suchwortreihenfolge muss jedoch stimmen.
+So wird also auch "Markus Zweitname Mayer" gefunden, aber nicht die vielen Dokumente, die zwar alle gesuchten Wörter enthalten, welche aber weiter auseinander vorkommen wie Markus und Mayer z.B. bei <i>Markus</i> Müller auf Seite eins und bei Peter <i>Mayer</i> auf Seite 42.
+Durch die Verknüpfung mit Anführungszeichen spielt jedoch die exakte Reihenfolge der Suchwörter eine Rolle, so dass "Markus Mayer"~2 weder "Mayer mit Vornamen Markus" noch "Mayer, Markus" findet, obwohl auch hier die maximale Anzahl von zwei Wörtern dazwischen noch im gewünschten Bereich ist.
+
+
+</body>
+</html>

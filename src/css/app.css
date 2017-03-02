@@ -1,0 +1,369 @@
+
+#wait {
+  background: none repeat scroll 0% 0% rgb(53, 53, 53);
+  color: rgb(255, 255, 255);
+  opacity: 0.6;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  margin: 0px;
+  padding: 50px;
+  padding-top: 20%;
+  visibility: hidden;
+  font-weight: bold;
+}
+
+#sidebar {
+	padding-left: 30px; #more padding between #main and #sidebar
+}
+
+#main .row {
+	padding: 0px;
+	margin: 0px;
+}
+#main .columns {
+	padding: 0px;
+	margin: 0px;
+}
+
+#searchform-wrapper .row {
+	padding: 0px;
+	margin: 0px;
+}
+
+#searchform-wrapper .columns {
+	padding: 0px;
+	margin: 0px;
+}
+
+#searchform-wrapper {
+	margin-bottom: 20px;
+}
+
+#logo {
+	width: 80px;
+	height: 80px;
+}
+
+#search-field {
+	margin-top: 10px;
+}
+
+#search-button {
+	margin-top: 10px;
+}
+
+.top-bar {
+	margin-bottom: 30px;	
+}
+
+.pages .next {
+	text-align: right;
+}
+.pages .page {
+	text-align: center;
+}
+
+#sort {
+	text-align: right;
+}
+
+#sort .sub-nav {
+	display: inline-block; // dont span over full space
+	padding-top: 0;
+}
+
+#sidebar h2 {
+	font-size: 1em !important;
+	
+	border: 6px;
+	border-style: solid;
+	background-color: rgb(146, 39, 143);
+	border-color: rgb(146, 39, 143);
+	color: white;
+
+}
+
+#path a {
+  color: rgb(146, 39, 143);
+}
+
+#path a:link {
+  color: rgb(146, 39, 143);
+
+}
+
+#path a:visited {
+  color: rgb(146, 39, 143);
+}
+
+#path a:hover {
+  color: #336699;
+}
+
+#path a:active {
+  path: rgb(146, 39, 143);
+}
+
+
+
+
+#sub a {
+  color: rgb(146, 39, 143);
+}
+
+#sub a:link {
+  color: rgb(146, 39, 143);
+
+}
+
+#sub a:visited {
+  color: rgb(146, 39, 143);
+}
+
+#sub a:hover {
+  color: #336699;
+}
+
+#sub a:active {
+  path: rgb(146, 39, 143);
+}
+
+
+
+#file_modified_dt a {
+  color: rgb(146, 39, 143);
+}
+
+#file_modified_dt a:link {
+  color: rgb(146, 39, 143);
+
+}
+
+#file_modified_dt a:visited {
+  color: rgb(146, 39, 143);
+}
+
+#file_modified_dt a:hover {
+  color: #336699;
+}
+
+#file_modified_dt a:active {
+  path: rgb(146, 39, 143);
+}
+
+
+
+#content_types h2 {
+  color: black;
+  background-color: #EFEFEF;
+  border-color: #EFEFEF;
+
+}
+
+#content_type h2 {
+  color: black;
+  background-color: #EFEFEF;
+  border-color: #EFEFEF;
+
+}
+
+
+
+
+#filter h2 {
+  background-color: darkblue;
+  border-color: darkblue;
+
+}
+
+
+
+
+#author_s h2 {
+  background-color: orange;
+  border-color: orange;
+}
+
+
+#tag_ss h2 {
+  background-color: darkred;
+  border-color: darkred;
+
+}
+
+#meta_date_dts h2 {
+  background-color: brown;
+  border-color: brown;
+
+}
+
+
+
+#person_ss h2 {
+  background-color: blue;
+  border-color: blue;
+
+}
+
+#organization_ss h2 {
+  background-color: darkgray;
+  border-color: darkgray;
+
+}
+
+#text h2{
+  
+	background-color: rgb(57, 181, 74);
+	border-color: rgb(57, 181, 74);
+  
+}
+
+
+
+
+#meta_date_dts h2 {
+  background-color: brown;
+  border-color: brown;
+
+}
+
+
+#path ul {
+  margin-left: 5px;
+  margin-right: 0;
+  margin-top: 5px;
+  padding: 0;
+  padding-left: 5px;
+}
+
+#path li {
+  list-style-image: url(../images/path.png);
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+
+#sub h2 {
+/*
+  background-position : 0 px 0 px;
+  background-image : url(../images/sub.png);
+  background-repeat : no-repeat;
+*/
+}
+
+
+
+em {
+  font-weight: bold;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.image {
+  margin-top: 20px;
+}
+
+.imagelist {
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 0px;
+}
+
+.imagelist h2 {
+  font-size: 12px !important;
+  font-weight: bold;
+}
+
+
+.uri {
+  color: green;
+  font-size: 11px;
+}
+
+.date {
+	
+  font-size: 11px;
+	
+}
+
+
+.size {
+	
+  font-size: 11px;
+	
+}
+
+.author {
+  font-style: italic;
+  font-size: 13px;
+  margin-top: 5px;
+  color: darkorange;
+}
+
+.snippet {
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+}
+
+.commands {
+  margin-top: 5px;
+  font-size: 11px;
+
+}
+
+
+.autocomplete-w1 {
+  background: url(jquery/shadow.png) no-repeat bottom right;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 8px 0 0 6px; /* IE6 fix: */
+  _background: none;
+  _margin: 0;
+}
+
+.autocomplete {
+  border: 1px solid #999;
+  background: #FFF;
+  cursor: default;
+  text-align: left;
+  max-height: 350px;
+  overflow: auto;
+  margin: -6px 6px 6px -6px; /* IE6 specific: */
+  _height: 350px;
+  _margin: 0;
+  _overflow-x: hidden;
+}
+
+.autocomplete .selected {
+  background: #F0F0F0;
+}
+
+.autocomplete div {
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+
+.autocomplete strong {
+  font-weight: normal;
+  color: #3399FF;
+}
+
+/* Foundation generic elements overrides */
+a.button.secondary.active {
+	background-color: #ddd;
+}
+
+a.disabled {
+	color: lightgray;
+}

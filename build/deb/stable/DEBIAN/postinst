@@ -1,0 +1,6 @@
+#!/bin/sh
+# postinst script for solr-php-ui
+
+/etc/init.d/apache2 restart
+
+exit 0

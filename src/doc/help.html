@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Help: Searching with open semantic search</title>
+  <meta name="robots" content="index" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="author" content="Markus Mandalka"/>
+  <meta name="description" content="Searh operators of Open Semantic Search" />
+  </head>
+<body>
+
+<h1>Help: Searching with open semantic search</h1>
+
+<p><i>Search operators and queries</i>:</p>
+<h2>Unknown parts with *</h2>
+<p><code>corrupt*</code><br />
+will find corrupt, corrupt<i>ion</i>, corrupt<i>ed</i> ...</p>
+<p><code>*rupt</code><br />
+will find corrupt, interrupt but it will not find corrupt<i>ion</i> or interrupt<i>ion</i>...</p>
+<p><code>*rupt*</code><br />
+will find corrupt and corruption, interrupt and interruption ...</p>
+<h2>AND</h2>
+<p><code>search engine</code><br />
+will find all documents which contains the word <i>engine</i> AND the word <i>search</i></p>
+<p><code>search AND engine</code><br />
+would return the same results</p>
+<h2>OR</h2>
+<p><code>search OR research</code><br />
+will find all documents which contains the word <i>search</i> or the word <i>research</i></p>
+<h2>Exclusion with -</h2>
+<p><code>search -engine</code><br />
+will find all documents which contain the word search and do not contain the word engine</p>
+<h2>Phrase search with quotes</h2>
+<p><code>"search engine"</code><br />
+will find exactly this phrase and will not find <i>i search an engine</i>
+</p><h2>Fuzzy search with ~</h2>
+<p><code>similar~ words~</code><br />
+would find not only <i>similar words</i> but <i>similer works</i>, too because both words are set to fuzzy search.</p>
+<p>Usefull if you want to consider typos in the documents or if some documents are images or scanned documents (like pdf-documents containing scanned pages only in graphical formats instead of digital text), so you maybe find more documents for your query even if the results of automated text-recognition (ocr) are not perfect)
+</p><h2>Combine criterias with OR, AND and parentheses</h2>
+<p><code>(search OR research) AND (engine OR software)</code><br />
+will find:</p>
+<ul><li>documents containing the words <i>search</i> and <i>engine</i></li>
+<li>documents containing the words <i>search</i> and <i>software</i></li>
+<li>documents containing the words <i>research</i> and <i>engine</i></li>
+<li>documents containing the words <i>research</i> and <i>software</i></li>
+<li>documents containing the words <i>search</i> and <i>research</i> and <i>software</i> and <i>engine</i></li>
+</ul><p>But it wont find a document containing the words <i>search</i> and <i>research</i> without at least one of the words <i>engine</i> or <i>software</i>.</p>
+<p>Only one of the two last words would be enough, because connected with OR, but one of them is absolutelly neccecary because this criteria combination (connected by parantheses) is connected with AND</p>
+
+
+
+</body>
+</html>
