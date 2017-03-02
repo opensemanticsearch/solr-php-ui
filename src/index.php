@@ -3,7 +3,8 @@
 //
 // PHP-UI of Open Semantic Search - http://www.opensemanticsearch.org
 //
-// 2011 - 2016 by Markus Mandalka - http://www.mandalka.name
+// 2011 - 2017 by Markus Mandalka - http://www.mandalka.name
+// and others (see Git history)
 //
 // Free Software - License: GPL 3
 
@@ -63,7 +64,7 @@ include 'config/config.i18n.php';
 # mask special chars but not operators
 function mask_query ( $query, $facets=array() ) {
 
-	$unmaskfacets = array('id','exact','title','content','_text_');
+	$unmaskfacets = array('id','title','content','exact','_text_','stemmed');
 	
 	# add configured facets
 	foreach ($facets as $facet=>$facetconfig) {
@@ -932,15 +933,15 @@ function path2query($path) {
 	global $pathfacet;
 	
 	$trimmedpath = trim($path, '/');
-	$paths = split('/', $trimmedpath);
+	$paths = explode('/', $trimmedpath);
 	
 	// if path check which path_x_s facet to select
 	$pathdeepth = count($paths);
 	
 	$pathfacet = 'path' . $pathdeepth . '_s';
 	
-	// pathfilter to set in solrquery
-	$paths = split('/', $trimmedpath);
+	// pathfilter to set in Solr query
+	$paths = explode('/', $trimmedpath);
 	
 	$pathfilter = '';
 	$pathcounter = 0;
@@ -1147,7 +1148,7 @@ if ($upzoom) {
 
 
 # Allow wildcards inside phrase search, too
-if (strpos($query,"\"") !== false) {
+if (strpos($query, "\"") !== false) {
 	$additionalParameters['defType'] = 'complexphrase';
 } else {
 	#but if no phrase use edismax, because complexphrase can not handle date ranges

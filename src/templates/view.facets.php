@@ -62,7 +62,7 @@
 				<?php
 				$trimmedpath = trim($path, '/');
 
-				$paths = split('/', $trimmedpath);
+				$paths = explode('/', $trimmedpath);
 
 				print '<ul><li><a onclick="waiting_on();" href="' . buildurl($params, "path", '', 's', 1) . '">'.t("All paths").'</a>';
 
