@@ -129,12 +129,11 @@ var elements = {
 
 
 function subnav_deactivate_active(){
-	document.getElementById('sub_nav_cose').className = "";
-	document.getElementById('sub_nav_circle').className = "";
-	document.getElementById('sub_nav_concentric').className = "";
-	document.getElementById('sub_nav_grid').className = "";
-	document.getElementById('sub_nav_breadthfirst').className = "";
-	
+	document.getElementById('sub_nav_cose').className = "tabs-title";
+	document.getElementById('sub_nav_circle').className = "tabs-title";
+	document.getElementById('sub_nav_concentric').className = "tabs-title";
+	document.getElementById('sub_nav_grid').className = "tabs-title";
+	document.getElementById('sub_nav_breadthfirst').className = "tabs-title";
 }
 
 
@@ -142,7 +141,7 @@ function view_cose(){
 
 	 subnav_deactivate_active();
 	 
-	 document.getElementById("sub_nav_cose").className = "active";
+	 document.getElementById("sub_nav_cose").className = "tabs-title is-active";
 
 	var cy = cytoscape({
 		  container: document.getElementById('cy'),
@@ -187,7 +186,7 @@ function view_circle(){
 
 	 subnav_deactivate_active();
 	 
-	 document.getElementById("sub_nav_circle").className = "active";
+	 document.getElementById("sub_nav_circle").className = "tabs-title is-active";
 	
 	var cy = cytoscape({
 		  container: document.getElementById('cy'),
@@ -232,7 +231,7 @@ function view_concentric(){
 
 	 subnav_deactivate_active();
 	 
-	 document.getElementById("sub_nav_concentric").className = "active";
+	 document.getElementById("sub_nav_concentric").className = "tabs-title is-active";
 	
 	var cy = cytoscape({
 		  container: document.getElementById('cy'),
@@ -277,7 +276,7 @@ function view_grid(){
 
 	 subnav_deactivate_active();
 	 
-	 document.getElementById("sub_nav_grid").className = "active";
+	 document.getElementById("sub_nav_grid").className = "tabs-title is-active";
 
 	var cy = cytoscape({
 		  container: document.getElementById('cy'),
@@ -322,7 +321,7 @@ function view_breadthfirst(){
 
 	 subnav_deactivate_active();
 	 
-	 document.getElementById("sub_nav_breadthfirst").className = "active";
+	 document.getElementById("sub_nav_breadthfirst").className = "tabs-title is-active";
 
 	var cy = cytoscape({
 		  container: document.getElementById('cy'),
@@ -392,18 +391,17 @@ $(function(){ // on dom ready
 </script>
 
 
-
-
 <div id="results" class="row">
 <div class="small-12 columns">
-<dl class="sub-nav">
-  <dt>Graph view:</dt>
-  <dd id="sub_nav_cose" class="active"><a href="#" onclick="view_cose();">Cose</a></dd>
-  <dd id="sub_nav_circle"><a href="#" onclick="view_circle();">Circle</a></dd>
-  <dd id="sub_nav_breadthfirst"><a href="#" onclick="view_breadthfirst();">Breadthfirst</a></dd>
-  <dd id="sub_nav_concentric"><a href="#" onclick="view_concentric();">Concentric</a></dd>
-  <dd id="sub_nav_grid"><a href="#" onclick="view_grid();">Grid</a></dd>
-  </dl>
+<ul class="tabs" data-tabs id="subnav-tabs">
+
+  <li id="sub_nav_cose" class="tabs-title"><a href="#" onclick="view_cose();">Cose</a></li>
+  <li id="sub_nav_circle" class="tabs-title"><a href="#" onclick="view_circle();">Circle</a></li>
+  <li id="sub_nav_breadthfirst" class="tabs-title"><a href="#" onclick="view_breadthfirst();">Breadthfirst</a></li>
+  <li id="sub_nav_concentric" class="tabs-title"><a href="#" onclick="view_concentric();">Concentric</a></li>
+  <li id="sub_nav_grid" class="tabs-title"><a href="#" onclick="view_grid();">Grid</a></li>
+
+</ul>
 </div>
 
 <div class="small-12 columns" style="height: 120%; width=100%;" id="cy"></div>
