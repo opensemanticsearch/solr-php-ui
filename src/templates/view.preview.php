@@ -191,42 +191,43 @@ in
 	<hr />
 
 	<div class="row">
-<dl class="sub-nav right" data-tab>
+
+
+<ul class="tabs" data-tabs id="preview-tabs">
 
 <?php if ($preview_image) { ?>
 
-<dd class="active"><a href="#preview-image">Preview</a></dd>
-<dd><a href="#preview-text">Text</a></dd>
+<li class="tabs-title is-active"><a href="#preview-image" aria-selected="true">Preview</a></li>
+<li class="tabs-title"><a href="#preview-text">Text</a></li>
 
 <?php
 // if preview image
 } else {	?>
-<dd class="active"><a href="#preview-text">Text</a></dd>
+<li class="tabs-title is-active"><a href="#preview-text" aria-selected="true">Text</a></li>
 <?php } // no preview image ?>
 
-
 <?php if ($ocr) { ?>
-  <dd><a href="#preview-ocr">OCR</a></dd>
-<?php } // if ocr ?>
+  <li class="tabs-title"><a href="#preview-ocr">OCR</a></li>
 
-  <dd><a href="#preview-meta">Meta</a></dd>
-  </dl>
+<?php } // if ocr ?>
+  <li class="tabs-title"><a href="#preview-meta">Meta</a></li>
+  </ul>
 </div>
 
-<div class="tabs-content">
+<div class="tabs-content" data-tabs-content="preview-tabs">
 <?php if ($preview_image) { ?>
 
-<div class="content active" id="preview-image">
+<div class="tabs-panel is-active" id="preview-image">
 	<div class="panel">
 	<a href="<?=$id?>" target="_blank"><img src="<?=$preview_image?>" /></a>
 	</div>
 	
 </div>
-<div class="content" id="preview-text">
+<div class="tabs-panel" id="preview-text">
 <?php
 // if preview image
 } else {	?>
-<div class="content active" id="preview-text">
+<div class="tabs-panel is-active" id="preview-text">
 <?php } // no preview image ?>
 
 	<div id="content">
@@ -302,7 +303,7 @@ in
 </div>
 
 <?php if ($ocr && $preview_allowed) { ?>
-<div class="content" id="preview-ocr">
+<div class="tabs-panel" id="preview-ocr">
 
 	<div id="ocr"><?php 
 		print "<i>" . t("content_ocr") ."</i><br/>";
@@ -311,7 +312,7 @@ in
 	</div>
 </div>
 <?php } // if ocr ?>
-<div class="content" id="preview-meta">
+<div class="tabs-panel" id="preview-meta">
 	<div class="meta">
 <?php 
 foreach ($cols as $col) {
