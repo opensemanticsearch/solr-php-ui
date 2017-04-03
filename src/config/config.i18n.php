@@ -7,6 +7,7 @@
 $lang['en']['advanced_search'] = 'Advanced search';
 $lang['en']['search_by_list'] = 'Search by list';
 $lang['en']['manage_structure'] = 'Manage structure';
+$lang['en']['manage_datasources'] = 'Datasources';
 
 
 $lang['en']['next'] = 'Next';
