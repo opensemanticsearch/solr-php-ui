@@ -10,7 +10,12 @@
 
 <?php
 // todo: bei table alle fields ausser content?! und erst felder sammeln, dann html tabelle und for each field if exist
+
+$result_nr = 0;
+
 foreach ($results->response->docs as $doc) {
+
+  $result_nr++;
 
   $id = $doc->id;
   
@@ -115,7 +120,7 @@ foreach ($results->response->docs as $doc) {
 
 ?>
 <li>
-
+	<a name="<?=$result_nr?>"/>
 	<div class="title"><a class="title" target="_blank" href="<?=$uri?>"><?=$title?></a></div>
 	
 	<div class="date"><?=$datetime?></div>
@@ -157,12 +162,38 @@ in
 		<ul>
 <?php
 
+	$snippets_open = 3;
+	$snippet_number = 0;
+
 	foreach ($snippets as $snippet) {
+		$snippet_number++;
+
+		// open block with more snipets
+		if ($snippet_number == $snippets_open + 1) {
+			
+			print '</ul><ul class="more-snippets" id="'.$result_nr.'#more-snippets">';
+					
+		}
+		
 		print '<li class="snippet">' . $snippet . '</li>';
+
+		
 	}
+
 
 ?>
 		</ul>
+<?php
+
+	// if more snippets
+	if ($snippet_number > $snippets_open) {
+
+		print '<a class="tiny button" id="'.$result_nr.'#more-snippets-button" href="#'.$result_nr.'" onClick="document.getElementById(\''.$result_nr.'#more-snippets\').style.display = \'block\';document.getElementById(\''.$result_nr.'#more-snippets-button\').style.display = \'none\';">Show all '.$snippet_number.' snippets</a>';
+				
+	}
+
+?>
+
 	</div>
 	
 	

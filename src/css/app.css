@@ -295,7 +295,6 @@ em {
 	
 }
 
-
 .size {
 	
   font-size: 11px;
@@ -313,6 +312,10 @@ em {
   font-size: 13px;
   font-family: Arial, Helvetica, sans-serif;
   margin-top: 5px;
+}
+
+.more-snippets {
+  display:none;
 }
 
 .commands {
