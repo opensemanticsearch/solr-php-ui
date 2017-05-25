@@ -826,6 +826,11 @@ if ($view == 'list') {
 }
 
 
+// Multi term synonyms
+// so set split on whitespace parameter to false
+$additionalParameters['sow'] = 'false';
+
+
 //
 // Highlighting
 //
