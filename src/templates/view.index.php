@@ -91,9 +91,13 @@ if ( file_exists("templates/custom/view.index.topbar.php") ) {
 			<div class="small-12 large-12 columns">
 			Also find:
 			</div>
-			<div class="small-12 columns">
+			<div class="small-12 large-6 columns">
 				<input type="checkbox" name="stemming" id="stemming" value="stemming"<?php if ($stemming==true) {print " checked";}?>><label for="stemming">Other word forms (grammar &amp; stemming)</label>
 			</div>
+			<div class="small-12 large-6 columns">
+				<input type="checkbox" name="synonyms" id="synonyms" value="synonyms"<?php if ($synonyms==true) {print " checked";}?>><label for="synonyms">Synonyms & aliases</label>
+			</div>
+
 		</fieldset>
 	</div></div>
 

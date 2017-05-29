@@ -687,20 +687,22 @@ if ($limit == "all") {
 }
 
 if (!$query) {
+	$synonyms=true;
 	$stemming=true;
-} elseif (isset($_REQUEST["stemming"])) {
-	$stemming = true;
 } else {
-	$stemming = false;
-}
 
-
-if (!$query) {
+ if (isset($_REQUEST["synonyms"])) {
 	$synonyms = true;
-} elseif (isset($_REQUEST["synonyms"])) {
-	$synonyms = true;
-} else {
+ } else {
 	$synonyms = false;
+ }
+
+ if (isset($_REQUEST["stemming"])) {
+	$stemming = true;
+ } else {
+	$stemming = false;
+ }
+
 }
 
 
@@ -777,7 +779,7 @@ if (!$query) {
 	
 
 	// Repair wildcard search for wildcarded words if stemming is on
-	if ($stemming == true) {
+	if ($stemming == true || $synonyms == true) {
 	
 		if ( is_wildcard($solrquery) ) {
 			$solrquery = disable_stemming_for_wildcards($solrquery);
@@ -786,16 +788,13 @@ if (!$query) {
 	}
 
 	// change default search field, if semantic search
-	if ($synonyms == true && $stemming == true) {
+	if ($synonyms == true) {
 	
 		// stemming + synonyms
-		$additionalParameters['df'] = 'stemmed';
+		$additionalParameters['df'] = 'synonyms';
 	
 	} elseif ($stemming == true) {
 	
-		// stemming and no synonyms
-	
-		// temp until schema.xml updated
 		$additionalParameters['df'] = 'stemmed';
 	
 	}
