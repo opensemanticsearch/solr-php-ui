@@ -46,7 +46,6 @@ $cfg['facets']=array(
 		'message_to_ss' => array ('label'=>'Message to'),
 		'message_cc_ss' => array ('label'=>'Message cc'),
 		'message_bcc_ss' => array ('label'=>'Message bcc'),
-		'_text_' => array ('label'=>'Text'),
 );
 
 
