@@ -1,9 +1,9 @@
 Package: solr-php-ui
-Version: 16.07.20
+Version: 17.06.19
 Section: misc
 Priority: optional
 Architecture: all
-Depends: php5(>= 0)
+Depends: php(>=0)
 Installed-Size: 100
 Maintainer: Markus Mandalka <info@opensemanticsearch.org>
 Homepage: http://www.opensemanticsearch.org/
