@@ -3,7 +3,7 @@ Version: 17.06.19
 Section: misc
 Priority: optional
 Architecture: all
-Depends: php(>=0)
+Depends: php(>=0),php-bcmath(>=0)
 Installed-Size: 100
 Maintainer: Markus Mandalka <info@opensemanticsearch.org>
 Homepage: http://www.opensemanticsearch.org/
