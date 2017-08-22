@@ -248,7 +248,13 @@ in
 		if (strpos ($type, 'video') === 0) { ?>
 		<video src="<?=$id?>"></video>
 		<?php
-		} // if video ?>
+		} // if video
+
+		// if audio
+		if (strpos ($type, 'audio') === 0) { ?>
+		<audio controls="controls" src="<?=$id?>"></audio>
+		<?php
+		} // if audio ?>
 	
 
 		<?php if ($type=='CSV row') {

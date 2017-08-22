@@ -180,6 +180,13 @@ if ( file_exists("templates/custom/view.index.topbar.php") ) {
 			include 'templates/view.videos.php';
 			include 'templates/pagination.php';
 
+		} elseif ($view == 'audios') {
+			include 'templates/select_sort.php';
+				
+			include 'templates/pagination.php';
+			include 'templates/view.audios.php';
+			include 'templates/pagination.php';
+
 		} elseif ($view == 'table') {
 
 			include 'templates/pagination.php';

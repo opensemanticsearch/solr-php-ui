@@ -44,6 +44,11 @@
 		} else {
 			print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'videos', 's', 1) . '">' . t('Videos') . '</a>';
 		}
+		if ($view == 'audios') {
+			print '<a class="button secondary active" href="#">'.t('Audios').'</a>';
+		} else {
+			print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'audios', 's', 1) . '">' . t('Audios') . '</a>';
+		}
 		
 		if ($view == 'table') {
 			print '<a class="button secondary active" href="#">'.t('Table').'</a>';
@@ -73,10 +78,10 @@
 		}
 		?><hr/><?php
 				
-		if ($view == 'entities') {
+		if ($view == 'graph') {
 			print '<a class="button active" href="#">'.t('Named entities').'</a>';
 		} else {
-			print '<a class="button" onclick="waiting_on();" href="' . buildurl($params, "view", 'entities', 's', 1) . '">' . t('Named entities') . '</a>';
+			print '<a class="button" onclick="waiting_on();" href="' . buildurl($params, "view", 'graph', 's', 1) . '">' . t('Named entities') . '</a>';
 		}
 		
 		?><hr/><?php

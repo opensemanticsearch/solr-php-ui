@@ -407,9 +407,7 @@ function split_but_not_phrase($query) {
 			$querypart = '';
 		}
 		
-		
 	} // for each token
-	
 	
 	return $queryparts;
 }
@@ -986,7 +984,7 @@ if ($view == 'images') {
 
 
 // if view is imagegallery extend solrquery to filter images
-// filter on content_type image* so that we dont show textdocuments in image gallery
+// filter on content_type image* so that we don't show textdocuments in image gallery
 if ($view == 'videos') {
 	$solrquery .= ' AND (';
 
@@ -998,6 +996,16 @@ if ($view == 'videos') {
 	$solrquery .= ')';
 }
 
+
+// if view is audio extend solrquery to filter audio files
+// filter on content_type audio* so that we don't show textdocuments in image gallery
+if ($view == 'audios') {
+	$solrquery .= ' AND (';
+
+	$solrquery .= 'content_type:audio*';
+
+	$solrquery .= ')';
+}
 
 
 if ($view=='words') {
