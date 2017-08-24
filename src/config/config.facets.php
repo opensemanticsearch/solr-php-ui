@@ -3,6 +3,8 @@
 
 $cfg['facets']['tag_ss'] = array ('label'=>'Tags');
 
+$cfg['facets']['content_type_group'] = array ('label'=>'Content type group');
+
 $cfg['facets']['person_ss'] = array ('label'=>'Persons');
 
 $cfg['facets']['organization_ss'] = array ('label'=>'Organizations');
