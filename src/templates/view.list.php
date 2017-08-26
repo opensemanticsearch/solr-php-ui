@@ -203,7 +203,7 @@ in
 				foreach ($cfg['facets'] as $field => $facet_config) {
 
 					
-					if ($field != '_text_' and $field !='author_s') {
+					if ($field != '_text_' and $field !='author_s' and $field !='content_type_group') {
 						if ( isset( $doc->$field ) ) {
 							
 							if ($first) {
