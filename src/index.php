@@ -1,9 +1,9 @@
 <?php
 // SOLR PHP Client UI
 //
-// PHP-UI of Open Semantic Search - http://www.opensemanticsearch.org
+// PHP-UI of Open Semantic Search - https://www.opensemanticsearch.org
 //
-// 2011 - 2017 by Markus Mandalka - http://www.mandalka.name
+// 2011 - 2017 by Markus Mandalka - https://www.mandalka.name
 // and others (see Git history)
 //
 // Free Software - License: GPL 3
@@ -466,11 +466,10 @@ function openings($query) {
 
 
 
-// Solr has problems using wildcards in stemmed fields and disables stemming for query parts with wildcards but the index is stemmed, so theyre not found in the stemmed index
-// So we disable stemming by using unstemmed field for all words with wildcards		
+// Solr has problems using wildcards in stemmed fields and disables stemming for query parts with wildcards but the index is stemmed, so they are not found in the stemmed index
+// So we disable stemming by using unstemmed field for all words with wildcards
 
 // test f.e. with ((exact:"ab xy") OR ("cd xy") AND a AND (b OR c* Or d?e))
-
 
 function disable_stemming_for_wildcards($query) {
 
@@ -626,13 +625,25 @@ $not_content_types = isset($_REQUEST['NOT_content_type']) ? $_REQUEST['NOT_conte
 // get parameters for each configurated facet
 $selected_facets = array();
 $deselected_facets = array();
+$facets_limit = array();
+
 foreach ($cfg['facets'] as $facet=>$facet_value) {
 
+	# facet filter
 	if ( isset($_REQUEST[$facet]) ) {
 		$selected_facets[$facet] = $_REQUEST[$facet];
 	}
+
+	# exclude filter
 	if ( isset($_REQUEST['NOT_'.$facet]) ) {
 		$deselected_facets[$facet] = $_REQUEST['NOT_'.$facet];
+	}
+
+
+	# limit
+	if ( isset($_REQUEST['f_'.$facet.'_facet_limit']) ) {
+		$facets_limit[$facet] = (int)$_REQUEST['f_'.$facet.'_facet_limit'];
+
 	}
 	
 }
@@ -743,6 +754,11 @@ foreach ($deselected_facets as $deselected_facet=>$facet_value) {
 	$params['NOT_'.$deselected_facet] = $facet_value;
 }
 
+foreach ($facets_limit as $limited_facet=>$facet_value) {
+
+	$params['f_'.$limited_facet.'_facet_limit'] = $facet_value;
+}
+
 
 require_once('./Apache/Solr/Service.php');
 
@@ -764,9 +780,9 @@ if (!$query) {
 	}
 
 } else {
-	// Build query for solr
+	// Build query for Solr
 
-	// mask query for solr
+	// mask query for Solr
 	$solrquery = mask_query( $query, $cfg['facets'] );
 
 	
@@ -795,14 +811,12 @@ if (!$query) {
 		$additionalParameters['df'] = 'stemmed';
 	
 	}
-	
-	
-	
+
 }
 
 
 /*
- * Fields to select
+* Fields to select
 *
 * Especially the field "content" maybe too big for php's RAM or causing bad
 * for performance, so select only needet fields we want to print except if
@@ -843,6 +857,7 @@ if ($view =="preview") {
 	$additionalParameters['hl.fragsize'] = '0';
 	$additionalParameters['hl.maxAnalyzedChars'] = '1000000000';
 }
+
 elseif ($view =="table") {
 	$additionalParameters['hl.fragsize'] = 100;
 } 
@@ -871,17 +886,23 @@ $highlightfield = 'content';
 
 
 
-
-
 //
 //Facets
 //
 
-// build filters from all slected facets and facetvalues
+// build filters and limit parameters from all selected facets and facetvalues
 // and extend the solr query with this filters
 
 foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
+	// limit / count of values in facet
+	if (isset($facets_limit[$configured_facet])) {
+
+		$additionalParameters['f.'.$configured_facet.'.facet.limit'] = $facets_limit[$configured_facet];
+
+	}
+
+	// add filters for selected facet values to query
 	if (isset($selected_facets[$configured_facet])) {
 
 		$selected_facet = $configured_facet;
@@ -896,6 +917,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 		}
 	}
 
+	// add filters for excluded facet values to query
 	if (isset($deselected_facets[$configured_facet])) {
 
 		$deselected_facet = $configured_facet;
@@ -909,7 +931,6 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 			$solrquery .= ' AND NOT ' . $solrfacet . ':' . $solrfacetvalue;
 		}
 	}
-
 
 }
 
@@ -1074,8 +1095,6 @@ if ($view=='words') {
 
 $additionalParameters['facet.field'] = $arr_facets;
 
-
-
 $additionalParameters['f.file_modified_dt.facet.mincount'] = 0;
 $additionalParameters['facet.range']= 'file_modified_dt';
 
@@ -1203,6 +1222,7 @@ if ($solrquery) {
 		}
 			
 	} // failover query with edismax
+
 } // isquery -> Ask solr
 
 
@@ -1243,6 +1263,7 @@ if ($start > 1) {
 } else {
 	$is_prev_page = false;
 }
+
 
 //
 // General links
