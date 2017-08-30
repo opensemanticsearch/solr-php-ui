@@ -140,7 +140,7 @@ function buildurl($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2
 	// if param false, delete it
 	foreach ($params as $key=>$value) {
 
-		if ($value == false) {
+		if ($value === false or $value =='') {
 			unset($params[$key]);
 		}
 
@@ -151,6 +151,7 @@ function buildurl($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2
 	return $uri;
 
 }
+
 
 function buildurl_addvalue($params, $facet=NULL, $addvalue=NULL, $changefacet=NULL, $newvalue=NULL) {
 
@@ -288,11 +289,22 @@ function filesize_formatted($size)
 
 
 // print a facet and its values as links
-function print_facet(&$results, $facet_field, $facet_label) {
+function print_facet(&$results, $facet_field, $facet_label, $facets_limit) {
 	global $params;
 
+	$facetlimit = 50;
+	$facetlimit_step = 50;
+
+	if (isset($facets_limit[$facet_field])) {
+		$facetlimit = $facets_limit[$facet_field];
+	}
+
+	$count_facet_values = count(get_object_vars($results->facet_counts->facet_fields->$facet_field));
+
 	if (isset($results->facet_counts->facet_fields->$facet_field)) {
-		if (count(get_object_vars($results->facet_counts->facet_fields->$facet_field)) > 0) {
+
+		# print facet if values in facet
+		if ($count_facet_values > 0) {
 
 			?>
 <div id="<?= $facet_field ?>" class="facet">
@@ -302,13 +314,60 @@ function print_facet(&$results, $facet_field, $facet_label) {
 	<ul class="no-bullet">
 		<?php
 
+		$i = 0;
 		foreach ($results->facet_counts->facet_fields->$facet_field as $facet => $count) {
-			print '<li><a onclick="waiting_on();" href="' . buildurl_addvalue($params, $facet_field, $facet, 's', 1) . '">' . htmlspecialchars($facet) . '</a> (' . $count . ')
+
+			if ($i<$facetlimit) {
+ print '<li><a onclick="waiting_on();" href="' . buildurl_addvalue($params, $facet_field, $facet, 's', 1) . '">' . htmlspecialchars($facet) . '</a> (' . $count . ')
 			<a title="Exclude this value" onclick="waiting_on();" href="' . buildurl_addvalue($params, 'NOT_'.$facet_field, $facet, 's', 1) . '">-</a>
 			</li>';
+			}
+
+			$i++;
+
 		}
 		?>
 	</ul>
+<?php
+
+
+
+$facetlimit_more = $facetlimit + $facetlimit_step;
+$facetlimit_less = $facetlimit - $facetlimit_step;
+if ($facetlimit_less <= 0) {$facetlimit_less = '0';}
+
+if ($count_facet_values > $facetlimit) {
+	$link_facetlimit_more = buildurl($params, $facet='f_'.$facet_field.'_facet_limit', $newvalue=$facetlimit_more);
+} else $link_facetlimit_more = '';
+
+if ($facetlimit > 0) {
+
+	$link_facetlimit_less = buildurl($params, $facet='f_'.$facet_field.'_facet_limit', $newvalue=$facetlimit_less);
+} else {
+	$link_facetlimit_less = '';
+}
+
+print '<div><p><small>Show ';
+
+if ($link_facetlimit_less) {
+	print '<a href="'.$link_facetlimit_less.'">less (-)</a>';
+} else {
+	print 'less (-)';
+}
+
+print ' | ';
+
+if ($link_facetlimit_more) {
+	print '<a href="'.$link_facetlimit_more.'">more (+)</a>';
+} else {
+	print 'more (+)';
+}
+
+print '</small></p></div>';
+
+?>
+
+
 </div>
 <?php
 		}
@@ -352,10 +411,7 @@ function strip_empty_lines($s, $max_empty_lines) {
 	}
 	fclose($fp);
 
-
-
 	return $result;
-
 }
 
 
@@ -643,7 +699,6 @@ foreach ($cfg['facets'] as $facet=>$facet_value) {
 	# limit
 	if ( isset($_REQUEST['f_'.$facet.'_facet_limit']) ) {
 		$facets_limit[$facet] = (int)$_REQUEST['f_'.$facet.'_facet_limit'];
-
 	}
 	
 }
@@ -898,7 +953,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 	// limit / count of values in facet
 	if (isset($facets_limit[$configured_facet])) {
 
-		$additionalParameters['f.'.$configured_facet.'.facet.limit'] = $facets_limit[$configured_facet];
+		$additionalParameters['f.'.$configured_facet.'.facet.limit'] = $facets_limit[$configured_facet] + 1;
 
 	}
 
@@ -981,7 +1036,6 @@ function path2query($path) {
 }
 
 
-
 if ($deselected_paths) {
 	foreach ($deselected_paths as $deselected_path) {
 		$pathfilter = path2query($deselected_path);
@@ -996,6 +1050,7 @@ if ($path) {
 	$pathfilter = path2query($path);
 	$solrquery .= ' AND '.$pathfilter;
 }
+
 
 // if view is imagegallery extend solrquery to filter images
 // filter on content_type image* so that we dont show textdocuments in image gallery
@@ -1223,7 +1278,7 @@ if ($solrquery) {
 			
 	} // failover query with edismax
 
-} // isquery -> Ask solr
+} // isquery -> Ask Solr
 
 
 if ($cfg['debug']) {

@@ -162,10 +162,9 @@
 						print_r($facet_config);
 					}
 
-					if ($facet != '_text_') print_facet($results, $facet, t($facet_config['label']) );
+					if ($facet != '_text_') print_facet($results, $facet, t($facet_config['label']), $facets_limit );
 				}
 
-				
 				
 			if ($results->facet_counts->facet_fields->content_type) {
 				?>
