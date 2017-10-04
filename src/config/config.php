@@ -73,4 +73,21 @@ $cfg['newest_on_empty_query'] = true;
 // Set to false, if you have not the copyrhight to show the complete content in preview
 $cfg['preview_allowed'] = true;
 
+
+//
+// If a public website, you should disable the following analytics views, since they need many system resources on the Solr server
+//
+
+//
+// Disable view network/graph
+//
+
+// $cfg['disable_view_graph'] = true;
+
+//
+// Disable view words / word cloud
+//
+
+// $cfg['disable_view_words'] = true;
+
 ?>

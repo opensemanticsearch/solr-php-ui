@@ -49,6 +49,9 @@ $cfg['facets']=array(
 );
 
 
+$cfg['disable_view_graph'] = false;
+$cfg['disable_view_words'] = false;
+
 // make sure browsers see this page as utf-8 encoded HTML
 header('Content-Type: text/html; charset=utf-8');
 
@@ -330,8 +333,6 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit) {
 	</ul>
 <?php
 
-
-
 $facetlimit_more = $facetlimit + $facetlimit_step;
 $facetlimit_less = $facetlimit - $facetlimit_step;
 if ($facetlimit_less <= 0) {$facetlimit_less = '0';}
@@ -574,8 +575,7 @@ function disable_stemming_for_wildcards($query) {
 			$is_facet_start = false;
 		}
 
-		
-		
+			
 		//
 		// How deep are we in a facet ?
 		// by how many ( were opened and not yet closed after facet definition)
@@ -606,7 +606,6 @@ function disable_stemming_for_wildcards($query) {
 			//print "Withoutfacetprefix:".$querypart_without_facet_prefix."<br>";
 
 		}
-
 
 		
 		// Is a facet defined yet?
@@ -652,8 +651,6 @@ function disable_stemming_for_wildcards($query) {
 
 
 
-
-
 //
 // get parameters
 //
@@ -662,15 +659,11 @@ $query = isset($_REQUEST['q']) ?  trim($_REQUEST['q']) : false;
 $start = (int) isset($_REQUEST['s']) ? $_REQUEST['s'] : 1;
 if ($start < 1) $start = 1;
 
-
-
 $sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : false;
-
 
 $path= isset($_REQUEST['path']) ? $_REQUEST['path'] : false;
 $deselected_paths = array();
 $deselected_paths = $_REQUEST['NOT_path'];
-
 
 $types = isset($_REQUEST['type']) ? $_REQUEST['type'] : false;
 
@@ -705,6 +698,22 @@ foreach ($cfg['facets'] as $facet=>$facet_value) {
 
 
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'list';
+
+// check rights
+if (
+	($cfg['disable_view_words'] && $view == 'words')
+	||
+	($cfg['disable_view_graph'] && $view == 'graph')
+)
+{
+
+	http_response_code(401);
+	print ("View not allowed from public internet because could use too many system resources");
+	exit;
+
+}
+
+
 
 // startdate and enddate
 $start_dt = isset($_REQUEST['start_dt']) ? (string)$_REQUEST['start_dt'] : false;
@@ -813,6 +822,7 @@ foreach ($facets_limit as $limited_facet=>$facet_value) {
 
 	$params['f_'.$limited_facet.'_facet_limit'] = $facet_value;
 }
+
 
 
 require_once('./Apache/Solr/Service.php');
@@ -1245,7 +1255,7 @@ if ($cfg['debug']) {
 	print_r($additionalParameters);
 }
 
-// There is a query, so ask solr
+// There is a query, so ask Solr
 if ($solrquery) {
 
 	$results = false;
