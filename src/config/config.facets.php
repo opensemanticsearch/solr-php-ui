@@ -1,7 +1,9 @@
 <?php
-// do not config here, this config file will be overwritten by Entities Manager
+// do not config here, this config file will be overwritten by Thesaurus and Ontoligies Manager
 
 $cfg['facets']['tag_ss'] = array ('label'=>'Tags');
+
+$cfg['facets']['language_s'] = array ('label'=>'Language');
 
 $cfg['facets']['content_type_group'] = array ('label'=>'Content type group');
 
