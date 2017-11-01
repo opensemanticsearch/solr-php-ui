@@ -22,8 +22,11 @@ $mimetypes=array(
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => array ('name'=>'Excel', 'icon'=>'archive.png'),
 		'application/vnd.ms-excel' => array ('name'=>'Excel (old format)', 'icon'=>'archive.png'),
 		'application/vnd.oasis.opendocument.text' => array ('name'=>'OpenOffice Text', 'icon'=>'odf.png'),
+		'application/vnd.oasis.opendocument.text-template' => array ('name'=>'OpenOffice Text template', 'icon'=>'odf.png'),
 		'application/vnd.oasis.opendocument.spreadsheet' => array ('name'=>'OpenOffice Calc', 'icon'=>'odf.png'),
+		'application/vnd.oasis.opendocument.spreadsheet-template' => array ('name'=>'OpenOffice Calc template', 'icon'=>'odf.png'),
 		'application/vnd.oasis.opendocument.presentation' => array ('name'=>'OpenOffice Presenter', 'icon'=>'archive.png'),
+		'application/vnd.oasis.opendocument.presentation-template' => array ('name'=>'OpenOffice Presenter template', 'icon'=>'archive.png'),
 		'application/zip' => array ('name'=>'ZIP', 'icon'=>'archive.png'),
 		'application/rtf' => array ('name'=>'RTF', 'icon'=>'rtf.png'),
 );
