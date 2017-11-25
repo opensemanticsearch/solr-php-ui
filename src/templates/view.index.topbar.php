@@ -3,7 +3,7 @@
 	<div class="top-bar-left">
 
 		<ul class="dropdown menu" data-dropdown-menu>
-      		<li class="menu-text">Open Semantic Search</li>
+		    <li><a href="./"><?php echo t("New search"); ?></a></li>
 		    <li><a href="./"><?php echo t("Newest documents"); ?></a></li>
 		    <li><a href="#" data-toggle="searchoptions"><?php echo t("advanced_search"); ?></a></li>
 		    <li><a target="_blank" title="Search with a list if there are results for each list entry" href="/search-apps/search-list/"><?php echo t("search_by_list"); ?></a></li>

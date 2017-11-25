@@ -38,9 +38,9 @@ if ( file_exists("templates/custom/view.index.topbar.php") ) {
 		*/
 		?>
 
-	
 		<form id="searchform" accept-charset="utf-8" method="get">
 
+		<?php echo $form_hidden_parameters ?>
 		<div id="search-field" class="small-12 medium-8 large-8 columns">
 			<input id="q" name="q" type="text" value="<?php echo htmlspecialchars($query, ENT_QUOTES, 'utf-8'); ?>" />
 		</div>
@@ -230,7 +230,6 @@ if ( file_exists("templates/custom/view.index.topbar.php") ) {
 	<div id="sidebar" class="small-12 medium-4 large-3 columns">
 	
 	<?php
-		if ($total > 0) {
 				// if preview, schow metadata
 				if ($view=="preview") {
 					include "templates/view.preview.sidebar.php";
@@ -239,7 +238,6 @@ if ( file_exists("templates/custom/view.index.topbar.php") ) {
 				// show facets
 					include "templates/view.facets.php";
 				}
-		}
 	?>	
 	
 	</div>

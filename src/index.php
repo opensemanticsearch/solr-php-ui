@@ -140,13 +140,9 @@ function buildurl($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2
 		$params[$facet4] = $newvalue4;
 	}
 
-	// if param false, delete it
+	// if param NULL, delete it
 	foreach ($params as $key=>$value) {
-
-		if ($value === false or $value =='') {
-			unset($params[$key]);
-		}
-
+	    if (is_null($value)) { unset($params[$key]); }
 	}
 
 	$uri = "?".http_build_query($params);
@@ -162,21 +158,16 @@ function buildurl_addvalue($params, $facet=NULL, $addvalue=NULL, $changefacet=NU
 		$params[$facet][] = $addvalue;
 	}
 
-
 	if ($changefacet) {
 		$params[$changefacet] = $newvalue;
 	}
 
-	// if param false, delete it
-	foreach ($params as $key=>$value) {
-
-		if ($value == false) {
-			unset($params[$key]);
-		}
-
-	}
-
 	$uri = "?" . http_build_query($params);
+
+	// if param NULL, delete it
+	foreach ($params as $key=>$value) {
+	    if (is_null($value)) { unset($params[$key]); }
+	}
 
 	return $uri;
 
@@ -185,31 +176,70 @@ function buildurl_addvalue($params, $facet=NULL, $addvalue=NULL, $changefacet=NU
 function buildurl_delvalue($params, $facet=NULL, $delvalue=NULL, $changefacet=NULL, $newvalue=NULL) {
 
 	if ($facet) {
-
 		unset( $params[$facet][array_search($delvalue, $params[$facet])] );
-
 	}
-
 
 	if ($changefacet) {
 		$params[$changefacet] = $newvalue;
 	}
 
-	// if param false, delete it
+	// if param NULL, delete it
 	foreach ($params as $key=>$value) {
-
-		if ($value==false) {
-			unset($params[$key]);
-		}
-
+	    if (is_null($value)) { unset($params[$key]); }
 	}
 
 	$uri = "?" . http_build_query($params);
+
 
 	return $uri;
 
 }
 
+
+function buildform($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2=NULL, $facet3=NULL, $newvalue3=NULL, $facet4=NULL, $newvalue4=NULL, $facet5=NULL, $newvalue5=NULL) {
+
+	if ($facet) {
+		$params[$facet]=$newvalue;
+	}
+
+	if ($facet2) {
+		$params[$facet2]=$newvalue2;
+	}
+
+	if ($facet3) {
+		$params[$facet3]=$newvalue3;
+	}
+
+	if ($facet4) {
+		$params[$facet4]=$newvalue4;
+	}
+
+	if ($facet5) {
+		$params[$facet5]=$newvalue5;
+	}
+
+
+	// if param NULL, delete it
+	foreach ($params as $key=>$value) {
+	    if (is_null($value)) { unset($params[$key]); }
+	}
+
+	$form = "";
+
+	foreach ($params as $key=>$value) {
+
+		if (is_array($value)) {
+			foreach($value as $postvalue) {
+			    $form = $form."<input type=\"hidden\" name=\"".htmlspecialchars($key)."[]\" value=\"".htmlspecialchars($postvalue)."\">";
+			}
+		} else {
+			$form = $form."<input type=\"hidden\" name=\"".htmlspecialchars($key)."\" value=\"".htmlspecialchars($value)."\">";
+		}
+	}
+
+	return $form;
+
+}
 
 
 // Get url of metadata page to the given id (filename or uri of the original content)
@@ -655,20 +685,20 @@ function disable_stemming_for_wildcards($query) {
 // get parameters
 //
 
-$query = isset($_REQUEST['q']) ?  trim($_REQUEST['q']) : false;
+$query = isset($_REQUEST['q']) ?  trim($_REQUEST['q']) : NULL;
 $start = (int) isset($_REQUEST['s']) ? $_REQUEST['s'] : 1;
 if ($start < 1) $start = 1;
 
-$sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : false;
+$sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'newest';
 
-$path= isset($_REQUEST['path']) ? $_REQUEST['path'] : false;
+$path= isset($_REQUEST['path']) ? $_REQUEST['path'] : NULL;
 $deselected_paths = array();
 $deselected_paths = $_REQUEST['NOT_path'];
 
-$types = isset($_REQUEST['type']) ? $_REQUEST['type'] : false;
+$types = isset($_REQUEST['type']) ? $_REQUEST['type'] : NULL;
 
 $not_content_types = array();
-$not_content_types = isset($_REQUEST['NOT_content_type']) ? $_REQUEST['NOT_content_type'] : false;
+$not_content_types = isset($_REQUEST['NOT_content_type']) ? $_REQUEST['NOT_content_type'] : NULL;
 
 
 // get parameters for each configurated facet
@@ -688,8 +718,7 @@ foreach ($cfg['facets'] as $facet=>$facet_value) {
 		$deselected_facets[$facet] = $_REQUEST['NOT_'.$facet];
 	}
 
-
-	# limit
+	# facet limit
 	if ( isset($_REQUEST['f_'.$facet.'_facet_limit']) ) {
 		$facets_limit[$facet] = (int)$_REQUEST['f_'.$facet.'_facet_limit'];
 	}
@@ -706,18 +735,16 @@ if (
 	($cfg['disable_view_graph'] && $view == 'graph')
 )
 {
-
 	http_response_code(401);
 	print ("View not allowed from public internet because could use too many system resources");
 	exit;
-
 }
 
 
 
 // startdate and enddate
-$start_dt = isset($_REQUEST['start_dt']) ? (string)$_REQUEST['start_dt'] : false;
-$end_dt = isset($_REQUEST['end_dt']) ? (string)$_REQUEST['end_dt'] : false;
+$start_dt = isset($_REQUEST['start_dt']) ? (string)$_REQUEST['start_dt'] : NULL;
+$end_dt = isset($_REQUEST['end_dt']) ? (string)$_REQUEST['end_dt'] : NULL;
 
 
 $zoom = isset($_REQUEST['zoom']) ? (string)$_REQUEST['zoom'] : 'years';
@@ -758,24 +785,24 @@ if ($limit == "all") {
 	$limit = 10000000;
 }
 
+$synonyms = true;
+$stemming = true;
+
+if ( isset($_REQUEST["synonyms"]) ) {
+	if ( $_REQUEST["synonyms"] == false ) { $synonyms = false; }
+} else { $synonyms = false; }
+
+if ( isset($_REQUEST["stemming"]) ) {
+	if ( $_REQUEST["stemming"] == false ) { $stemming = false; }
+} else { $stemming = false; }
+
+
+# if new search, default stemming and synonyms on
 if (!$query) {
-	$synonyms=true;
-	$stemming=true;
-} else {
-
- if (isset($_REQUEST["synonyms"])) {
-	$synonyms = true;
- } else {
-	$synonyms = false;
- }
-
- if (isset($_REQUEST["stemming"])) {
-	$stemming = true;
- } else {
-	$stemming = false;
- }
-
+    $synonyms = true;
+    $stemming = true;
 }
+
 
 
 $operator = 'OR';
@@ -1246,7 +1273,7 @@ if ($upzoom) {
 if (strpos($query, "\"") !== false) {
 	$additionalParameters['defType'] = 'complexphrase';
 } else {
-	#but if no phrase use edismax, because complexphrase can not handle date ranges
+	# but if no phrase, use edismax, because complexphrase can not handle date ranges
 	$additionalParameters['defType'] = 'edismax';
 }
 
@@ -1333,10 +1360,15 @@ if ($start > 1) {
 //
 // General links
 //
+
 // link to help
 $uri_help = get_uri_help ( $cfg['language'] );
 
-
+// hidden form parameters if new query / posting form
+// to preserve all old params
+// - but reset paging (parameter s)
+// - remove parameters that are defined by post form (search settings) itself
+$form_hidden_parameters = buildform($params, 'q', NULL, 's', NULL, 'operator', NULL, 'synonyms', NULL, 'stemming', NULL);
 
 $datevalues = get_datevalues($results, $params, $downzoom);
 
