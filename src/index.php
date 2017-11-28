@@ -1,10 +1,10 @@
 <?php
 // SOLR PHP Client UI
 //
-// PHP-UI of Open Semantic Search - https://www.opensemanticsearch.org
+// PHP-UI of Open Semantic Search - https://opensemanticsearch.org
 //
-// 2011 - 2017 by Markus Mandalka - https://www.mandalka.name
-// and others (see Git history)
+// 2011 - 2017 by Markus Mandalka - https://mandalka.name
+// and others (see Git history & issues)
 //
 // Free Software - License: GPL 3
 
@@ -23,6 +23,7 @@ $cfg['solr']['path'] = '/solr';
 
 $cfg['solr']['core'] = 'core1';
 
+$cfg['languages'] = array('en','fr','de','nl');
 
 // show newest documents, if no query
 $cfg['newest_on_empty_query'] = true;
@@ -446,241 +447,6 @@ function strip_empty_lines($s, $max_empty_lines) {
 }
 
 
-// split query by space
-// but if phrase "" dont split quoted spaces
-
-function split_but_not_phrase($query) {
-
-	$quoted = false;
-	$querypart = '';
-	$queryparts = array();
-	
-	$tokens = explode(" ", $query);
-	
-	foreach ($tokens as $token) {
-
-		// if querypart before was not closed, add space so we beware the space within quotes even if splited with space
-		if ($querypart != '') { $querypart .= ' '; };		
-		
-		// print "<br>Token: " . $token . "<br>";
-	
-		$chars = str_split($token);
-
-		// add each char of token to querypart and analyze if it opens a quote
-		foreach($chars as $char){
-			
-			// print $char."<br>";
-			
-			if ($char == "\"") {
-				// todo: if \ before " dont handle as quote because masked quote char
-				if ($quoted) {
-					$quoted = false;
-				} else {
-					$quoted = true;
-				}
-			}
-
-			//print "Adding char ".$char . "<br>";
-			$querypart = $querypart.$char;
-			//print "Querypart after adding: ".$querypart . "<br>";
-				
-		} // for each char
-		
-		// if no quote, add this query part to queryparts, else continue to add tokens and chars until quote ends before adding the ending querypart
-		// todo: if last querypart but no end of quoting, add despite of that (so that it is not cutted) and warn that quoting is not closed
-		if ($quoted == false) {
-			//print "adding splitted querypart:".$querypart."<br>";
-			$queryparts[] = $querypart;
-			$querypart = '';
-		}
-		
-	} // for each token
-	
-	return $queryparts;
-}
-
-function is_wildcard($query) {
-	if ( strpos($query, '*') || strpos($query, '?') ) {
-		return true; 
-	} else {
-	 	return false;
-	}
-}
-
-// set facet for query parts, but protect operators before this keyword like + - or (
-function switch_to_facet($querypart, $facet) {
-
-	// but we must protect one ( or more (( ... if on beginning
-	
-	$protectprefix = '';
-
-	while ( $querypart[0]=='(' || $querypart[0]=='-' || $querypart[0]=='+' ) {
-		$protectprefix .= $querypart[0];
-		$querypart = substr($querypart, 1);
-	}
-
-	// switch that querypart to the facet _text_ which is not stemmed
-	$querypart = $protectprefix . $facet . ":" . $querypart;
-
-	return $querypart;
-}
-
-
-// how often a ( was opened and not closed
-
-function openings($query) {
-	
-	$chars = str_split($query);
-	
-	$openings = 0;
-	
-	// add each char of token to querypart and analyze if it opens a quote
-	foreach($chars as $char){
-	
-		if ($char == "(") {
-			$openings += 1;
-		}
-		
-		if ($char == ")") {
-			$openings -= 1;
-		}
-		
-	} // for each char
-	
-	//print "Openings:".$openings."<br>";
-	return $openings;
-}
-
-
-
-// Solr has problems using wildcards in stemmed fields and disables stemming for query parts with wildcards but the index is stemmed, so they are not found in the stemmed index
-// So we disable stemming by using unstemmed field for all words with wildcards
-
-// test f.e. with ((exact:"ab xy") OR ("cd xy") AND a AND (b OR c* Or d?e))
-
-function disable_stemming_for_wildcards($query) {
-
-	//print "query pre disable_stemming_for_wildcards:".$query."<br>";
-	
-	//
-	// don't split token if space(s) after "facet:"
-	//
-	
-	// so delete not needed whitespaces after ":"
-
-	// strip whitespaces, if more than one
-	$str = preg_replace('/\s\s+/', ' ', $str);
-
-// todo/bug: seems not to work
-	// if a (rest) whitespace after : strip it (replace " :" to ":")
-	$str = preg_replace('/\:\s/', '\:', $str);
-
-	// split query to queryparts by space, but not if space is part of a phrase quoted by "
-	$queryparts = split_but_not_phrase($query);
-	
-	//
-	// build query again but swich facet to _text_ if wildcards but not if another facet yet set for this query part
-	//
-	
-	$query = '';
-	$first = true;
-	$openings = 0;
-	
-	foreach ($queryparts as $querypart) {
-
-		//print "Query part:" . $querypart . "<br>";
-		
-		// add delimiter (space) if not first query part
-		if ($first)	{
-			$first = false;
-		} else {
-			$query .= " ";
-		}
-		
-		
-		// is a facet defined (i.e. by facetname:facetvalue) ?
-		if ( strpos($querypart, ':') == true ) {
-			$is_facet_start = true;
-		} else {
-			$is_facet_start = false;
-		}
-
-			
-		//
-		// How deep are we in a facet ?
-		// by how many ( were opened and not yet closed after facet definition)
-		//		
-
-		// analyse if/how deep querypart inside (previous) facet
-		// example: facet: (a* AND (b* OR c))
-		
-		// by count ( and ) occuring after ":" (starting or within facets (deepnes > 0))
-		// for example if (facetA:x AND y AND facetB:z) dont count ( openings
-
-		
-		// if a facet definition starts in this query part
-		if ($is_facet_start) {
-		
-			// count/analyse (()) after : 
-			// because should not count prefacet openings like the first two in ((facetA:x AND y AND facetB:z))
-			$querypart_without_facet_prefix = substr( $querypart, strpos($querypart, ":")+1 );
-
-			$openings += openings($querypart_without_facet_prefix);
-
-			// but dont count closings after facet without opening within a facet before like
-			// (a AND title:b)
-			if ($openings < 0) {
-				$openings = 0;
-			}
-			
-			//print "Withoutfacetprefix:".$querypart_without_facet_prefix."<br>";
-
-		}
-
-		
-		// Is a facet defined yet?
-		
-		// It is if openings (within () of a facet) or "facetname:" defined in this querypart)
-		if ($is_facet_start || $openings > 0) {
-			$is_within_facet = true;
-		} else {
-			$is_within_facet = false;
-		}
-		
-		
-		// If not facet defined yet by "facetname:" at beginning, we can switch the facet of wildcarded querypart to wildcardfriendly unstemmed facet field _text_
-		if ($is_within_facet==false) {
-		
-			// If wildcard (i.e. * or ?) switch to facet not stemmed:
-			if ( is_wildcard($querypart) ) {
-				// switch that querypart to the facet _text_ which is not stemmed
-				$querypart = switch_to_facet($querypart, "_text_");
-			}
-		}		
-
-
-		// count closing ) so we know in next iteration if yet in facet
-		if ($is_facet_start==false && $openings > 0) {
-				
-			$openings += openings($querypart);
-		
-		}
-		
-		//print "Openings sum:" . $openings . "<br>";
-		
-		
-		$query .= $querypart;
-		
-		
-	}
-	
-	//print "<br>Query after disable_stemming_for_wildcards:".$query."</br>";
-	return $query;
-}
-
-
-
-
 //
 // get parameters
 //
@@ -882,26 +648,28 @@ if (!$query) {
 		$solrquery = '"' . $solrquery . '"';
 	}
 	
+	// fields
+	$additionalParameters['qf'] = '_text_';
 
-	// Repair wildcard search for wildcarded words if stemming is on
 	if ($stemming == true || $synonyms == true) {
-	
-		if ( is_wildcard($solrquery) ) {
-			$solrquery = disable_stemming_for_wildcards($solrquery);
-		}
-	
-	}
 
-	// change default search field, if semantic search
+		// boost relevance of exact text field by 20
+		$additionalParameters['qf'] .= '^20';
+
+		// add stemmed fields to query fields with bust 5 so same word in other form more relevant than a synonym maybe coming from later fields
+
+		foreach($cfg['languages'] as $language) {
+			$additionalParameters['qf'] .= ' text_txt_'.$language.'^5';
+		}
+	}
+	
 	if ($synonyms == true) {
+
+		// add synonym enriched fields to query fields
 	
-		// stemming + synonyms
-		$additionalParameters['df'] = 'synonyms';
-	
-	} elseif ($stemming == true) {
-	
-		$additionalParameters['df'] = 'stemmed';
-	
+		foreach($cfg['languages'] as $language) {
+			$additionalParameters['qf'] .= ' synonyms_'.$language.'^1';
+		}
 	}
 
 }
@@ -937,8 +705,14 @@ $additionalParameters['sow'] = 'false';
 // Highlighting
 //
 $additionalParameters['hl'] = 'true';
+
+$additionalParameters['hl.encoder'] = 'html';
 $additionalParameters['hl.snippets'] = 100;
 $additionalParameters['hl.fl'] = 'content';
+foreach ($cfg['languages'] as $language) {
+	$additionalParameters['hl.fl'] .= ',content_txt_'.$language;
+}
+
 $additionalParameters['hl.fragsize'] = $cfg['snippetsize'];
 
 $additionalParameters['hl.simple.pre'] = '<mark>';
@@ -959,10 +733,10 @@ elseif ($view =="words") {
 	$additionalParameters['hl'] = 'false';
 
 } else {
-	// if there is no snippet show part of content field
+	// if there is no snippet for content field, show part of content field
 	// (i.e. if search matches against filename or all results within path or date)
-	$additionalParameters['hl.alternateField'] = 'content';
-	$additionalParameters['hl.maxAlternateFieldLength'] = $cfg['snippetsize'];
+	$additionalParameters['f.content.hl.alternateField'] = 'content';
+	$additionalParameters['f.content.hl.maxAlternateFieldLength'] = $cfg['snippetsize'];
 }
 
 
@@ -972,10 +746,6 @@ if ($operator == 'OR') {
 } else {
 	$additionalParameters['q.op'] = 'AND';
 }
-
-// default field to highlight
-$highlightfield = 'content';
-
 
 
 //
@@ -1268,14 +1038,8 @@ if ($upzoom) {
 }
 
 
-
-# Allow wildcards inside phrase search, too
-if (strpos($query, "\"") !== false) {
-	$additionalParameters['defType'] = 'complexphrase';
-} else {
-	# but if no phrase, use edismax, because complexphrase can not handle date ranges
-	$additionalParameters['defType'] = 'edismax';
-}
+# use edismax as query parser
+$additionalParameters['defType'] = 'edismax';
 
 if ($cfg['debug']) {
 	print htmlspecialchars($solrquery) . '<br>';
@@ -1290,30 +1054,9 @@ if ($solrquery) {
 		$results = $solr->search($solrquery, $start - 1, $limit, $additionalParameters);
 		$error = false;
 	} catch (Exception $e) {
-
-		if ($cfg['debug']) {
-			print 'Exception while Solr search. Maybe dirty query. Failover search with edismax.<br>';
-		}
+		$error = $e->__toString();
+	}
 			
-		//
-		// failover with edismax query parser (maybe query is not clean, so query parser "complexphrase" can not handle it)
-		//
-			
-		// humanize query tolerance
-		// more forgiving solr query-parser than standard (which would trow erros if user forgot to close ( with ) )
-		$additionalParameters['defType'] = 'edismax';
-
-		$results = false;
-		try {
-			$results = $solr->search($solrquery, $start - 1, $limit, $additionalParameters);
-			$error = false;
-		} catch (Exception $e) {
-
-			// todo: code temporary not available?
-			$error = $e->__toString();
-		}
-			
-	} // failover query with edismax
 
 } // isquery -> Ask Solr
 

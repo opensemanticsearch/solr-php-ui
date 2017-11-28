@@ -97,14 +97,18 @@ foreach ($results->response->docs as $doc) {
     
   if ($preview_allowed) {
   	//Content
-  	if (isset($results->highlighting->$id->content)) {
-  		$content = $results->highlighting->$id->content[0];
- 	  		
-  	} else {
-  		$content = $doc->content;
-  		$content = htmlspecialchars( $content );
-  	}
-  	
+
+	$content = $doc->content;
+	$content = htmlspecialchars( $content );
+
+	// if highligting available for the language, use highlighted content
+	foreach ($cfg['languages'] as $language) {
+		$language_specific_fieldname = 'content_txt_'.$language;
+		if (isset($results->highlighting->$id->$language_specific_fieldname)) {
+	    	$content = $results->highlighting->$id->$language_specific_fieldname[0];
+	  	}
+ 	}
+	
   	$content = strip_empty_lines($content, 3);
   	$content = nl2br($content); // new lines
   	 
@@ -132,9 +136,27 @@ foreach ($results->response->docs as $doc) {
   
   // Find all columns (=fields)
   $cols=array();
-  
+
+  $exclude_fields = array('_version_','content','preview_s','ocr_t');
+
+  // exclude fields that are only copied for language specific analysis in index
+  foreach ($cfg['languages'] as $language) {
+
+	$exclude_fields[] = 'text_txt_'.$language;
+	$exclude_fields[] = 'content_txt_'.$language;
+	$exclude_fields[] = 'title_txt_'.$language;
+	$exclude_fields[] = 'description_txt_'.$language;
+	$exclude_fields[] = 'hashtag_ss_txt_'.$language;
+
+  }
+
   foreach ($doc as $field => $value) {
-  	if (!in_array($field, $cols) and $field!='_version_' and $field!='content' and $field!='preview_s'  and $field!='ocr_t') {
+
+	$exclude = false;
+	if (in_array($field, $exclude_fields)) $exclude = true;
+
+	// if not yet there and not excluded, include field to cols
+  	if (!in_array($field, $cols) && $exclude == false) {
   		$cols[] = $field;
   	};
   }

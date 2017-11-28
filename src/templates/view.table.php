@@ -9,25 +9,35 @@
 
 
 
-// Find all columns (=fields)
-$cols=array();
+  // Find all columns (=fields)
+  $fields=array();
+
+  $exclude_fields = array('_version_','content','preview_s');
+
+  // exclude fields that are only copied for language specific analysis in index
+  foreach ($cfg['languages'] as $language) {
+
+	$exclude_fields[] = 'text_txt_'.$language;
+	$exclude_fields[] = 'content_txt_'.$language;
+	$exclude_fields[] = 'title_txt_'.$language;
+	$exclude_fields[] = 'description_txt_'.$language;
+	$exclude_fields[] = 'hashtag_ss_txt_'.$language;
+
+  }
 
 foreach ($results->response->docs as $doc) {
-	foreach ($doc as $field => $value) {
-		
-		if (!in_array($field, $fields)
-				and $field!='_text_'
-				and $field!='stemmed'
-				and $field!='_version_'
-				and $field!='content'
-				and $field!='author'
-		) {
-			
-			$fields[] = $field;
-		};
+  foreach ($doc as $field => $value) {
 
-	}
+	$exclude = false;
+	if (in_array($field, $exclude_fields)) $exclude = true;
+
+	// if not yet there and not excluded, include field to cols
+  	if (!in_array($field, $fields) && $exclude == false) {
+  		$fields[] = $field;
+  	};
+  }
 }
+
 asort($fields);
 
 
@@ -71,12 +81,23 @@ foreach ($results->response->docs as $doc) {
 	print '<td><ul>';
 	// highlightings (matching parts of content)
 	$id = $doc->id;
+
+	$highlightfield = 'content';
+
+	// if highligting available for the language, use highlighted content
+	foreach ($cfg['languages'] as $language) {
+		$language_specific_fieldname = 'content_txt_'.$language;
+		if (isset($results->highlighting->$id->$language_specific_fieldname)) {
+	    	$highlightfield = $language_specific_fieldname;
+	  	}
+ 	}
+
 	if (isset($results->highlighting->$id->$highlightfield)) {
 		foreach ($results->highlighting->$id->$highlightfield as $snippet) {
 			print '<li class="snippet">' . $snippet . '</li>';
-		}
-		
+		}	
 	}
+
 	print '</ul></td>';
 	
 	foreach ($fields as $field) {

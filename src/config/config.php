@@ -3,12 +3,20 @@
 //
 // Show debug infos
 //
+
 $cfg['debug'] = false;
+
+//$cfg['debug'] = true;
 
 
 //
 // Language
 //
+
+//
+// User interface
+//
+
 
 // English
 $cfg['language'] = 'en';
@@ -16,6 +24,10 @@ $cfg['language'] = 'en';
 // German / Deutsch
 //$cfg['language'] = 'de';
 
+
+// indexed languages to search in by language specific text analysis
+// if not set/limited here, all languages that are supported in index are enabled
+//$cfg['languages'] = array('en','de','fr','nl');
 
 
 //

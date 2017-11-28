@@ -9,7 +9,6 @@
     <ul class="no-bullet">
 
 <?php
-// todo: bei table alle fields ausser content?! und erst felder sammeln, dann html tabelle und for each field if exist
 
 $result_nr = 0;
 
@@ -20,7 +19,7 @@ foreach ($results->response->docs as $doc) {
   $id = $doc->id;
   
   // Type
-  $type = $doc->content_type; // todo: contentype schoener mit wertearray
+  $type = $doc->content_type;
   
   // URI
   
@@ -105,11 +104,21 @@ foreach ($results->response->docs as $doc) {
   
   // Snippet
   //print_r($results->highlighting->$id);
-  
-  $snippets = array('...');
-  if (isset($results->highlighting->$id->$highlightfield)) {
-    $snippets = $results->highlighting->$id->$highlightfield;
-  } elseif(isset($doc->content)) {
+
+  $snippets = array();
+
+  if (isset($results->highlighting->$id->content)) {
+    $snippets = $results->highlighting->$id->content;
+  }
+
+  foreach ($cfg['languages'] as $language) {
+	$language_specific_fieldname = 'content_txt_'.$language;
+	if (isset($results->highlighting->$id->$language_specific_fieldname)) {
+	    $snippets = $results->highlighting->$id->$language_specific_fieldname;
+  	}
+  }
+
+ if (count($snippets) == 0 && isset($doc->content)) {
   	// if no snippets available, use content as snippet
 	$snippets = array($doc->content);
 	// and cut it to snippet size
