@@ -572,6 +572,7 @@ if (!$query) {
 
 
 $operator = 'OR';
+$solrfilterquery = "";
 
 if ( isset($_REQUEST['operator']) ) {
 
@@ -647,7 +648,7 @@ if (!$query) {
 	if ($operator == 'Phrase') {
 		$solrquery = '"' . $solrquery . '"';
 	}
-	
+
 	// fields
 	$additionalParameters['qf'] = '_text_';
 
@@ -775,7 +776,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 			#mask special chars in facet value
 			$solrfacetvalue = addcslashes($selected_value, '+-&|!(){}[]^"~*?:\/ ');
 				
-			$solrquery .= ' AND ' . $solrfacet . ':' . $solrfacetvalue;
+			$solrfilterquery .= ' +' . $solrfacet . ':' . $solrfacetvalue;
 		}
 	}
 
@@ -790,7 +791,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 			#mask special chars in facet value
 			$solrfacetvalue = addcslashes($deselected_value, '+-&|!(){}[]^"~*?:\/ ');
 				
-			$solrquery .= ' AND NOT ' . $solrfacet . ':' . $solrfacetvalue;
+			$solrfilterquery .= ' -' . $solrfacet . ':' . $solrfacetvalue;
 		}
 	}
 
@@ -800,14 +801,14 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 // Extend solr query with content_type filter, if set
 if ($types) {
 	$solrtype = addcslashes($types[0], '+-&|!(){}[]^"~*?:\/ ');
-	$solrquery .= ' AND content_type:' . $solrtype. '*';
+	$solrfilterquery .= ' +content_type:' . $solrtype. '*';
 }
 
 if ($not_content_types) {
 	
 	foreach ($not_content_types as $not_content_type) {
 		$solrtype = addcslashes($not_content_type, '+-&|!(){}[]^"~*?:\/ ');
-		$solrquery .= ' AND NOT content_type:' . $solrtype. '*';
+		$solrfilterquery .= ' -content_type:' . $solrtype. '*';
 	}
 }
 
@@ -834,7 +835,7 @@ function path2query($path) {
 	foreach ($paths as $subpath) {
 		$solrpath = addcslashes($subpath, '+-&|!(){}[]^"~*?:\/ ');
 	
-		if ($first==false) {$pathfilter .= ' AND ';} else {$first=false;}
+		if ($first==false) {$pathfilter .= ' +';} else {$first=false;}
 		$pathfilter .='path' . $pathcounter . '_s:' . $solrpath;
 		$pathcounter++;
 	}
@@ -846,7 +847,7 @@ function path2query($path) {
 if ($deselected_paths) {
 	foreach ($deselected_paths as $deselected_path) {
 		$pathfilter = path2query($deselected_path);
-		$solrquery .= ' AND NOT ('.$pathfilter.')';
+		$solrfilterquery .= ' -('.$pathfilter.')';
 
 	}
 }
@@ -855,39 +856,39 @@ $pathfacet = 'path0_s';
 
 if ($path) {
 	$pathfilter = path2query($path);
-	$solrquery .= ' AND '.$pathfilter;
+	$solrfilterquery .= ' +'.$pathfilter;
 }
 
 
 // if view is imagegallery extend solrquery to filter images
 // filter on content_type image* so that we dont show textdocuments in image gallery
 if ($view == 'images') {
-	$solrquery .= ' AND content_type:image*';
+	$solrfilterquery .= ' +content_type:image*';
 }
 
 
 // if view is imagegallery extend solrquery to filter images
 // filter on content_type image* so that we don't show textdocuments in image gallery
 if ($view == 'videos') {
-	$solrquery .= ' AND (';
+	$solrfilterquery .= ' +(';
 
-	$solrquery .= 'content_type:video*';
+	$solrfilterquery .= 'content_type:video*';
 
-	$solrquery .= ' OR content_type:application\/mp4';
-	$solrquery .= ' OR content_type:application\/x-matroska';
+	$solrfilterquery .= ' OR content_type:application\/mp4';
+	$solrfilterquery .= ' OR content_type:application\/x-matroska';
 
-	$solrquery .= ')';
+	$solrfilterquery .= ')';
 }
 
 
 // if view is audio extend solrquery to filter audio files
 // filter on content_type audio* so that we don't show textdocuments in image gallery
 if ($view == 'audios') {
-	$solrquery .= ' AND (';
+	$solrfilterquery .= ' +(';
 
-	$solrquery .= 'content_type:audio*';
+	$solrfilterquery .= 'content_type:audio*';
 
-	$solrquery .= ')';
+	$solrfilterquery .= ')';
 }
 
 
@@ -913,7 +914,7 @@ if ($start_dt || $end_dt) {
 		$end_dt_solr .= addcslashes($end_dt, '&|!(){}[]^"~*?\/');
 	} else $end_dt_solr = '*';
 
-	$solrquery .= ' AND file_modified_dt:[ ' . $start_dt_solr . ' TO ' .$end_dt_solr. ']';
+	$solrfilterquery .= ' +file_modified_dt:[ ' . $start_dt_solr . ' TO ' .$end_dt_solr. ']';
 }
 
 
@@ -1041,13 +1042,18 @@ if ($upzoom) {
 # use edismax as query parser
 $additionalParameters['defType'] = 'edismax';
 
+# set filter query
+if ($solrfilterquery) {
+	$additionalParameters['fq'] = $solrfilterquery;	
+}
+
 if ($cfg['debug']) {
 	print htmlspecialchars($solrquery) . '<br>';
 	print_r($additionalParameters);
 }
 
 // There is a query, so ask Solr
-if ($solrquery) {
+if ($solrquery or $solrfilterquery) {
 
 	$results = false;
 	try {
