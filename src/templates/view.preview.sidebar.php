@@ -19,7 +19,7 @@ function print_field(&$doc, $field, $label) {
 					} 
 			
 				} else {
-					print $doc->$field;
+					print htmlspecialchars($doc->$field);
 				}
 				?>
 				</ul>
