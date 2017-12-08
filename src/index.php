@@ -23,7 +23,7 @@ $cfg['solr']['path'] = '/solr';
 
 $cfg['solr']['core'] = 'core1';
 
-$cfg['languages'] = array('en','fr','de','nl');
+$cfg['languages'] = array('en','es','fr','de','nl');
 
 // show newest documents, if no query
 $cfg['newest_on_empty_query'] = true;
