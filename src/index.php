@@ -39,15 +39,7 @@ $cfg['snippetsize'] = 300;
 
 // todo: convert labels to t() function or read labels from ontology
 // and add to facet config: $lang['en']['facetname'] = 'Facet label';
-$cfg['facets']=array(
-		'meta_date_dts' => array ('label'=>'Dates'),
-		'author_s' => array ('label'=>'Author'),
-		'email_ss' => array ('label'=>'Email'),
-		'message_from_ss' => array ('label'=>'Message from'),
-		'message_to_ss' => array ('label'=>'Message to'),
-		'message_cc_ss' => array ('label'=>'Message cc'),
-		'message_bcc_ss' => array ('label'=>'Message bcc'),
-);
+$cfg['facets']=array();
 
 
 $cfg['disable_view_graph'] = false;
@@ -455,7 +447,7 @@ $query = isset($_REQUEST['q']) ?  trim($_REQUEST['q']) : NULL;
 $start = (int) isset($_REQUEST['s']) ? $_REQUEST['s'] : 1;
 if ($start < 1) $start = 1;
 
-$sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'newest';
+$sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : NULL;
 
 $path= isset($_REQUEST['path']) ? $_REQUEST['path'] : NULL;
 $deselected_paths = array();
