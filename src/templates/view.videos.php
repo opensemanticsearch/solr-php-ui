@@ -21,7 +21,7 @@ foreach ($results->response->docs as $doc) {
   }
   
   
-  $uri_label = $id;
+  $uri_label = htmlspecialchars($id);
   $uri_tip = false;
   
   // if file:// then only filename
@@ -76,15 +76,16 @@ foreach ($results->response->docs as $doc) {
 			<?=$title ?>
 				<?php } ?>
 				
-						<?php if ($uri_tip) { ?>
+		</a>
+	</div>
+
+						<?php if ($uri_tip) { ?><span class="uri">
 					<span data-tooltip class="has-tip" title="<?=$uri_tip?>">
 				<?php } ?>
 			<?=$uri_label?>
 				<?php if ($uri_tip) { ?>
-					</span>
+					</span></span>
 				<?php } ?>
-		</a>
-	</div>
 	
 
 	
