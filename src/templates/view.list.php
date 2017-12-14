@@ -212,7 +212,7 @@ in
 				foreach ($cfg['facets'] as $field => $facet_config) {
 
 					
-					if ($field != '_text_' and $field !='author_s' and $field !='content_type_group') {
+					if ($field != '_text_' and $cfg['facets'][$field]['snippets_enabled']) {
 						if ( isset( $doc->$field ) ) {
 							
 							if ($first) {

@@ -51,7 +51,6 @@ header('Content-Type: text/html; charset=utf-8');
 
 // include configs
 include 'config/config.php';
-include 'config/config.facets.php';
 include 'config/config.mimetypes.php';
 include 'config/config.i18n.php';
 
@@ -59,7 +58,7 @@ include 'config/config.i18n.php';
 # mask special chars but not operators
 function mask_query ( $query, $facets=array() ) {
 
-	$unmaskfacets = array('id','title','content','exact','_text_','stemmed');
+	$unmaskfacets = array('id','title','content','exact','_text_');
 	
 	# add configured facets
 	foreach ($facets as $facet=>$facetconfig) {
@@ -453,11 +452,13 @@ $path= isset($_REQUEST['path']) ? $_REQUEST['path'] : NULL;
 $deselected_paths = array();
 $deselected_paths = $_REQUEST['NOT_path'];
 
-$types = isset($_REQUEST['type']) ? $_REQUEST['type'] : NULL;
 
-$not_content_types = array();
-$not_content_types = isset($_REQUEST['NOT_content_type']) ? $_REQUEST['NOT_content_type'] : NULL;
+$view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'list';
+if ($view=='words') {
+	$cfg['facets']['_text_'] = array('label'=>'Words', 'facet_limit' => 100, 'facet_enabled' => true);
+}
 
+include 'config/config.facets.php';
 
 // get parameters for each configurated facet
 $selected_facets = array();
@@ -479,12 +480,13 @@ foreach ($cfg['facets'] as $facet=>$facet_value) {
 	# facet limit
 	if ( isset($_REQUEST['f_'.$facet.'_facet_limit']) ) {
 		$facets_limit[$facet] = (int)$_REQUEST['f_'.$facet.'_facet_limit'];
+	} else {
+		$facets_limit[$facet] = $cfg['facets'][$facet]['facet_limit'];
 	}
 	
 }
 
 
-$view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'list';
 
 // check rights
 if (
@@ -526,9 +528,6 @@ elseif ($view=='preview') {
 }
 elseif ($view=='timeline') {
 	$limit = 100;
-}
-elseif ($view=='words') {
-	$limit = 150;
 }
 elseif ($view=='graph') {
 	$limit = 0;
@@ -581,11 +580,9 @@ $params = array(
 		'q' => $query,
 		'path' => $path,
 		'NOT_path' => $deselected_paths,
-		'NOT_content_type' => $not_content_types,
 		'sort' => $sort,
 		's' => $start,
 		'view' => $view,
-		'type' => $types,
 		'zoom' => $zoom,
 		'start_dt' => $start_dt,
 		'end_dt' => $end_dt,
@@ -604,9 +601,11 @@ foreach ($deselected_facets as $deselected_facet=>$facet_value) {
 	$params['NOT_'.$deselected_facet] = $facet_value;
 }
 
-foreach ($facets_limit as $limited_facet=>$facet_value) {
+foreach ($facets_limit as $limited_facet=>$facet_limit) {
 
-	$params['f_'.$limited_facet.'_facet_limit'] = $facet_value;
+	if ($facet_limit != $cfg['facets'][$limited_facet]['facet_limit']) {
+		$params['f_'.$limited_facet.'_facet_limit'] = $facet_limit;
+	}
 }
 
 
@@ -676,7 +675,7 @@ if (!$query) {
 * table view (where we want to see all fields)
 */
 if ($view != 'table' && $view != 'preview') {
-	$additionalParameters['fl']='id,content_type,title,container_s,author_s,file_modified_dt,last_modified,file_size_i';
+	$additionalParameters['fl']='id,title,container_s,author_s,file_modified_dt,last_modified,file_size_i';
 }
 
 
@@ -790,22 +789,6 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 }
 
 
-// Extend solr query with content_type filter, if set
-if ($types) {
-	$solrtype = addcslashes($types[0], '+-&|!(){}[]^"~*?:\/ ');
-	$solrfilterquery .= ' +content_type:' . $solrtype. '*';
-}
-
-if ($not_content_types) {
-	
-	foreach ($not_content_types as $not_content_type) {
-		$solrtype = addcslashes($not_content_type, '+-&|!(){}[]^"~*?:\/ ');
-		$solrfilterquery .= ' -content_type:' . $solrtype. '*';
-	}
-}
-
-
-
 function path2query($path) {
 	global $pathfacet;
 	
@@ -884,11 +867,6 @@ if ($view == 'audios') {
 }
 
 
-if ($view=='words') {
-	$additionalParameters['f._text_.facet.limit'] = $limit;
-}
-
-
 
 //
 // date filter
@@ -931,22 +909,13 @@ $additionalParameters['facet.mincount'] = 1;
 
 // base facets fields
 $arr_facets = array(
-		'content_type',
 		'file_modified_dt',
 		$pathfacet);
+
 // additional facet fields from config
 foreach ($cfg['facets'] as $facet => $facet_value) {
-	if ($facet != '_text_') {
-		$arr_facets[] = $facet;
-	}
+	$arr_facets[] = $facet;
 }
-
-
-if ($view=='words') {
-	// to let solr count the words for a word cloud we want to have the aggregated field text as facet
-	$arr_facets[] = '_text_';
-}
-
 
 $additionalParameters['facet.field'] = $arr_facets;
 

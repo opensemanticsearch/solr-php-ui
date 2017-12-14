@@ -5,26 +5,11 @@
 <div id="results" class="row">
 
 <div class="row">
-<i>Count of documents (total: <?=$total?>) containing this words:</i>
+<i>Documents: <?=$total?></i>
 </div>
 
 
-<div class="small-12 medium-2 columns">
-<ol>
-
-<?php
-
-	foreach ($results->facet_counts->facet_fields->_text_ as $facet=>$count) {
-		print '<li><a onclick="waiting_on();" href="'.buildurl_addvalue($params,'_text_', $facet, 's',1).'">'.htmlspecialchars($facet).'</a> ('.$count.')</li>';
-	}
-
-
-?>
-    </ol>
-</div>
-    
-
-<div  id="wordcloud" class="small-12 medium-8 columns">
+<div  id="wordcloud" class="small-12 columns">
 </div>
 
     

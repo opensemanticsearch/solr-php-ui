@@ -162,58 +162,8 @@
 						print_r($facet_config);
 					}
 
-					if ($facet != '_text_') print_facet($results, $facet, t($facet_config['label']), $facets_limit );
+					print_facet($results, $facet, t($facet_config['label']), $facets_limit );
 				}
-
-				
-			if ($results->facet_counts->facet_fields->content_type) {
-				?>
-			<div id="content_type" class="facet">
-				<h2><?php echo t('Content type'); ?></h2>
-	
-				<ul class="no-bullet">
-	
-				<?php
-
-				$group_array = array();
-
-				foreach ($results->facet_counts->facet_fields->content_type as $type => $count) {
-
-					$type_without_charset = explode(';', $type);
-					$type_without_charset = $type_without_charset[0];
-					$type_array = explode('/', $type_without_charset);
-					$type_base = $type_array[0];
-					$type_special = $type_array[1];
-
-
-					$type_group = $type_without_charset;
-
-
-					if (empty($group_array[$type_group])) $group_array[$type_group] = $count;
-					else $group_array[$type_group] = $group_array[$type_group] + $count;
-
-				}
-
-
-				foreach ($group_array as $typegroup => $count) {
-
-					if (isset($mimetypes[$typegroup])) {
-						$type_name = $mimetypes[$typegroup]['name'];
-					} else {
-						$type_name = $typegroup;
-					}
-
-					print '<li><a onclick="waiting_on();" href="' . buildurl($params, "type", array($typegroup), 's', 1) . '">' . htmlspecialchars($type_name) . '</a> (' . $count . ')
-					<a title="Exclude this value" onclick="waiting_on();" href="' . buildurl_addvalue($params, 'NOT_content_type', $typegroup, 's', 1) . '">-</a>
-					</li>';
-
-				}
-				?>
-				</ul>
-			</div>
-			<?php
-			} // if types
-
-			?>
+?>
 
 </div>
