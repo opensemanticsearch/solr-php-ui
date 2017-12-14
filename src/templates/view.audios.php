@@ -10,7 +10,6 @@
 <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 
 <?php
-// todo: bei table alle fields ausser content?! und erst felder sammeln, dann html tabelle und for each field if exist
 foreach ($results->response->docs as $doc) {
 
   // URI
@@ -27,9 +26,9 @@ foreach ($results->response->docs as $doc) {
   
   // if file:// then only filename
   if (strpos ($id, "file://")==0) {
-  	$uri_label = basename($id);
+  	$uri_label = htmlspecialchars(basename($id));
   	// for tooptip remove file:// from beginning
-  	$uri_tip = substr( $id, 7 );
+  	$uri_tip = htmlspecialchars(substr( $id, 7 ));
   }
   
   // Author
@@ -45,7 +44,7 @@ foreach ($results->response->docs as $doc) {
   }
 
   // Type
-  $type= $doc->content_type; // todo: contentype schoener mit wertearray
+  $type= $doc->content_type;
 
   // Modified date
   if (isset($doc->file_modified_dt)) {
@@ -59,18 +58,14 @@ foreach ($results->response->docs as $doc) {
 
   // Snippet
   if (isset($results->highlighting->$id->content)) {
-    $snippet = htmlspecialchars($results->highlighting->$id->content[0]);
-  } else { 
+    $snippet = $results->highlighting->$id->content[0];
+  } else {
 	$snippet = $doc->content;
 	if (strlen($snippet) > $snippetsize) {
 		$snippet = substr($snippet,0,$snippetsize)."...";
-	} 
+		$snippet = htmlspecialchars($snippet);
+	}
   }
-  $snippet = htmlspecialchars($snippet);
-
-  // but <em> from solr (highlighting) shoud not be converted, so convert back
-  $snippet=str_replace('&amp;lt;em&amp;gt;', '<em>', $snippet);
-  $snippet=str_replace('&amp;lt;/em&amp;gt;', '</em>', $snippet);
 
 ?>
 <li>
