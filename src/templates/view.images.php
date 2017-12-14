@@ -10,7 +10,6 @@
 <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
 
 <?php
-// todo: bei table alle fields ausser content?! und erst felder sammeln, dann html tabelle und for each field if exist
 foreach ($results->response->docs as $doc) {
 
   // URI
@@ -20,24 +19,24 @@ foreach ($results->response->docs as $doc) {
   else {
   	$id = $doc->id;
   }
-  
-  
+
+
   $uri_label = $id;
   $uri_tip = false;
-  
+
   // if file:// then only filename
   if (strpos ($id, "file://")==0) {
-  	$uri_label = basename($id);
+  	$uri_label = htmlspecialchars( basename($id) );
   	// for tooptip remove file:// from beginning
-  	$uri_tip = substr( $id, 7 );
+  	$uri_tip = htmlspecialchars( substr( $id, 7 ) );
   }
-  
+
   // Author
   $author = htmlspecialchars($doc->author_s);
 
   // Title
   $title = false;
-  
+
   if (isset($doc->title)) {
     if (!empty($doc->title)) {
     	$title= htmlspecialchars($doc->title);
@@ -45,11 +44,11 @@ foreach ($results->response->docs as $doc) {
   }
 
   // Type
-  $type= $doc->content_type; // todo: contentype schoener mit wertearray
+  $type= $doc->content_type;
 
   // Modified date
   if (isset($doc->file_modified_dt)) {
-	$datetime = $doc->file_modified_dt; 
+	$datetime = $doc->file_modified_dt;
   } elseif (isset($doc->last_modified)) {
   	$datetime = $doc->last_modified;
   } else {
@@ -63,28 +62,21 @@ foreach ($results->response->docs as $doc) {
   	$file_size = $doc->file_size_i;
   	$file_size_txt = filesize_formatted($file_size);
   }
-  
+
   // Snippet
   if (isset($results->highlighting->$id->content)) {
-    $snippet = htmlspecialchars($results->highlighting->$id->content[0]);
-  } else { 
+    $snippet = $results->highlighting->$id->content[0];
+  } else {
 	$snippet = $doc->content;
 	if (strlen($snippet) > $snippetsize) {
 		$snippet = substr($snippet,0,$snippetsize)."...";
-	} 
-  }
-  $snippet = htmlspecialchars($snippet);
+		$snippet = htmlspecialchars($snippet);
 
-  // but <em> from solr (highlighting) shoud not be converted, so convert back
-  $snippet=str_replace('&amp;lt;em&amp;gt;', '<em>', $snippet);
-  $snippet=str_replace('&amp;lt;/em&amp;gt;', '</em>', $snippet);
+	}
+  }
 
 ?>
 <li>
-
-
-
-
 	<div class="image">
 		<a target="_blank" href="<?=$id?>">
 			<img width="200" src="<?=$id?>" <?php if ($title) { echo 'title="'.$title.'"'; } ?> />
