@@ -268,7 +268,7 @@ in
 	
 		// if video
 		if (strpos ($type, 'video') === 0) { ?>
-		<video src="<?=$id?>"></video>
+		<video controls="controls" src="<?=$id?>"></video>
 		<?php
 		} // if video
 
