@@ -58,7 +58,7 @@ foreach ($results->response->docs as $doc) {
 
   // Snippet
   if (isset($results->highlighting->$id->content)) {
-    $snippet = htmlspecialchars($results->highlighting->$id->content[0]);
+    $snippet = $results->highlighting->$id->content[0];
   } else {
 	$snippet = $doc->content;
 	if (strlen($snippet) > $snippetsize) {
