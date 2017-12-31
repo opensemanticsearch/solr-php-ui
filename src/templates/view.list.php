@@ -215,25 +215,42 @@ in
 					if ($field != '_text_' and $cfg['facets'][$field]['snippets_enabled']) {
 						if ( isset( $doc->$field ) ) {
 							
-							if ($first) {
-								
-								?>
-								<span title="Extracted named entities or annotated tags">Entities:</span>
-								<?php 
-								
-							}
-								
+
 							?>
 							
-									<span class="<?= $field ?>"><?php 
+									<span class="<?= $field ?>">
 
 								
+								<span title="Extracted named entities or annotated tags"><?= $cfg['facets'][$field]['label'] ?>:</span>
+								<?php 
+								
 										if ( is_array ( $doc->$field ) ) {
+
+											$entities_open = $cfg['facets'][$field]['snippets_limit'];
+											$entity_number = 0;
+
 											foreach ($doc->$field as $value) {
-												if ($first) {$first=false;} else { print ', '; }
+		$entity_number++;
+
+		// open block with more snipets
+		if ($entity_number == $entities_open + 1) {
+			
+			print '<span class="more-snippets" id="'.$result_nr.$field.'#more-snippets">';
+					
+		}
+
+												if ($entity_number > 1) { print ', '; }
 												print htmlspecialchars($value);
 											}
+	// if more snippets
+	if ($entity_number > $entities_open) {
+
+		print '</span><a class="tiny button" id="'.$result_nr.$field.'#more-snippets-button" href="#'.$result_nr.$field.'" onClick="document.getElementById(\''.$result_nr.$field.'#more-snippets\').style.display = \'inline\';document.getElementById(\''.$result_nr.$field.'#more-snippets-button\').style.display = \'none\';" title="Show all '.$entity_number.' '.$cfg['facets'][$field]['label'].'">More</a>';
+				
+	}
 									
+
+
 										} else {
 											if ($first) {$first=false;} else { print ', '; }
 											print $doc->$field;
