@@ -327,9 +327,11 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit) {
 		$facetlimit = $facets_limit[$facet_field];
 	}
 
-	$count_facet_values = count(get_object_vars($results->facet_counts->facet_fields->$facet_field));
 
 	if (isset($results->facet_counts->facet_fields->$facet_field)) {
+		$field = $results->facet_counts->facet_fields->$facet_field;
+		$objs = get_object_vars($field);
+		$count_facet_values = count($objs);
 
 		# print facet if values in facet
 		if ($count_facet_values > 0) {
