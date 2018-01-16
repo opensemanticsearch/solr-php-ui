@@ -255,8 +255,11 @@ function date2solrstr($timestamp) {
 // values for navigating date facet
 function get_datevalues(&$results, $params, $downzoom) {
 
-
 	$datevalues = array();
+
+	if (empty($results->facet_counts)) {
+		return $datevalues;
+	}
 
 	foreach ($results->facet_counts->facet_ranges->file_modified_dt->counts as $facet=>$count) {
 		$newstart = $facet;
@@ -324,9 +327,11 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit) {
 		$facetlimit = $facets_limit[$facet_field];
 	}
 
-	$count_facet_values = count(get_object_vars($results->facet_counts->facet_fields->$facet_field));
 
 	if (isset($results->facet_counts->facet_fields->$facet_field)) {
+		$field = $results->facet_counts->facet_fields->$facet_field;
+		$objs = get_object_vars($field);
+		$count_facet_values = count($objs);
 
 		# print facet if values in facet
 		if ($count_facet_values > 0) {
@@ -450,7 +455,7 @@ $sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : NULL;
 
 $path= isset($_REQUEST['path']) ? $_REQUEST['path'] : NULL;
 $deselected_paths = array();
-$deselected_paths = $_REQUEST['NOT_path'];
+$deselected_paths = isset($_REQUEST['NOT_path']) ? $_REQUEST['NOT_path'] : '';
 
 
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'list';
@@ -464,6 +469,9 @@ include 'config/config.facets.php';
 $selected_facets = array();
 $deselected_facets = array();
 $facets_limit = array();
+$not_content_types = array();
+$types = array();
+$typegroups = array();
 
 foreach ($cfg['facets'] as $facet=>$facet_value) {
 
@@ -998,6 +1006,9 @@ if ($end_dt)	{
 if ($upzoom) {
 	$upzoom_link = buildurl($params, 'start_dt', $upzoom_start_dt, 'end_dt', $upzoom_end_dt, 'zoom', $upzoom);
 }
+else {
+	$upzoom_link = false;
+}
 
 
 # use edismax as query parser
@@ -1040,7 +1051,10 @@ if ($cfg['debug']) {
 //
 
 // display results
-$total = (int)$results->response->numFound;
+$total = 0;
+if (!empty($results->response)) {
+	$total = (int)($results->response->numFound);
+}
 
 // calculate stats
 $start = min($start, $total);
@@ -1082,7 +1096,7 @@ $form_hidden_parameters = buildform($params, 'q', NULL, 's', NULL, 'operator', N
 
 $datevalues = get_datevalues($results, $params, $downzoom);
 
-if ($embedded) {
+if (isset($embedded) && $embedded) {
 	include "templates/view.embedded.php";
 } else {
 	include "templates/view.index.php";
