@@ -41,18 +41,19 @@ else {
                value="<?php echo htmlspecialchars($query, ENT_QUOTES, 'utf-8'); ?>"/>
       </div>
 
-
       <div id="search-button" class="small-12 medium-2 large-2 columns">
 
         <input id="submit" type="submit" class="button postfix"
-               value="<?php echo t("Search"); ?>" onclick="waiting_on()"/>
+               value="<?= t("Search"); ?>"
+               onclick="waiting_on()"/>
       </div>
 
-      <button type="button" data-toggle="searchoptions">Search options</button>
+      <button type="button"
+              data-toggle="searchoptions"><?= t("Search options"); ?></button>
 
-
-      <div class="callout secondary small-12 columns" id="searchoptions"
-           data-toggler data-animate="slide-in-left slide-out-left">
+      <div class="callout searchoptions secondary small-12 columns"
+           id="searchoptions" data-toggler
+           data-animate="slide-in-left slide-out-left">
 
         <div class="row">
           <div class="small-12 columns">
