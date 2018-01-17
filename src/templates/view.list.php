@@ -75,11 +75,12 @@
       $author = htmlspecialchars($doc->author_s);
 
       // Title
-      $title = t('No title');
-      if (isset($doc->title)) {
-        if (!empty($doc->title)) {
-          $title = htmlspecialchars($doc->title);
-        }
+      // $title = t('No title');
+      if (!empty($doc->title)) {
+        $title = htmlspecialchars($doc->title);
+      }
+      else {
+        $title = $uri_label;
       }
 
       // Modified date
@@ -93,7 +94,6 @@
         $datetime = FALSE;
       }
 
-
       $file_size = 0;
       $file_size_txt = '';
       // File size
@@ -101,7 +101,6 @@
         $file_size = $doc->file_size_i;
         $file_size_txt = filesize_formatted($file_size);
       }
-
 
       // Snippet
       //print_r($results->highlighting->$id);
