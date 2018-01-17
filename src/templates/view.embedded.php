@@ -1,67 +1,75 @@
-	<?php 
-	
-	// if no results, show message
-	if ($total == 0) {
-		?>
-	<div id="noresults" class="panel">
+<?php
+
+// if no results, show message
+if ($total == 0) {
+  ?>
+  <div id="noresults" class="panel">
 
 
-		<?php
-		if ($error) {
-			print '<p>Error: </p><p>' . $error . '</p>';
-		} else {
-			// Todo: Vorschlag: (in allen Bereichen, Ähnliches)
-			print t('No results');
-		}
-		?>
-	</div>
+    <?php
+    if ($error) {
+      print '<p>Error: </p><p>' . $error . '</p>';
+    }
+    else {
+      // Todo: Vorschlag: (in allen Bereichen, Ähnliches)
+      print t('No results');
+    }
+    ?>
+  </div>
 
-	<?php
-	} // total == 0
-	else { // there are results documents
-		
-		if ($error) {
-			print '<p>Error:</p><p>' . $error . '</p>';
-		}
-		
-		// print the results with selected view template
-		if ($view == 'list') {
-			include 'templates/pagination.php';
-			include 'templates/view.list.php';
-			include 'templates/pagination.php';
-				
-		} elseif ($view == 'preview') {
+  <?php
+} // total == 0
+else { // there are results documents
 
-			include 'templates/view.preview.php';
+  if ($error) {
+    print '<p>Error:</p><p>' . $error . '</p>';
+  }
 
-		} elseif ($view == 'images') {
-				
-			include 'templates/view.images.php';
+  // print the results with selected view template
+  if ($view == 'list') {
+    include 'templates/pagination.php';
+    include 'templates/view.list.php';
+    include 'templates/pagination.php';
 
-		} elseif ($view == 'videos') {
-			include 'templates/view.videos.php';
-		} elseif ($view == 'table') {
-			include 'templates/view.table.php';
-		} elseif ($view=='words') {
+  }
+  elseif ($view == 'preview') {
 
-			include 'templates/view.words.php';
+    include 'templates/view.preview.php';
 
-		} elseif ($view=='trend') {
+  }
+  elseif ($view == 'images') {
 
-			include 'templates/view.trend.php';
+    include 'templates/view.images.php';
 
-		} elseif ($view == 'timeline') {
+  }
+  elseif ($view == 'videos') {
+    include 'templates/view.videos.php';
+  }
+  elseif ($view == 'table') {
+    include 'templates/view.table.php';
+  }
+  elseif ($view == 'words') {
 
-			include 'timeline.php';
+    include 'templates/view.words.php';
 
-		}
-		else {
-			include 'templates/pagination.php';
-			include 'templates/view.list.php';
-			include 'templates/pagination.php';
-				
-		}
+  }
+  elseif ($view == 'trend') {
+
+    include 'templates/view.trend.php';
+
+  }
+  elseif ($view == 'timeline') {
+
+    include 'timeline.php';
+
+  }
+  else {
+    include 'templates/pagination.php';
+    include 'templates/view.list.php';
+    include 'templates/pagination.php';
+
+  }
 
 
-	} // if total <> 0: there were documents
-	?>
+} // if total <> 0: there were documents
+?>
