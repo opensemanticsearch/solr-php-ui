@@ -31,7 +31,6 @@
           print ",\n";
         }
 
-
         print '{ "text": "' . $word . '", "size": ' . $count . ', "link": "' . $wordlink . '" }';
       }
       ?>

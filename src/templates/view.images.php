@@ -6,9 +6,7 @@
 ?>
 
 <div id="results" class="row">
-
   <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
-
     <?php
     foreach ($results->response->docs as $doc) {
 
@@ -77,7 +75,6 @@
 
         }
       }
-
       ?>
       <li>
         <div class="image">
@@ -99,7 +96,6 @@
 
         <div class="title imagelist">
 
-
           <a target="_blank" href="<?= $id ?>"><h2>
               <?php if ($title) { ?>
                 <?= $title ?>
@@ -111,11 +107,9 @@
 
         </div>
 
-
         <div class="snippet">
           <?= $snippet ?>
         </div>
-
 
         <div class="commands">
           <?php if ($uri_tip) { ?>
@@ -133,10 +127,8 @@
           | <?php print '<a target="_blank" href="preview.php?id=' . urlencode($id) . '">' . t('Preview') . '</a>'; ?>
         </div>
       </li>
-
       <?php
     } // foreach doc
     ?>
-
   </ul>
 </div>

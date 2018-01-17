@@ -97,7 +97,8 @@
       <h2>
         <?php if ($path) {
           print t('Subpaths');
-        } else {
+        }
+        else {
           print t('Paths');
         } ?>
       </h2>
