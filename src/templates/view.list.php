@@ -1,21 +1,17 @@
 <?php
-// Standard view
+// Standard view: a list.
 //
-// Show results as list
 
+// Number of snippets initially displayed.
+$snippets_open = 3;
 ?>
 
 <div id="results" class="row">
   <ul class="no-bullet">
-
     <?php
-
     $result_nr = 0;
-
-    foreach ($results->response->docs as $doc) {
-
+    foreach ($results->response->docs as $doc):
       $result_nr++;
-
       $id = $doc->id;
 
       // Type
@@ -126,171 +122,123 @@
           $snippets[0] = substr($snippets[0], 0, $cfg['snippetsize']) . "...";
         }
       }
-
       ?>
-      <li>
-        <a name="<?= $result_nr ?>"/>
-        <div class="title"><a class="title" target="_blank"
-                              href="<?= $uri ?>"><?= $title ?></a></div>
-
-        <div class="date"><?= $datetime ?></div>
-
-        <div>
-		<span class="uri">
-
-		<?php
-    if ($deepid) {
-      ?>
-      <?php if ($deep_uri_tip) { ?>
-        <span data-tooltip class="has-tip" title="<?= $deep_uri_tip ?>">
-      <?php } ?>
-      <?= $deep_uri_label ?>
-      <?php if ($deep_uri_tip) { ?>
-        </span>
-      <?php } ?>
-      in
-      <?php
-    } // if deepid
-    ?>
-
-      <?php if ($uri_tip) { ?>
-      <span data-tooltip class="has-tip" title="<?= $uri_tip ?>">
-				<?php } ?>
-        <?= $uri_label ?>
-        <?php if ($uri_tip) { ?>
-					</span>
-    <?php } ?>
-		</span>
-          <?php if ($file_size_txt) { ?>
-            <span class="size">(<?= $file_size_txt ?>)</span>
-          <?php } // if filesize?>
+      <li id="<?= $result_nr ?>">
+        <div class="title"><a class="title" href="<?= $uri ?>"><?= $title ?></a>
         </div>
-
+        <div class="date"><?= $datetime ?></div>
+        <div>
+          <span class="uri">
+            <?php if ($deepid): ?>
+              <?php if ($deep_uri_tip): ?>
+                <span data-tooltip class="has-tip" title="<?= $deep_uri_tip ?>">
+              <?php endif; ?>
+              <?= $deep_uri_label ?>
+              <?php if ($deep_uri_tip): ?>
+                </span>
+              <?php endif; ?>
+              in
+            <?php endif; ?>
+            <?php if ($uri_tip): ?>
+            <span data-tooltip class="has-tip" title="<?= $uri_tip ?>">
+            <?php endif; ?>
+            <?= $uri_label ?>
+            <?php if ($uri_tip): ?>
+              </span>
+          <?php endif; ?>
+          </span>
+          <?php if ($file_size_txt): ?>
+            <span class="size">(<?= $file_size_txt ?>)</span>
+          <?php endif; ?>
+        </div>
 
         <div class="snippets">
-          <?php if ($author) {
-            print '<div class="author">' . $author . '</div>';
-          } ?>
+          <?php if ($author): ?>
+            <div class="author"><?= $author ?></div>
+          <?php endif; ?>
           <ul>
-            <?php
+            <?php $snippet_number = 0; ?>
+            <?php foreach ($snippets
 
-            $snippets_open = 3;
-            $snippet_number = 0;
-
-            foreach ($snippets as $snippet) {
-              $snippet_number++;
-
-              // open block with more snipets
-              if ($snippet_number == $snippets_open + 1) {
-
-                print '</ul><ul class="more-snippets" id="' . $result_nr . '#more-snippets">';
-
-              }
-
-              print '<li class="snippet">' . $snippet . '</li>';
-
-
-            }
-
-
-            ?>
+            as $snippet): ?>
+            <?php if (++$snippet_number == ($snippets_open + 1)): ?>
           </ul>
-          <?php
-
-          // if more snippets
-          if ($snippet_number > $snippets_open) {
-
-            print '<a class="tiny button" id="' . $result_nr . '#more-snippets-button" href="#' . $result_nr . '" onClick="document.getElementById(\'' . $result_nr . '#more-snippets\').style.display = \'block\';document.getElementById(\'' . $result_nr . '#more-snippets-button\').style.display = \'none\';">Show all ' . $snippet_number . ' snippets</a>';
-
-          }
-
-          ?>
-
+          <ul class="more-snippets" id="<?= $result_nr ?>#more-snippets">
+            <?php endif; ?>
+            <li class="snippet"><?= $snippet ?></li>
+            <?php endforeach; ?>
+          </ul>
+          <?php if ($snippet_number > $snippets_open): ?>
+            <a class="tiny button" id="<?= $result_nr ?>#more-snippets-button"
+               href="#<?= $result_nr ?>"
+               onClick="
+                 document.getElementById('<?= $result_nr ?>#more-snippets').style.display = 'block';
+                 document.getElementById('<?= $result_nr ?>#more-snippets-button').style.display = 'none';
+                 "><?= t("Show all " . $snippet_number . " snippets") ?></a>
+          <?php endif; ?>
         </div>
-
 
         <?php
-        $first = TRUE;
-        // Print all configurated facets, but the field of result, not the facet of all results
-        foreach ($cfg['facets'] as $field => $facet_config) {
+        $first_facet = TRUE;
+        // Print all configured facets, but the field of result, not the facet of all results.
+        foreach ($cfg['facets'] as $field => $facet_config): ?>
+          <?php $first_value = TRUE; ?>
+          <?php if ($field != '_text_' and $cfg['facets'][$field]['snippets_enabled']): ?>
+            <?php if (isset($doc->$field)): ?>
+              <?= ($first_facet) ? '' : '; ' ?>
+              <?php $first_facet = FALSE; ?>
+            <span class="<?= $field ?>">
+              <span
+                title="<?= t("Extracted named entities or annotated tags") ?>">
+                  <?= $cfg['facets'][$field]['label'] ?>:
+                </span>
+              <?php if (is_array($doc->$field)): ?>
+                <?php $entities_open = $cfg['facets'][$field]['snippets_limit']; ?>
+                <?php $entity_number = 0; ?>
+                <?php foreach ($doc->$field as $value): ?>
+                  <?php if (++$entity_number == ($entities_open + 1)): ?>
+                    </span>
+                    <span class="more-snippets" id="<?= $result_nr ?><?= $field ?>#more-snippets">
+                    <ul class="more-snippets" id="<?= $result_nr ?>#more-snippets">
+                  <?php endif; ?>
+                    <?= ($entity_number > 1) ? ', ' : '' ?>
+                    <span
+                    class="facet-value"><?= htmlspecialchars($value) ?></span>
+                <?php endforeach; ?>
 
-
-          if ($field != '_text_' and $cfg['facets'][$field]['snippets_enabled']) {
-            if (isset($doc->$field)) {
-
-
-              ?>
-
-              <span class="<?= $field ?>">
-
-								
-								<span
-                  title="Extracted named entities or annotated tags"><?= $cfg['facets'][$field]['label'] ?>
-                  :</span>
-                <?php
-
-                if (is_array($doc->$field)) {
-
-                  $entities_open = $cfg['facets'][$field]['snippets_limit'];
-                  $entity_number = 0;
-
-                  foreach ($doc->$field as $value) {
-                    $entity_number++;
-
-                    // open block with more snipets
-                    if ($entity_number == $entities_open + 1) {
-
-                      print '<span class="more-snippets" id="' . $result_nr . $field . '#more-snippets">';
-
-                    }
-
-                    if ($entity_number > 1) {
-                      print ', ';
-                    }
-                    print htmlspecialchars($value);
-                  }
-                  // if more snippets
-                  if ($entity_number > $entities_open) {
-
-                    print '</span><a class="tiny button" id="' . $result_nr . $field . '#more-snippets-button" href="#' . $result_nr . $field . '" onClick="document.getElementById(\'' . $result_nr . $field . '#more-snippets\').style.display = \'inline\';document.getElementById(\'' . $result_nr . $field . '#more-snippets-button\').style.display = \'none\';" title="Show all ' . $entity_number . ' ' . $cfg['facets'][$field]['label'] . '">More</a>';
-
-                  }
-
-
-                }
-                else {
-                  if ($first) {
-                    $first = FALSE;
-                  }
-                  else {
-                    print ', ';
-                  }
-                  print $doc->$field;
-                }
-                ?>
-									</span>
-              <?php
-            }
-          }
-        }
-
-        ?>
-
+                  <?php if ($entity_number > $entities_open): ?>
+                  <a class="tiny button"
+                     id="<?= $result_nr ?><?= $field ?>#more-snippets-button"
+                     href="#<?= $result_nr ?><?= $field ?>"
+                     onClick="
+                       document.getElementById('<?= $result_nr ?><?= $field ?>#more-snippets').style.display = 'block';
+                       document.getElementById('<?= $result_nr ?><?= $field ?>#more-snippets-button').style.display = 'none';
+                       "
+                     title="Show all "<?= $entity_number ?> <?= $cfg['facets'][$field]['label'] ?>"><?= t('More') ?>
+                    </a>
+                <?php endif; ?>
+              <?php else: ?>
+                <?= ($first_value) ? '' : ', ' ?>
+                <span
+                  class="facet-value"><?= htmlspecialchars($doc->$field) ?></span>
+                <?php $first_value = FALSE; ?>
+              <?php endif; ?>
+              </span>
+            <?php endif; ?>
+          <?php endif; ?>
+        <?php endforeach; ?>
 
         <div class="commands">
-          <a target="_blank"
-             href="<?= $uri ?>"><?php echo t('open'); ?></a> <?php if ($cfg['metadata']['server']) { ?> |
-            <a target="_blank" title="<?php echo t('meta description'); ?>"
-               href="<?php print get_metadata_uri($cfg['metadata']['server'], $uri_unmasked); ?>"><?php echo t('meta'); ?></a> <?php } ?>
-          | <?php print '<a target="_blank" href="preview.php?id=' . urlencode($uri_unmasked) . '">' . t('Preview') . '</a>'; ?>
+          <a href="<?= $uri ?>"><?= t('open'); ?></a>
+          <?php if ($cfg['metadata']['server']): ?>
+            | <a title="<?= t('meta description'); ?>"
+                 href="<?= get_metadata_uri($cfg['metadata']['server'], $uri_unmasked); ?>"><?= t('meta'); ?></a>
+          <?php endif; ?>
+          | <a
+            href="preview.php?id='<?= urlencode($uri_unmasked) ?>"><?= t('Preview') ?></a>
         </div>
       </li>
-
-      <?php
-    } // foreach doc
-    ?>
-
+    <?php endforeach; ?>
   </ul>
-
 </div>
 
