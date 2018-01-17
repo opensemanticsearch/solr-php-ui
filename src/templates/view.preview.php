@@ -53,7 +53,7 @@ if ($deepid) {
 // Author
 $author = htmlspecialchars($doc->author_s);
 // Title
-$title = "Ohne Titel";
+$title = t("No Title");
 if (isset($doc->title)) {
   if (!empty($doc->title)) {
     $title = htmlspecialchars($doc->title);
