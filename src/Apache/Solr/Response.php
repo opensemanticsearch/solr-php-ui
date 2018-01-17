@@ -36,7 +36,7 @@
  * @author Donovan Jimenez <djimenez@conduit-it.com>
  */
 
-require_once(dirname(__FILE__) . '/ParserException.php');
+require_once(__DIR__ . '/ParserException.php');
 
 /**
  * Represents a Solr response.  Parses the raw response into a set of stdClass objects

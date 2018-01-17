@@ -37,7 +37,7 @@
  */
 
 // Require Apache_Solr_HttpTransport_Abstract
-require_once(dirname(__FILE__) . '/Abstract.php');
+require_once(__DIR__ . '/Abstract.php');
 
 /**
  * HTTP Transport implemenation that uses the builtin http URL wrappers and file_get_contents

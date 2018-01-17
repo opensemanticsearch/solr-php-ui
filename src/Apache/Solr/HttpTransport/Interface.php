@@ -37,7 +37,7 @@
  */
 
 // require Apache_Solr_HttpTransport_Response
-require_once(dirname(__FILE__) . '/Response.php');
+require_once(__DIR__ . '/Response.php');
 
 /**
  * Interface that all Transport (HTTP Requester) implementations must implement. These
