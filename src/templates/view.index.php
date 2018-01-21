@@ -1,11 +1,6 @@
 <html>
 <head>
-  <title><?php
-    echo t('Search');
-    if ($query) {
-      print ' ' . htmlspecialchars($query);
-    }
-    ?></title>
+  <title><?= t('Search') . ($query ? ': ' . htmlspecialchars($query) : '') ?></title>
   <link rel="stylesheet" href="css/foundation.css">
 
   <script src="js/vendor/jquery.js"></script>
@@ -20,12 +15,16 @@
 </head>
 <body>
 <?php
-if (file_exists("templates/custom/view.index.topbar.php")) {
-  include "templates/custom/view.index.topbar.php";
+// include configs
+include 'config/config.php';
+
+if (file_exists('templates/custom/view.index.topbar.php')) {
+  include 'templates/custom/view.index.topbar.php';
 }
 else {
-  include "templates/view.index.topbar.php";
+  include 'templates/view.index.topbar.php';
 } ?>
+
 <div class="row">
   <div id="searchform-wrapper" class="small-12 medium-8 large-9 columns">
     <?php

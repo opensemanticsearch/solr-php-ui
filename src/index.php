@@ -55,66 +55,61 @@ include 'config/config.mimetypes.php';
 include 'config/config.i18n.php';
 
 
-# mask special chars but not operators
+// mask special chars but not operators
 function mask_query ( $query, $facets=array() ) {
 
 	$unmaskfacets = array('id','title','content','exact','_text_');
-	
-	# add configured facets
+
+	// add configured facets
 	foreach ($facets as $facet=>$facetconfig) {
-	
 		$unmaskfacets[]= $facet ;
-		
 	}
 
-	# mask special chars for Lucene query, so we can search for that chars, too
+	// Mask special chars for Lucene query, so we can search for that chars, too.
 	$query = addcslashes( $query, '&|!{}[]^:\/' );
 
-	# todo: mask - if not at beginning
-	
-	# but unmask, if the char : is used as operator for facet search
-	
-
+	// TODO: Mask, if not at start, but unmask if the char ':' is op for facet search.
 	foreach ($unmaskfacets as $facet) {
 
-		# undo masking if : is after facet name on beginning of new word or begin of query, because then : is a operator to select a facet for query part
-		
+		// Undo masking if ':' is after facet name on beginning of new word or
+    // query, because then ':' is a operator to select a facet for query part.
+
 		$query = str_replace($facet.'\:', $facet.':', $query);
 		
-		# maybe todo:
-		
-		# only if startswith (if startswith - facet, too)
-		
-		# or after space or (
-			
+		// maybe todo:
+		// only if startswith (if startswith - facet, too)
+		// or after space or (
 	}
 
-	# map nicer to read facet name "exact" to facet "_text_"
+	// map nicer to read facet name "exact" to facet "_text_"
 	$query = str_replace('exact:', '_text_:', $query);
-	
-	
 	return $query;
-	
 }
+
 
 function get_uri_help ($language) {
 
-	$result = "doc/help." . $language . ".html";
+	$result = 'doc/help.' . $language . '.html';
 
 	// if help.$language.html doesn't exist
 	if (!file_exists ($result) ) {
 		// use default (english)
-		$result = "doc/help.html";
+		$result = 'doc/help.html';
 	}
 
 	return $result;
 }
 
 
-// create link with actual parameters with one changed parameter
-// changing second facet needed if the change of the main parameter will change results to reset page number which could be more than first page
-
-function buildurl($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2=NULL, $facet3=NULL, $newvalue3=NULL, $facet4=NULL, $newvalue4=NULL) {
+// Create link with actual parameters with one changed parameter.
+//
+// changing second facet needed if the change of the main parameter will change
+// results to reset page number which could be more than first page
+function buildurl($params,
+                  $facet = NULL, $newvalue = NULL,
+                  $facet2 = NULL, $newvalue2 = NULL,
+                  $facet3 = NULL, $newvalue3 = NULL,
+                  $facet4 = NULL, $newvalue4 = NULL) {
 
 	if ($facet) {
 		$params[$facet]=$newvalue;
@@ -140,7 +135,6 @@ function buildurl($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2
 	$uri = "?".http_build_query($params);
 
 	return $uri;
-
 }
 
 
@@ -160,10 +154,9 @@ function buildurl_addvalue($params, $facet=NULL, $addvalue=NULL, $changefacet=NU
 	foreach ($params as $key=>$value) {
 	    if (is_null($value)) { unset($params[$key]); }
 	}
-
 	return $uri;
-
 }
+
 
 function buildurl_delvalue($params, $facet=NULL, $delvalue=NULL, $changefacet=NULL, $newvalue=NULL) {
 
@@ -181,10 +174,7 @@ function buildurl_delvalue($params, $facet=NULL, $delvalue=NULL, $changefacet=NU
 	}
 
 	$uri = "?" . http_build_query($params);
-
-
 	return $uri;
-
 }
 
 
@@ -228,9 +218,7 @@ function buildform($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue
 			$form = $form."<input type=\"hidden\" name=\"".htmlspecialchars($key)."\" value=\"".htmlspecialchars($value)."\">";
 		}
 	}
-
 	return $form;
-
 }
 
 
@@ -239,17 +227,15 @@ function get_metadata_uri ($metadata_server, $id) {
 
 	// $url = $metadata_server.md5($id).'?Meta[RefURI]='.urlencode($id); // use md5 hash, because not every cms supports special chars as page id
 	$url = $metadata_server.urlencode($id);
-
 	return $url;
-
 }
+
 
 function date2solrstr($timestamp) {
 	$date_str = date('Y-m-d', $timestamp).'T'. date('H:i:s', $timestamp).'Z';
 
 	return $date_str;
 }
-
 
 
 // values for navigating date facet
