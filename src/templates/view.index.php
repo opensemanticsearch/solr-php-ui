@@ -188,7 +188,7 @@ else {
         include 'templates/view.words.php';
 
       }
-      elseif ($view == 'graph') {
+      elseif ($view == 'graph_ne' || $view == 'graph_co') {
 
         include 'templates/view.graph.php';
 

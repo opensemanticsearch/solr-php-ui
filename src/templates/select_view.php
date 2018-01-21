@@ -1,113 +1,108 @@
-<?php ?>
+<?php
+// Determine which tab is active for rendering.
+$view_selectors = array(
+  'list' => t('List'),
+  'preview' => t('Preview'),
+  'images' => t('Images'),
+  'videos' => t('Videos'),
+  'audios' => t('Audios'),
+  'table' => t('Table'),
+);
+$analyse_dropdowns = array(
+  'trend' => t('view_trend'),
+  'words' => t('view_words'),
+  'graph_ne' => t('Named entities'),
+  'graph_co' => t('Connections'),
+);
+
+$tabs = [];
+foreach ($view_selectors as $selector => $title) {
+  $tab = [
+    'class' => ['button', 'secondary'],
+    'title' => $title,
+    'onclick' => 'waiting_on();',
+  ];
+
+  switch ($selector) {
+    case 'list':
+      if ($view === 'preview') {
+        // if switching back from preview mode to list, dont reset start to first result
+        $pagestart = (floor(($start-1) / $limit_list) * $limit_list ) + 1;
+        $tab['url'] = buildurl($params, 'view', NULL, 's', $pagestart);
+      }
+      else {
+        // Switching from other view like images or table, so reset start to first result
+        $tab['url'] = buildurl($params, 'view', NULL, 's', 1);
+      }
+      break;
+
+    case 'table':
+      $tab['url'] = buildurl($params, 'view', $selector, 's', FALSE);
+      break;
+
+    default:
+      $tab['url'] = buildurl($params, 'view', $selector, 's', 1);
+      break;
+  }
+
+  if ($view === $selector) {
+    $tab['class'][] = 'active';
+    $tab['url'] = '#';
+  }
+
+  $tabs[$selector] = $tab;
+}
+
+$avs = [];
+foreach ($analyse_dropdowns as $a_d => $title) {
+  $av = [
+    'class' => ['button'],
+    'title' => $title,
+    'onclick' => 'waiting_on();',
+  ];
+
+  switch ($a_d) {
+    case 'trend':
+      $av['url'] = buildurl($params, 'view', $a_d, 's', FALSE);
+      break;
+      
+    case 'words':
+      $av['url'] = buildurl($params, 'view', $a_d, 's', FALSE);
+      break;
+      
+    case 'graph_ne':
+      $av['url'] = buildurl($params, 'view', 'graph', 's', 1);
+      break;
+
+    case 'graph_co':
+      $av['url'] = buildurl($params, 'view', 'graph', 's', FALSE);
+      break;
+    else {
+?>
+
 
 <div id="select_view" class="row">
 
   <div class="button-group">
-    <?php
 
-    // Show view selector (list, image-gallery, table and so on)
-
-    ?>
-    <?php
-
-    //echo t('View').': ';
-
-    if ($view == 'list') {
-      print '<a class="button secondary active" href="#">' . t('List') . '</a>';
-    }
-    else {
-      if ($view == "preview") {
-        // if switching back from preview mode to list, dont reset start to first result
-        $pagestart = (floor(($start-1) / $limit_list) * $limit_list ) + 1;
-        $link = buildurl($params, "view", NULL, 's', $pagestart);
-      }
-      else { // switching from other view like images or table, so reset start to first result
-        $link = buildurl($params, "view", NULL, 's', 1);
-      }
-      print '<a class="button secondary" onclick="waiting_on();" href="' . $link . '">' . t('List') . '</a>';
-
-    }
-
-    if ($view == 'preview') {
-      print '<a class="button secondary active" href="#">' . t('Preview') . '</a>';
-    }
-    else {
-      print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'preview') . '">' . t('Preview') . '</a>';
-    }
-
-    if ($view == 'images') {
-      print '<a class="button secondary active" href="#">' . t('Images') . '</a>';
-    }
-    else {
-      print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'images', 's', 1) . '">' . t('Images') . '</a>';
-    }
-
-    if ($view == 'videos') {
-      print '<a class="button secondary active" href="#">' . t('Videos') . '</a>';
-    }
-    else {
-      print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'videos', 's', 1) . '">' . t('Videos') . '</a>';
-    }
-    if ($view == 'audios') {
-      print '<a class="button secondary active" href="#">' . t('Audios') . '</a>';
-    }
-    else {
-      print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'audios', 's', 1) . '">' . t('Audios') . '</a>';
-    }
-
-    if ($view == 'table') {
-      print '<a class="button secondary active" href="#">' . t('Table') . '</a>';
-    }
-    else {
-      print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'table', 's', 1) . '">' . t('Table') . '</a>';
-    }
-
-    ?>
+    <!-- Per View (List, Image, ...) Selector -->
+    <?php foreach ($tabs as $selector => $detail): ?>
+      <a class="<?= implode(' ', $detail['class']) ?>"
+         href="<?= $detail['url'] ?>"><?= $detail['title'] ?></a>
+    <?php endforeach; ?>
 
     <button class="button secondary dropdown" type="button"
-            data-toggle="analyze-dropdown"><?php echo t("view_analytics"); ?></button>
+            data-toggle="analyze-dropdown"><?= t('view_analytics'); ?></button>
 
+    <!-- Analyse dropdown -->
     <div class="dropdown-pane" id="analyze-dropdown" data-dropdown
          data-auto-focus="true">
 
-      <?php
-      if ($view == 'trend') {
-        print '<a class="button active" href="#">' . t('view_trend') . '</a>';
-      }
-      else {
-        print '<a class="button" onclick="waiting_on();" href="' . buildurl($params, "view", 'trend', 's', FALSE) . '">' . t('view_trend') . '</a>';
-      }
-      ?>
-      <hr/><?php
+      <?php foreach ($avs as $av => $detail): ?>
+        <a class="<?= implode(' ', $detail['class']) ?>"
+           href="<?= $detail['url'] ?>"><?= $detail['title'] ?></a>
+      <?php endforeach; ?>
 
-      if ($view == 'words') {
-        print '<a class="button active" href="#">' . t('view_words') . '</a>';
-      }
-      else {
-        print '<a class="button" onclick="waiting_on();" href="' . buildurl($params, "view", 'words', 's', FALSE) . '">' . t('view_words') . '</a>';
-      }
-      ?>
-      <hr/><?php
-
-      if ($view == 'graph') {
-        print '<a class="button active" href="#">' . t('Named entities') . '</a>';
-      }
-      else {
-        print '<a class="button" onclick="waiting_on();" href="' . buildurl($params, "view", 'graph', 's', 1) . '">' . t('Named entities') . '</a>';
-      }
-
-      ?>
-      <hr/><?php
-
-      if ($view == 'graph') {
-        print '<a class="button active" href="#">' . t('Connections') . '</a>';
-      }
-      else {
-        print '<a class="button" onclick="waiting_on();" href="' . buildurl($params, "view", 'graph', 's', FALSE) . '">' . t('Connections') . '</a>';
-      }
-
-
-      ?>
     </div>
 
   </div>
