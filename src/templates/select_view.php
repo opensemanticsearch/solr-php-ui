@@ -63,14 +63,6 @@
       print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'table', 's', 1) . '">' . t('Table') . '</a>';
     }
 
-    if ($view == 'trend') {
-      print '<a class="button secondary active" href="#">' . t('view_trend') . '</a>';
-    }
-    else {
-      print '<a class="button secondary" onclick="waiting_on();" href="' . buildurl($params, "view", 'trend', 's', FALSE) . '">' . t('view_trend') . '</a>';
-    }
-
-
     ?>
 
     <button class="button secondary dropdown" type="button"
@@ -80,6 +72,15 @@
          data-auto-focus="true">
 
       <?php
+      if ($view == 'trend') {
+        print '<a class="button active" href="#">' . t('view_trend') . '</a>';
+      }
+      else {
+        print '<a class="button" onclick="waiting_on();" href="' . buildurl($params, "view", 'trend', 's', FALSE) . '">' . t('view_trend') . '</a>';
+      }
+      ?>
+      <hr/><?php
+
       if ($view == 'words') {
         print '<a class="button active" href="#">' . t('view_words') . '</a>';
       }
