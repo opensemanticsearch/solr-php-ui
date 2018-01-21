@@ -18,7 +18,7 @@
     else {
       if ($view == "preview") {
         // if switching back from preview mode to list, dont reset start to first result
-        $pagestart = floor($start / $limit) * $limit;
+        $pagestart = (floor(($start-1) / $limit_list) * $limit_list ) + 1;
         $link = buildurl($params, "view", NULL, 's', $pagestart);
       }
       else { // switching from other view like images or table, so reset start to first result

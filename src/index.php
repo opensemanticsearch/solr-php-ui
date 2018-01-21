@@ -521,8 +521,10 @@ $zoom = isset($_REQUEST['zoom']) ? (string)$_REQUEST['zoom'] : 'years';
 
 
 // now we know the view parameter, so lets set limits that fit for the special view
+$limit_list = 10;
+
 if ($view=='list') {
-	$limit = 10;
+	$limit = $limit_list;
 }
 elseif ($view=='table') {
 	$limit = 20;
