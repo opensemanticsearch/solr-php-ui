@@ -72,22 +72,18 @@ $snippets_open = 3;
 
       // Title
       // $title = t('No title');
+      $title = $uri_label;
       if (!empty($doc->title)) {
         $title = htmlspecialchars($doc->title);
       }
-      else {
-        $title = $uri_label;
-      }
 
       // Modified date
+      $datetime = FALSE;
       if (isset($doc->file_modified_dt)) {
         $datetime = $doc->file_modified_dt;
       }
       elseif (isset($doc->last_modified)) {
         $datetime = $doc->last_modified;
-      }
-      else {
-        $datetime = FALSE;
       }
 
       $file_size = 0;
@@ -114,7 +110,7 @@ $snippets_open = 3;
         }
       }
 
-      if (count($snippets) == 0 && isset($doc->content)) {
+      if (count($snippets) === 0 && isset($doc->content)) {
         // if no snippets available, use content as snippet
         $snippets = array($doc->content);
         // and cut it to snippet size
@@ -183,18 +179,18 @@ $snippets_open = 3;
           <?php $first_value = TRUE; ?>
           <?php if ($field != '_text_' and $cfg['facets'][$field]['snippets_enabled']): ?>
             <?php if (isset($doc->$field)): ?>
-              <?= ($first_facet) ? '' : '; ' ?>
+              <?= $first_facet ? '' : '; ' ?>
               <?php $first_facet = FALSE; ?>
             <span class="<?= $field ?>">
               <span
-                title="<?= t("Extracted named entities or annotated tags") ?>">
+                title="<?= t('Extracted named entities or annotated tags') ?>">
                   <?= $cfg['facets'][$field]['label'] ?>:
                 </span>
               <?php if (is_array($doc->$field)): ?>
                 <?php $entities_open = $cfg['facets'][$field]['snippets_limit']; ?>
                 <?php $entity_number = 0; ?>
                 <?php foreach ($doc->$field as $value): ?>
-                  <?php if (++$entity_number == ($entities_open + 1)): ?>
+                  <?php if (++$entity_number === ($entities_open + 1)): ?>
                     </span>
                     <span class="more-snippets" id="<?= $result_nr ?><?= $field ?>#more-snippets">
                   <?php endif; ?>
