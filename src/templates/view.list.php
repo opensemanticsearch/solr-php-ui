@@ -179,7 +179,7 @@ $snippets_open = 3;
           <?php $first_value = TRUE; ?>
           <?php if ($field != '_text_' and $cfg['facets'][$field]['snippets_enabled']): ?>
             <?php if (isset($doc->$field)): ?>
-              <?= ($first_facet) ? '' : '; ' ?>
+              <?= $first_facet ? '' : '; ' ?>
               <?php $first_facet = FALSE; ?>
             <span class="<?= $field ?>">
               <span
