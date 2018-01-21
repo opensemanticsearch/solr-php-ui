@@ -53,33 +53,34 @@ foreach ($view_selectors as $selector => $title) {
   $tabs[$selector] = $tab;
 }
 
-$avs = [];
-foreach ($analyse_dropdowns as $a_d => $title) {
-  $av = [
+$analyse_items = [];
+foreach ($analyse_dropdowns as $anl_item => $title) {
+  $item = [
     'class' => ['button'],
     'title' => $title,
     'onclick' => 'waiting_on();',
   ];
 
-  switch ($a_d) {
+  switch ($anl_item) {
     case 'trend':
-      $av['url'] = buildurl($params, 'view', $a_d, 's', FALSE);
+      $item['url'] = buildurl($params, 'view', $anl_item, 's', FALSE);
       break;
-      
+
     case 'words':
-      $av['url'] = buildurl($params, 'view', $a_d, 's', FALSE);
+      $item['url'] = buildurl($params, 'view', $anl_item, 's', FALSE);
       break;
-      
+
     case 'graph_ne':
-      $av['url'] = buildurl($params, 'view', 'graph', 's', 1);
+      $item['url'] = buildurl($params, 'view', 'graph', 's', 1);
       break;
 
     case 'graph_co':
-      $av['url'] = buildurl($params, 'view', 'graph', 's', FALSE);
+      $item['url'] = buildurl($params, 'view', 'graph', 's', FALSE);
       break;
-    else {
+  }
+  $analyse_items[$anl_item] = $item;
+}
 ?>
-
 
 <div id="select_view" class="row">
 
@@ -98,7 +99,7 @@ foreach ($analyse_dropdowns as $a_d => $title) {
     <div class="dropdown-pane" id="analyze-dropdown" data-dropdown
          data-auto-focus="true">
 
-      <?php foreach ($avs as $av => $detail): ?>
+      <?php foreach ($analyse_items as $item => $detail): ?>
         <a class="<?= implode(' ', $detail['class']) ?>"
            href="<?= $detail['url'] ?>"><?= $detail['title'] ?></a>
       <?php endforeach; ?>
