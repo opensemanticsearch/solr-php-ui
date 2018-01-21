@@ -72,22 +72,18 @@ $snippets_open = 3;
 
       // Title
       // $title = t('No title');
+      $title = $uri_label;
       if (!empty($doc->title)) {
         $title = htmlspecialchars($doc->title);
       }
-      else {
-        $title = $uri_label;
-      }
 
       // Modified date
+      $datetime = FALSE;
       if (isset($doc->file_modified_dt)) {
         $datetime = $doc->file_modified_dt;
       }
       elseif (isset($doc->last_modified)) {
         $datetime = $doc->last_modified;
-      }
-      else {
-        $datetime = FALSE;
       }
 
       $file_size = 0;
