@@ -49,7 +49,7 @@ else {
       </div>
 
       <button type="button"
-              data-toggle="searchoptions"><?= t("Search options"); ?></button>
+              data-toggle="searchoptions"><?= t('Search options'); ?></button>
 
       <div class="callout searchoptions secondary small-12 columns"
            id="searchoptions" data-toggler
