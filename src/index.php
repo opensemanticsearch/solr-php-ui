@@ -86,14 +86,15 @@ function mask_query ( $query, $facets=array() ) {
 	return $query;
 }
 
+
 function get_uri_help ($language) {
 
-	$result = "doc/help." . $language . ".html";
+	$result = 'doc/help.' . $language . '.html';
 
 	// if help.$language.html doesn't exist
 	if (!file_exists ($result) ) {
 		// use default (english)
-		$result = "doc/help.html";
+		$result = 'doc/help.html';
 	}
 
 	return $result;
