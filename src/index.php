@@ -140,7 +140,6 @@ function buildurl($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2
 	$uri = "?".http_build_query($params);
 
 	return $uri;
-
 }
 
 
@@ -160,10 +159,9 @@ function buildurl_addvalue($params, $facet=NULL, $addvalue=NULL, $changefacet=NU
 	foreach ($params as $key=>$value) {
 	    if (is_null($value)) { unset($params[$key]); }
 	}
-
 	return $uri;
-
 }
+
 
 function buildurl_delvalue($params, $facet=NULL, $delvalue=NULL, $changefacet=NULL, $newvalue=NULL) {
 
@@ -181,10 +179,7 @@ function buildurl_delvalue($params, $facet=NULL, $delvalue=NULL, $changefacet=NU
 	}
 
 	$uri = "?" . http_build_query($params);
-
-
 	return $uri;
-
 }
 
 
@@ -228,9 +223,7 @@ function buildform($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue
 			$form = $form."<input type=\"hidden\" name=\"".htmlspecialchars($key)."\" value=\"".htmlspecialchars($value)."\">";
 		}
 	}
-
 	return $form;
-
 }
 
 
@@ -239,17 +232,15 @@ function get_metadata_uri ($metadata_server, $id) {
 
 	// $url = $metadata_server.md5($id).'?Meta[RefURI]='.urlencode($id); // use md5 hash, because not every cms supports special chars as page id
 	$url = $metadata_server.urlencode($id);
-
 	return $url;
-
 }
+
 
 function date2solrstr($timestamp) {
 	$date_str = date('Y-m-d', $timestamp).'T'. date('H:i:s', $timestamp).'Z';
 
 	return $date_str;
 }
-
 
 
 // values for navigating date facet
