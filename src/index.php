@@ -100,10 +100,15 @@ function get_uri_help ($language) {
 }
 
 
-// create link with actual parameters with one changed parameter
-// changing second facet needed if the change of the main parameter will change results to reset page number which could be more than first page
-
-function buildurl($params, $facet=NULL, $newvalue=NULL, $facet2=NULL, $newvalue2=NULL, $facet3=NULL, $newvalue3=NULL, $facet4=NULL, $newvalue4=NULL) {
+// Create link with actual parameters with one changed parameter.
+//
+// changing second facet needed if the change of the main parameter will change
+// results to reset page number which could be more than first page
+function buildurl($params,
+                  $facet = NULL, $newvalue = NULL,
+                  $facet2 = NULL, $newvalue2 = NULL,
+                  $facet3 = NULL, $newvalue3 = NULL,
+                  $facet4 = NULL, $newvalue4 = NULL) {
 
 	if ($facet) {
 		$params[$facet]=$newvalue;
