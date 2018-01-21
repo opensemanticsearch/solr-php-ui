@@ -183,7 +183,7 @@ $snippets_open = 3;
               <?php $first_facet = FALSE; ?>
             <span class="<?= $field ?>">
               <span
-                title="<?= t("Extracted named entities or annotated tags") ?>">
+                title="<?= t('Extracted named entities or annotated tags') ?>">
                   <?= $cfg['facets'][$field]['label'] ?>:
                 </span>
               <?php if (is_array($doc->$field)): ?>
