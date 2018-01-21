@@ -15,23 +15,16 @@ foreach ($words as &$word) {
 }
 ?>
 
-<div id="results" class="row">
+<script src="d3js/d3.min.js" charset="utf-8"></script>
+<script src="d3js/d3.layout.cloud.js" charset="utf-8"></script>
 
-  <div class="row">
+<div id="results" class="row">
+  <div class="doc-count">
     <i>Documents: <?= $total ?></i>
   </div>
 
-
   <div id="wordcloud" class="small-12 columns">
   </div>
-
-
-  <script type="text/javascript">
-  </script>
-
-
-  <script src="d3js/d3.min.js" charset="utf-8"></script>
-  <script src="d3js/d3.layout.cloud.js"></script>
 
   <script type="text/javascript">
 
