@@ -455,7 +455,7 @@ $sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : NULL;
 
 $path= isset($_REQUEST['path']) ? $_REQUEST['path'] : NULL;
 $deselected_paths = array();
-$deselected_paths = isset($_REQUEST['NOT_path']) ? $_REQUEST['NOT_path'] : '';
+$deselected_paths = isset($_REQUEST['NOT_path']) ? $_REQUEST['NOT_path'] : NULL;
 
 
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'list';
@@ -1040,7 +1040,6 @@ if ($solrquery or $solrfilterquery) {
 
 
 if ($cfg['debug']) {
-
 	print "Solr results:";
 	print_r($results);
 }
