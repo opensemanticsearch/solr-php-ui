@@ -20,13 +20,13 @@
 
         foreach ($selected_facets as $selected_facet => $facetvalue_array) {
           foreach ($facetvalue_array as $facet_value) {
-            print '<li><a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, $selected_facet, $facet_value, 's', 1) . '">(&times;)</a> ' . $cfg[facets][$selected_facet]['label'] . ': ' . htmlspecialchars($facet_value) . '</li>';
+            print '<li><a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, $selected_facet, $facet_value, 's', 1) . '">(&times;)</a> ' . $cfg['facets'][$selected_facet]['label'] . ': ' . htmlspecialchars($facet_value) . '</li>';
           }
         }
 
         foreach ($deselected_facets as $deselected_facet => $facetvalue_array) {
           foreach ($facetvalue_array as $facet_value) {
-            print '<li><a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, 'NOT_' . $deselected_facet, $facet_value, 's', 1) . '">(&times;)</a> NOT ' . $cfg[facets][$deselected_facet]['label'] . ': ' . htmlspecialchars($facet_value) . '</li>';
+            print '<li><a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, 'NOT_' . $deselected_facet, $facet_value, 's', 1) . '">(&times;)</a> NOT ' . $cfg['facets'][$deselected_facet]['label'] . ': ' . htmlspecialchars($facet_value) . '</li>';
           }
         }
 
