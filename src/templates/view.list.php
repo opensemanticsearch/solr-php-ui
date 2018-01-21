@@ -110,7 +110,7 @@ $snippets_open = 3;
         }
       }
 
-      if (count($snippets) == 0 && isset($doc->content)) {
+      if (count($snippets) === 0 && isset($doc->content)) {
         // if no snippets available, use content as snippet
         $snippets = array($doc->content);
         // and cut it to snippet size
@@ -190,7 +190,7 @@ $snippets_open = 3;
                 <?php $entities_open = $cfg['facets'][$field]['snippets_limit']; ?>
                 <?php $entity_number = 0; ?>
                 <?php foreach ($doc->$field as $value): ?>
-                  <?php if (++$entity_number == ($entities_open + 1)): ?>
+                  <?php if (++$entity_number === ($entities_open + 1)): ?>
                     </span>
                     <span class="more-snippets" id="<?= $result_nr ?><?= $field ?>#more-snippets">
                   <?php endif; ?>
