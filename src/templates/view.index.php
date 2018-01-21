@@ -1,11 +1,6 @@
 <html>
 <head>
-  <title><?php
-    echo t('Search');
-    if ($query) {
-      print ' ' . htmlspecialchars($query);
-    }
-    ?></title>
+  <title><?= t('Search') . ($query ? ': ' . htmlspecialchars($query) : '') ?></title>
   <link rel="stylesheet" href="css/foundation.css">
 
   <script src="js/vendor/jquery.js"></script>
