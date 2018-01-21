@@ -49,7 +49,7 @@ else {
       </div>
 
       <button type="button"
-              data-toggle="searchoptions"><?= t("Search options"); ?></button>
+              data-toggle="searchoptions"><?= t('Search options'); ?></button>
 
       <div class="callout searchoptions secondary small-12 columns"
            id="searchoptions" data-toggler
@@ -188,7 +188,7 @@ else {
         include 'templates/view.words.php';
 
       }
-      elseif ($view == 'graph') {
+      elseif ($view == 'graph_ne' || $view == 'graph_co') {
 
         include 'templates/view.graph.php';
 
