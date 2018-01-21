@@ -101,5 +101,3 @@ $cfg['preview_allowed'] = true;
 //
 
 // $cfg['disable_view_words'] = true;
-
-?>

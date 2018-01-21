@@ -40,21 +40,21 @@ $lang['en']['view_trend'] = 'Trend';
 $lang['en']['file_size'] = 'Filesize';
 
 $lang['en']['content type'] = 'Content type';
-$lang['en']['content_ocr'] = "Automatic text recognition (OCR) from image(s):";
+$lang['en']['content_ocr'] = 'Automatic text recognition (OCR) from image(s):';
 
 // Field labels
-$lang['en']['ocr_t'] = "OCR";
-$lang['en']['title'] = "Title";
-$lang['en']['author_s'] = "Author";
-$lang['en']['content_type'] = "Content type";
-$lang['en']['file_modified_dt'] = "File modified";
-$lang['en']['last_modified'] = "Last modified";
-$lang['en']['file_size_i'] = "Size (bytes)";
+$lang['en']['ocr_t'] = 'OCR';
+$lang['en']['title'] = 'Title';
+$lang['en']['author_s'] = 'Author';
+$lang['en']['content_type'] = 'Content type';
+$lang['en']['file_modified_dt'] = 'File modified';
+$lang['en']['last_modified'] = 'Last modified';
+$lang['en']['file_size_i'] = 'Size (bytes)';
 
-$lang['en']['view_words'] = "Words (list of words and word cloud)";
+$lang['en']['view_words'] = 'Words (list of words and word cloud)';
 $lang['en']['view_analytics'] = 'Analyze';
 
-$lang['en']['Words'] = "Words (count of docs)";
+$lang['en']['Words'] = 'Words (count of docs)';
 
 //
 // German (de)
@@ -94,7 +94,7 @@ $lang['de']['Paths'] = 'Dateiverzeichnisse';
 // view labels
 $lang['de']['Images'] = 'Bilder';
 $lang['de']['Table'] = 'Tabelle';
-$lang['de']['view_words'] = "Wörter";
+$lang['de']['view_words'] = 'Wörter';
 $lang['de']['view_analytics'] = 'Analyse';
 // Sort labels
 
@@ -115,11 +115,11 @@ $lang['de']['content type group'] = 'Formen';
 $lang['de']['content type'] = 'Dateiformate';
 
 
-$lang['de']['content_ocr'] = "Automatisch erkannter Text (OCR) aus Grafikdatei(en):";
+$lang['de']['content_ocr'] = 'Automatisch erkannter Text (OCR) aus Grafikdatei(en):';
 
 $lang['de']['file_size'] = 'Dateigrösse';
 
-$lang['de']['Words'] = "Wörter (Dokumente)";
+$lang['de']['Words'] = 'Wörter (Dokumente)';
 
 
 
@@ -141,5 +141,3 @@ function t($string) {
 
 	return $result;
 }
-
-?>

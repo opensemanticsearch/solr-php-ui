@@ -37,7 +37,7 @@
  */
 
 // Require Apache_Solr_HttpTransport_Abstract
-require_once(dirname(__FILE__) . '/Abstract.php');
+require_once(__DIR__ . '/Abstract.php');
 
 /**
  * An alternative Curl HTTP transport that opens and closes a curl session for

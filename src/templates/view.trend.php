@@ -4,7 +4,7 @@
 ?>
 
 
-<?php 
+<?php
 // Include libs
 ?>
 
@@ -13,82 +13,88 @@
 <link href="nvd/nv.d3.css" rel="stylesheet">
 
 
-
-
-<?php 
+<?php
 
 // Page
 
 if ($date_label) {
-	echo '<h1>' . $date_label . '</h1>';
+  echo '<h1>' . $date_label . '</h1>';
 }
-	
-	?>
+
+?>
 
 <div id='chart'>
   <svg style='height:500px;'></svg>
 </div>
 
-    
 
-<?php 
+<?php
 
 // Init with size parameters
 
 ?>
 <script type="text/javascript">
-nv.addGraph(function() {
-	  var chart = nv.models.discreteBarChart()
-	      .x(function(d) { return d.label })    //Specify the data accessors.
-	      .y(function(d) { return d.value })
-	      .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
-	      .tooltips(false)        //Don't show tooltips
-	      .showValues(true)       //...instead, show the bar value right on top of each bar.
-	      .transitionDuration(350)
-	      ;
+  nv.addGraph(function () {
+    var chart = nv.models.discreteBarChart()
+      .x(function (d) {
+        return d.label
+      })    //Specify the data accessors.
+      .y(function (d) {
+        return d.value
+      })
+      .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+      .tooltips(false)        //Don't show tooltips
+      .showValues(true)       //...instead, show the bar value right on top of each bar.
+      .transitionDuration(350)
+    ;
 
-	  d3.select('#chart svg')
-	      .datum(Data())
-	      .call(chart);
+    d3.select('#chart svg')
+      .datum(Data())
+      .call(chart);
 
-	  nv.utils.windowResize(chart.update);
+    nv.utils.windowResize(chart.update);
 
-	  return chart;
-	});
+    return chart;
+  });
 
-	//Each bar represents a single discrete quantity.
-	function Data() {
-	 return  [ 
-	    {
-	      key: "Cumulative Return",
-	      values: [
+  //Each bar represents a single discrete quantity.
+  function Data() {
+    return [
+      {
+        key: "Cumulative Return",
+        values: [
 
 
 
-<?php
+          <?php
 
-// Data2JSON
+          // Data2JSON
 
-	$first = true;
+          $first = TRUE;
 
-	foreach ($datevalues as $value) {
-	
-		// todo: link the chart
-		$link = '';
-			 
- 		// if not first entry, print delimiting comma
- 		if ($first) { $first = false; } else {print ",\n"; }
- 	
- 		print '{ "label": "' . $value['label' ]. '", "value": ' . $value['count'] . ', "link": "'.$value['link'].'" }';
- 	}
-?>
+          foreach ($datevalues as $value) {
 
-	               
-	      ]
-	    }
-	  ]
+            // todo: link the chart
+            $link = '';
 
-	}
+            // if not first entry, print delimiting comma
+            if ($first) {
+              $first = FALSE;
+            }
+            else {
+              print ",\n";
+            }
+
+            print '{ "label": "' . $value['label'] . '", "value": ' . $value['count'] . ', "link": "' . $value['link'] . '" }';
+          }
+          ?>
+
+
+        ]
+      }
+    ]
+
+  }
 
 
 </script>

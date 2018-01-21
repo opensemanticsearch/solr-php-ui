@@ -1096,10 +1096,8 @@ $form_hidden_parameters = buildform($params, 'q', NULL, 's', NULL, 'operator', N
 
 $datevalues = get_datevalues($results, $params, $downzoom);
 
-if (isset($embedded) && $embedded) {
+if (!empty($embedded)) {
 	include "templates/view.embedded.php";
 } else {
 	include "templates/view.index.php";
 }
-
-?>
