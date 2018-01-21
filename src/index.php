@@ -456,9 +456,7 @@ if ($start < 1) $start = 1;
 $sort= isset($_REQUEST['sort']) ? $_REQUEST['sort'] : NULL;
 
 $path= isset($_REQUEST['path']) ? $_REQUEST['path'] : NULL;
-$deselected_paths = array();
-$deselected_paths = isset($_REQUEST['NOT_path']) ? $_REQUEST['NOT_path'] : NULL;
-
+$deselected_paths = isset($_REQUEST['NOT_path']) ? $_REQUEST['NOT_path'] : array();
 
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'list';
 if ($view=='words') {
