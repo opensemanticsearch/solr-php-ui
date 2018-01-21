@@ -1,5 +1,18 @@
 <?php
 // Show results as word cloud
+$words = [];
+$total = 0;
+if (!empty($results->facet_counts->facet_fields)) {
+  foreach ($results->facet_counts->facet_fields->_text_ as $word => $count) {
+    $link = buildurl_addvalue($params, '_text_', $word, 's', 1);
+    $words[] = ['text' => $word, 'size' => $count, 'link' => $link];
+    $total += $count;
+  }
+}
+// Now we have a total count, make size a percentage.
+foreach ($words as &$word) {
+  $word['size'] = ceil(($word['size'] * 100) / $total);
+}
 ?>
 
 <div id="results" class="row">
@@ -14,28 +27,6 @@
 
 
   <script type="text/javascript">
-
-    var words = [
-
-      <?php
-      $first = TRUE;
-      foreach ($results->facet_counts->facet_fields->_text_ as $word => $count) {
-
-        $wordlink = buildurl_addvalue($params, '_text_', $word, 's', 1);
-
-        // if not first entry, print delimiting comma
-        if ($first) {
-          $first = FALSE;
-        }
-        else {
-          print ",\n";
-        }
-
-        print '{ "text": "' . $word . '", "size": ' . $count . ', "link": "' . $wordlink . '" }';
-      }
-      ?>
-    ];
-
   </script>
 
 
@@ -47,6 +38,7 @@
     var size = [500, 600];
 
     var fontSize = d3.scale.log().range([10, 30]);
+    var words = <?= json_encode($words); ?>;
 
     d3.layout.cloud().size(size)
       .words(words)
