@@ -55,46 +55,35 @@ include 'config/config.mimetypes.php';
 include 'config/config.i18n.php';
 
 
-# mask special chars but not operators
+// mask special chars but not operators
 function mask_query ( $query, $facets=array() ) {
 
 	$unmaskfacets = array('id','title','content','exact','_text_');
-	
-	# add configured facets
+
+	// add configured facets
 	foreach ($facets as $facet=>$facetconfig) {
-	
 		$unmaskfacets[]= $facet ;
-		
 	}
 
-	# mask special chars for Lucene query, so we can search for that chars, too
+	// Mask special chars for Lucene query, so we can search for that chars, too.
 	$query = addcslashes( $query, '&|!{}[]^:\/' );
 
-	# todo: mask - if not at beginning
-	
-	# but unmask, if the char : is used as operator for facet search
-	
-
+	// TODO: Mask, if not at start, but unmask if the char ':' is op for facet search.
 	foreach ($unmaskfacets as $facet) {
 
-		# undo masking if : is after facet name on beginning of new word or begin of query, because then : is a operator to select a facet for query part
-		
+		// Undo masking if ':' is after facet name on beginning of new word or
+    // query, because then ':' is a operator to select a facet for query part.
+
 		$query = str_replace($facet.'\:', $facet.':', $query);
 		
-		# maybe todo:
-		
-		# only if startswith (if startswith - facet, too)
-		
-		# or after space or (
-			
+		// maybe todo:
+		// only if startswith (if startswith - facet, too)
+		// or after space or (
 	}
 
-	# map nicer to read facet name "exact" to facet "_text_"
+	// map nicer to read facet name "exact" to facet "_text_"
 	$query = str_replace('exact:', '_text_:', $query);
-	
-	
 	return $query;
-	
 }
 
 function get_uri_help ($language) {
