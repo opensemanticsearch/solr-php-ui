@@ -158,9 +158,7 @@ $snippets_open = 3;
           <?php endif; ?>
           <ul>
             <?php $snippet_number = 0; ?>
-            <?php foreach ($snippets
-
-            as $snippet): ?>
+            <?php foreach ($snippets as $snippet): ?>
             <?php if (++$snippet_number == ($snippets_open + 1)): ?>
           </ul>
           <ul class="more-snippets" id="<?= $result_nr ?>#more-snippets">
@@ -199,12 +197,12 @@ $snippets_open = 3;
                   <?php if (++$entity_number == ($entities_open + 1)): ?>
                     </span>
                     <span class="more-snippets" id="<?= $result_nr ?><?= $field ?>#more-snippets">
-                    <ul class="more-snippets" id="<?= $result_nr ?>#more-snippets">
                   <?php endif; ?>
                     <?= ($entity_number > 1) ? ', ' : '' ?>
                     <span
                     class="facet-value"><?= htmlspecialchars($value) ?></span>
                 <?php endforeach; ?>
+		</span>
 
                   <?php if ($entity_number > $entities_open): ?>
                   <a class="tiny button"
