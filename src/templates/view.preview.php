@@ -79,6 +79,8 @@ if (isset($doc->file_size_i)) {
   $file_size_txt = filesize_formatted($file_size);
 }
 
+$preview_image = FALSE;
+
 $preview_allowed = TRUE;
 
 # if not allowed in config

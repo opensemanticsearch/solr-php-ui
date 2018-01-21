@@ -406,6 +406,8 @@ print '</small></p></div>';
 
 function strip_empty_lines($s, $max_empty_lines) {
 
+	$result = '';
+
 	$first = true;
 
 	$emptylines = 0;
