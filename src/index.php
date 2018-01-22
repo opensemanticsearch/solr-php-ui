@@ -525,7 +525,7 @@ elseif ($view=='preview') {
 elseif ($view=='timeline') {
 	$limit = 100;
 }
-elseif ($view=='graph') {
+elseif ($view=='graph_co') {
 	$limit = 0;
 }
 elseif ($view=='trend') {
