@@ -44,9 +44,7 @@
 
     }
 
-
     return $edges;
-
   }
 
 
@@ -107,7 +105,7 @@
           print ",\n";
         }
 
-        print "{data:{id:'" . str_replace("'", "", $element) . "', weight: " . $weight[$element] . "}}";
+        print "{data:{id:" . json_encode($element) . ", weight: " . $weight[$element] . "}}";
 
 
       }
@@ -131,7 +129,7 @@
           print ",\n";
         }
 
-        print "{data:{id: 'edge" . $i . "',source:'" . str_replace("'", "", $edge["source"]) . "', target:'" . str_replace("'", "", $edge["target"]) . "', weight: " . $edge["weight"] . " }}";
+        print "{data:{id: 'edge" . $i . "',source:" . json_encode($edge["source"]) . ", target:" . json_encode($edge["target"]) . ", weight: " . $edge["weight"] . " }}";
 
 
       }
