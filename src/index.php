@@ -486,7 +486,7 @@ foreach ($cfg['facets'] as $facet=>$facet_value) {
 if (
 	($cfg['disable_view_words'] && $view == 'words')
 	||
-	($cfg['disable_view_graph'] && $view == 'graph')
+	($cfg['disable_view_graph'] && $view == 'graph_co')
 )
 {
 	http_response_code(401);
