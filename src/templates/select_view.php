@@ -63,19 +63,19 @@ foreach ($analyse_dropdowns as $anl_item => $title) {
 
   switch ($anl_item) {
     case 'trend':
-      $item['url'] = buildurl($params, 'view', $anl_item, 's', FALSE);
+      $item['url'] = buildurl($params, 'view', $anl_item, 's', null);
       break;
 
     case 'words':
-      $item['url'] = buildurl($params, 'view', $anl_item, 's', FALSE);
+      $item['url'] = buildurl($params, 'view', $anl_item, 's', null);
       break;
 
     case 'graph_ne':
-      $item['url'] = buildurl($params, 'view', 'graph', 's', 1);
+      $item['url'] = buildurl($params, 'view', 'graph_ne', 's', null);
       break;
 
     case 'graph_co':
-      $item['url'] = buildurl($params, 'view', 'graph', 's', FALSE);
+      $item['url'] = buildurl($params, 'view', 'graph_co', 's', null);
       break;
   }
   $analyse_items[$anl_item] = $item;
