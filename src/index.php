@@ -436,6 +436,7 @@ function strip_empty_lines($s, $max_empty_lines) {
 //
 
 $query = isset($_REQUEST['q']) ?  trim($_REQUEST['q']) : NULL;
+
 $start = (int) isset($_REQUEST['s']) ? $_REQUEST['s'] : 1;
 if ($start < 1) $start = 1;
 
@@ -445,8 +446,14 @@ $path= isset($_REQUEST['path']) ? $_REQUEST['path'] : NULL;
 $deselected_paths = isset($_REQUEST['NOT_path']) ? $_REQUEST['NOT_path'] : array();
 
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'list';
+
 if ($view=='words') {
 	$cfg['facets']['_text_'] = array('label'=>'Words', 'facet_limit' => 100, 'facet_enabled' => true);
+}
+
+if ($view == 'rss') {
+    $start = 1;
+    $sort = 'newest';
 }
 
 include 'config/config.facets.php';
@@ -509,6 +516,9 @@ $limit_list = 10;
 
 if ($view=='list') {
 	$limit = $limit_list;
+}
+elseif ($view=='rss') {
+	$limit = 20;
 }
 elseif ($view=='table') {
 	$limit = 20;
@@ -1083,7 +1093,9 @@ $form_hidden_parameters = buildform($params, 'q', NULL, 's', NULL, 'operator', N
 
 $datevalues = get_datevalues($results, $params, $downzoom);
 
-if (!empty($embedded)) {
+if ($view == 'rss') {
+	include "templates/view.rss.php";
+} elseif (!empty($embedded)) {
 	include "templates/view.embedded.php";
 } else {
 	include "templates/view.index.php";
