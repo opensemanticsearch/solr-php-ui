@@ -3,7 +3,124 @@
 //
 
 // Number of snippets initially displayed.
-$snippets_open = 3;
+define('SNIPPETS_OPEN', 3);
+
+function get_facets($result_nr, $doc, $facet_cfg /*=$cfg['facets']*/) {
+  $results = [];
+
+  // All configured facets, but for each result individually.
+  foreach ($facet_cfg as $field => $facet_config) {
+    $f_cfg = $facet_cfg[$field];
+    if ($field !== '_text_' && isset($doc->$field) && $f_cfg['snippets_enabled']) {
+      $id = $result_nr . $field;
+      $result = [
+        'facet' => $field,
+        'class' => [$field, 'facet'],
+        'name' => $f_cfg['label'],
+        'title' => t('Named entities or tags'),
+        'values' => [],
+        'more-values' => [],
+      ];
+
+      // Fetch all the facets into an array, with their output properties.
+      // Treat non-array values as an array of 1 for simplicity but keep a note
+      // as well.
+      $values = [];
+      if (is_array($doc->$field)) {
+        $result['value-type'] = 'multivalue';
+        $count = 0;
+        $values = [];
+        foreach ($doc->{$field} as $value) {
+          $values[] = $value;
+        }
+        $uniq = array_unique($values, SORT_STRING);
+        $values = [];
+        foreach ($uniq as $value) {
+          $values[] = [
+            'value' => htmlspecialchars(trim($value)),
+            'class' => ['facet-value', ($count & 1) ? 'odd' : 'even'],
+          ];
+          $count++;
+        }
+      }
+      else {
+        $result['value-type'] = 'singlevalue';
+        $values[] = [
+          'value' => htmlspecialchars(trim($doc->{$field})),
+          'class' => ['facet-value'],
+        ];
+      }
+
+      // Split the facet values up at the 'more' limit.
+      $count = count($values);
+      // TODO: use coalesce ?? here?
+      $max_open = isset($f_cfg['snippets_limit']) ? $f_cfg['snippets_limit'] : SNIPPETS_OPEN;
+      $open = array_slice($values, 0, $max_open, TRUE);
+      $rest = array_slice($values, $max_open, NULL, TRUE);
+
+      // Record those to display and those to hide separately.
+      $result['values'] = $open;
+      $result['more-values'] = $rest;
+
+      // If there are hidden values, create a button to show them.
+      if (!empty($rest)) {
+        $more_id = $id . '#more-snippets';
+        $btn_id = $id . '#more-snippets-button';
+        $result['more'] = [
+          'more_id' => $more_id,
+          'btn_id' => $btn_id,
+          'href' => '#' . $id,
+          'onclick' => "document.getElementById('$more_id').style.display = 'block'; document.getElementById('$btn_id').style.display = 'none';",
+          'title' => 'Show all ' . $count . ' ' . $f_cfg['label'],
+        ];
+      }
+      $results[$field] = $result;
+    }
+  }
+  return $results;
+}
+
+function get_snippets($result_nr, $snippets) {
+  $id = $result_nr;
+  $result = [
+    'class' => [],
+    'values' => [],
+    'more-values' => [],
+  ];
+  $count = 0;
+  $values = [];
+  foreach ($snippets as $value) {
+    $values[] = [
+      'value' => trim($value),
+      'class' => ['snip', ($count & 1) ? 'odd' : 'even'],
+    ];
+    $count++;
+  }
+
+  // Split the snippets values up at the 'more' limit.
+  $count = count($values);
+  $open = array_slice($values, 0, SNIPPETS_OPEN, TRUE);
+  $rest = array_slice($values, SNIPPETS_OPEN, NULL, TRUE);
+
+  // Record those to display and those to hide separately.
+  $result['values'] = $open;
+  $result['more-values'] = $rest;
+
+  // If there are hidden values, create a button to show them.
+  if (!empty($rest)) {
+    $more_id = $id . '#more-snippets';
+    $btn_id = $id . '#more-snippets-button';
+    $result['more'] = [
+      'more_id' => $more_id,
+      'btn_id' => $btn_id,
+      'href' => '#' . $id,
+      'onclick' => "document.getElementById('$more_id').style.display = 'block'; document.getElementById('$btn_id').style.display = 'none';",
+      'title' => t('Show all ' . $count . ' snippets'),
+    ];
+  }
+  return $result;
+}
+
 ?>
 
 <div id="results" class="row">
@@ -13,6 +130,15 @@ $snippets_open = 3;
     foreach ($results->response->docs as $doc):
       $result_nr++;
       $id = $doc->id;
+
+      ?>
+      <!-- <?php
+      $fn = $doc->getFieldNames();
+      foreach ($fn as $n) {
+        print "Name: $n = " . $doc->{$n} . "\n";
+      }
+      ?> -->
+      <?php
 
       // Type
       $type = $doc->content_type;
@@ -148,79 +274,65 @@ $snippets_open = 3;
           <?php endif; ?>
         </div>
 
+
+        <?php $snippets = get_snippets($result_nr, $snippets); ?>
         <div class="snippets">
+
           <?php if ($author): ?>
             <div class="author"><?= $author ?></div>
           <?php endif; ?>
-          <ul>
-            <?php $snippet_number = 0; ?>
-            <?php foreach ($snippets as $snippet): ?>
-            <?php if (++$snippet_number == ($snippets_open + 1)): ?>
-          </ul>
-          <ul class="more-snippets" id="<?= $result_nr ?>#more-snippets">
-            <?php endif; ?>
-            <li class="snippet"><?= $snippet ?></li>
+
+          <ul class="snips">
+            <?php foreach ($snippets['values'] as $snip): ?>
+              <li class="<?= implode(' ', $snip['class']) ?>"><?= $snip['value'] ?></li>
             <?php endforeach; ?>
           </ul>
-          <?php if ($snippet_number > $snippets_open): ?>
-            <a class="tiny button" id="<?= $result_nr ?>#more-snippets-button"
-               href="#<?= $result_nr ?>"
-               onClick="
-                 document.getElementById('<?= $result_nr ?>#more-snippets').style.display = 'block';
-                 document.getElementById('<?= $result_nr ?>#more-snippets-button').style.display = 'none';
-                 "><?= t("Show all " . $snippet_number . " snippets") ?></a>
+
+          <?php if (!empty($snippets['more-values'])): ?>
+            <a class="tiny button" id="<?= $snippets['more']['btn_id'] ?>"
+               href="<?= $snippets['more']['href'] ?>"
+               onClick="<?= $snippets['more']['onclick'] ?>"
+               title="<?= $snippets['more']['title'] ?>"><?= t('More') ?></a>
+
+            <ul class="more-snips <?= implode(' ', $snippets['class']) ?>">
+              <?php foreach ($snippets['more-values'] as $snip): ?>
+                <li class="<?= implode(' ', $snip['class']) ?>"><?= $snip['value'] ?></li>
+              <?php endforeach; ?>
+            </ul>
           <?php endif; ?>
+
         </div>
 
-        <?php
-        $first_facet = TRUE;
-        // Print all configured facets, but the field of result, not the facet of all results.
-        foreach ($cfg['facets'] as $field => $facet_config): ?>
-          <?php $first_value = TRUE; ?>
-          <?php if ($field != '_text_' and $cfg['facets'][$field]['snippets_enabled']): ?>
-            <?php if (isset($doc->$field)): ?>
-              <?= $first_facet ? '' : '; ' ?>
-              <?php $first_facet = FALSE; ?>
-            <span class="<?= $field ?>">
-              <span
-                title="<?= t('Extracted named entities or annotated tags') ?>">
-                  <?= $cfg['facets'][$field]['label'] ?>:
-                </span>
-              <?php if (is_array($doc->$field)): ?>
-                <?php $entities_open = $cfg['facets'][$field]['snippets_limit']; ?>
-                <?php $entity_number = 0; ?>
-                <?php foreach ($doc->$field as $value): ?>
-                  <?php if (++$entity_number === ($entities_open + 1)): ?>
-                    </span>
-                    <span class="more-snippets" id="<?= $result_nr ?><?= $field ?>#more-snippets">
-                  <?php endif; ?>
-                    <?= ($entity_number > 1) ? ', ' : '' ?>
-                    <span
-                    class="facet-value"><?= htmlspecialchars($value) ?></span>
-                <?php endforeach; ?>
-		</span>
 
-                  <?php if ($entity_number > $entities_open): ?>
-                  <a class="tiny button"
-                     id="<?= $result_nr ?><?= $field ?>#more-snippets-button"
-                     href="#<?= $result_nr ?><?= $field ?>"
-                     onClick="
-                       document.getElementById('<?= $result_nr ?><?= $field ?>#more-snippets').style.display = 'block';
-                       document.getElementById('<?= $result_nr ?><?= $field ?>#more-snippets-button').style.display = 'none';
-                       "
-                     title="Show all "<?= $entity_number ?> <?= $cfg['facets'][$field]['label'] ?>"><?= t('More') ?>
-                    </a>
-                <?php endif; ?>
-              <?php else: ?>
-                <?= ($first_value) ? '' : ', ' ?>
-                <span
-                  class="facet-value"><?= htmlspecialchars($doc->$field) ?></span>
-                <?php $first_value = FALSE; ?>
-              <?php endif; ?>
-              </span>
-            <?php endif; ?>
-          <?php endif; ?>
-        <?php endforeach; ?>
+        <?php $facets = get_facets($result_nr, $doc, $cfg['facets']); ?>
+        <span class="facets">
+          <?php foreach ($facets as $field => $facet): ?>
+
+            <span class="<?= implode(' ', $facet['class']) ?>">
+            <span class="facet-name"
+                  title="<?= $facet['title'] ?>"><?= $facet['name'] ?></span>
+
+              <?php foreach ($facet['values'] as $value): ?>
+                <span class="<?= implode(' ', $value['class']) ?>"><?= $value['value'] ?></span>
+              <?php endforeach; ?>
+
+              <?php if (!empty($facet['more-snippets'])): ?>
+                <span class="more-values" id="<?= $facet['more']['more_id'] ?>">
+                <a class="tiny button" id="<?= $facet['more']['btn_id'] ?>"
+                   href="<?= $facet['more']['href'] ?>"
+                   onClick="<?= $facet['more']['onclick'] ?>"
+                   title="<?= $facet['more']['title'] ?>"><?= t('More') ?></a>
+
+                  <?php foreach ($facet['more-values'] as $value): ?>
+                    <span class="<?= implode(' ', $value['class']) ?>"><?= $value['value'] ?></span>
+                  <?php endforeach; ?>
+                </span>
+              <?php endif; // more ?>
+          </span>
+
+          <?php endforeach; // facet
+          ?>
+        </span>
 
         <div class="commands">
           <a href="<?= $uri ?>"><?= t('open'); ?></a>

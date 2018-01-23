@@ -283,6 +283,12 @@ em {
   font-weight: bold;
 }
 
+.snippets {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 5px;
+  color: black;
+}
 
 .uri {
   color: green;
@@ -290,31 +296,30 @@ em {
 }
 
 .date {
-	
   font-size: 11px;
-	
 }
 
 .size {
-	
   font-size: 11px;
-	
 }
 
 .author {
-  font-style: italic;
-  font-size: 13px;
-  margin-top: 5px;
   color: darkorange;
+  font-style: italic;
+  font-size: 11px;
 }
 
-.snippet {
-  font-size: 13px;
+.snippets {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.snippets .snip {
+  margin-top: 5px;
+  font-size: 11px;
   margin-top: 5px;
 }
 
-.more-snippets {
+.snippets .more-snips {
   display:none;
 }
 
@@ -379,3 +384,49 @@ a.disabled {
     margin-top: 4px;
 }
 
+.facet {
+    background-color: transparent;
+    line-height: 24px;
+}
+.facet-name:after {
+    content: ":"
+}
+.facet-name {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.facet-value {
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 24px;
+    border-radius: 12px;
+    padding: 5px 8px;
+    margin: 2px 1px;
+    background-color: #d8f9f4;
+}
+
+.hashtag_ss .facet-value {
+    background-color: #e5f9d2;
+}
+
+.organization_ss .facet-value {
+    background-color: #eaf9d5;
+}
+
+.location_ss .facet-value {
+    background-color: #e3ebf9;
+}
+
+.person_ss .facet-value {
+    background-color: #f9ebdd;
+}
+
+.facet .button.tiny {
+    padding: 5px 8px;
+}
+
+.snippet-value {
+
+}
