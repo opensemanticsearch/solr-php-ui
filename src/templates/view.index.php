@@ -11,7 +11,7 @@
   <script type="text/javascript" src="jquery/jquery.autocomplete.js"></script>
   <script type="text/javascript" src="autocomplete.js"></script>
   <link rel="stylesheet" href="css/app.css" type="text/css"/>
-
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="<?= $link_rss ?>">
 </head>
 <body>
 <?php

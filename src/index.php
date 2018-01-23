@@ -1079,11 +1079,18 @@ if ($start > 1) {
 
 
 //
+// RSS feed
+//
+$link_rss = buildurl($params, 'view', 'rss', 's', null, 'zoom', null);
+
+
+//
 // General links
 //
 
 // link to help
 $uri_help = get_uri_help ( $cfg['language'] );
+
 
 // hidden form parameters if new query / posting form
 // to preserve all old params
