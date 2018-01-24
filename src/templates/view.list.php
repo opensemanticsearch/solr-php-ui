@@ -293,8 +293,7 @@ function get_snippets($result_nr, $snippets) {
                href="<?= $snippets['more']['href'] ?>"
                onClick="<?= $snippets['more']['onclick'] ?>"
                title="<?= $snippets['more']['title'] ?>"><?= t('More') ?></a>
-
-            <ul class="more-snips <?= implode(' ', $snippets['class']) ?>">
+            <ul id="<?= $snippets['more']['more_id'] ?>" class="more-snips <?= implode(' ', $snippets['class']) ?>">
               <?php foreach ($snippets['more-values'] as $snip): ?>
                 <li class="<?= implode(' ', $snip['class']) ?>"><?= $snip['value'] ?></li>
               <?php endforeach; ?>
