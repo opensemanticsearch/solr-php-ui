@@ -323,6 +323,10 @@ em {
   display:none;
 }
 
+.more-values {
+  display:none;
+}
+
 .commands {
   margin-top: 5px;
   font-size: 11px;

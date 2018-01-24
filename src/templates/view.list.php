@@ -315,13 +315,12 @@ function get_snippets($result_nr, $snippets) {
                 <span class="<?= implode(' ', $value['class']) ?>"><?= $value['value'] ?></span>
               <?php endforeach; ?>
 
-              <?php if (!empty($facet['more-snippets'])): ?>
-                <span class="more-values" id="<?= $facet['more']['more_id'] ?>">
+              <?php if (!empty($facet['more-values'])): ?>
                 <a class="tiny button" id="<?= $facet['more']['btn_id'] ?>"
                    href="<?= $facet['more']['href'] ?>"
                    onClick="<?= $facet['more']['onclick'] ?>"
                    title="<?= $facet['more']['title'] ?>"><?= t('More') ?></a>
-
+                <span class="more-values" id="<?= $facet['more']['more_id'] ?>">
                   <?php foreach ($facet['more-values'] as $value): ?>
                     <span class="<?= implode(' ', $value['class']) ?>"><?= $value['value'] ?></span>
                   <?php endforeach; ?>
