@@ -72,10 +72,6 @@ function print_field(&$doc, $field, $label) {
 
   <?php
 
-  // print contenttype
-  print_field($doc, "content_type", t('Content type'));
-
-
   // Print all configurated facets, but the field of result, not the facet of all results
   foreach ($cfg['facets'] as $facet => $facet_config) {
 
