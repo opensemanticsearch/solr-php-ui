@@ -13,6 +13,7 @@ BASEDIR=`dirname "$0"`
 BASEDIR="${BASEDIR}/../../"
 
 mkdir ${BUILDDIR}
+mkdir -p ${BUILDDIR}/usr/share/solr-php-ui/
 
 cp -a ${BASEDIR}/build/deb/${DEBIAN_VERSION}/* ${BUILDDIR}/
 
