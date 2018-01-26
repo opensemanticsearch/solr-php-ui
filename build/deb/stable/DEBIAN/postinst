@@ -1,6 +1,10 @@
 #!/bin/sh
 # postinst script for solr-php-ui
 
+# write access to facet config for ontologies manager and thesaurus
+chgrp www-data /etc/solr-php-ui/config.facets.php
+chmod g+w /etc/solr-php-ui/config.facets.php
+
 /etc/init.d/apache2 restart
 
 exit 0
