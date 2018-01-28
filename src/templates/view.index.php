@@ -187,7 +187,12 @@ else {
         include 'templates/view.words.php';
 
       }
-      elseif ($view == 'entities' || $view == 'entities') {
+      elseif ($view == 'graph_co') {
+
+        include 'templates/view.graph.php';
+
+      }
+      elseif ($view == 'entities') {
 
         include 'templates/view.entities.php';
 
