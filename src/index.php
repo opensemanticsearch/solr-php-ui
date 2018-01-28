@@ -303,7 +303,7 @@ function filesize_formatted($size)
 
 
 // print a facet and its values as links
-function print_facet(&$results, $facet_field, $facet_label, $facets_limit) {
+function print_facet(&$results, $facet_field, $facet_label, $facets_limit, $view='list') {
 	global $params;
 
 	$facetlimit = 50;
@@ -327,16 +327,35 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit) {
 	<h2>
 		<?= $facet_label ?>
 	</h2>
-	<ul class="no-bullet">
+	
+	<?php
+		if ($view=='entities') { ?>
+		<ul>
+		<?php } else { ?>
+		<ul class="no-bullet">
 		<?php
+		}
 
 		$i = 0;
 		foreach ($results->facet_counts->facet_fields->$facet_field as $facet => $count) {
 
 			if ($i<$facetlimit) {
- print '<li><a onclick="waiting_on();" href="' . buildurl_addvalue($params, $facet_field, $facet, 's', 1) . '">' . htmlspecialchars($facet) . '</a> (' . $count . ')
-			<a title="Exclude this value" onclick="waiting_on();" href="' . buildurl_addvalue($params, 'NOT_'.$facet_field, $facet, 's', 1) . '">-</a>
-			</li>';
+				$link_filter = buildurl_addvalue($params, $facet_field, $facet, 's', 1);
+				$link_filter_exclude = buildurl_addvalue($params, 'NOT_'.$facet_field, $facet, 's', 1);
+
+				if ($view == 'entities') {
+					$link_documents = buildurl_addvalue($params, $facet_field, $facet,'view', null, 's', 1);
+
+	 				print '<li class="entities"><a title="Add to filters" onclick="waiting_on();" href="' . $link_filter . '">'.htmlspecialchars($facet).'</a> (<a title="Exclude all results with this entity" onclick="waiting_on();" href="' . $link_filter_exclude . '">-</a>)
+in <a title="Search documents for this entity" onclick="waiting_on();" href="' . $link_documents . '">' . $count . ' ' . t('document(s)') . '</a>
+					</li>';
+
+				} else {
+	 				print '<li><a onclick="waiting_on();" href="' . $link_filter . '">' . htmlspecialchars($facet) . '</a> (' . $count . ')
+					<a title="Exclude this value" onclick="waiting_on();" href="' . $link_filter_exclude . '">-</a>
+					</li>';
+				}
+
 			}
 
 			$i++;
@@ -540,6 +559,9 @@ elseif ($view=='graph_co') {
 }
 elseif ($view=='trend') {
 	$limit = 0;
+}
+elseif ($view=='entities') {
+	$limit = 0;
 } else $limit=10;
 
 
@@ -724,7 +746,7 @@ if ($view =="preview") {
 
 elseif ($view =="table") {
 	$additionalParameters['hl.fragsize'] = 100;
-} 
+}
 
 elseif ($view =="words") {
 
@@ -847,6 +869,11 @@ if ($view == 'images') {
 	$solrfilterquery .= ' +content_type:image*';
 }
 
+// if view is imagegallery extend solrquery to filter images
+// filter on content_type image* so that we dont show textdocuments in image gallery
+if ($view == 'graph') {
+	$solrfilterquery .= ' +content_type:"Knowledge graph"';
+}
 
 // if view is imagegallery extend solrquery to filter images
 // filter on content_type image* so that we don't show textdocuments in image gallery

@@ -3,6 +3,7 @@
 $view_selectors = array(
   'list' => t('List'),
   'preview' => t('Preview'),
+  'entities' => t('Entities'),
   'images' => t('Images'),
   'videos' => t('Videos'),
   'audios' => t('Audios'),
@@ -11,7 +12,7 @@ $view_selectors = array(
 $analyse_dropdowns = array(
   'trend' => t('view_trend'),
   'words' => t('view_words'),
-  'graph_ne' => t('Named entities'),
+  'entities' => t('Named entities'),
   'graph_co' => t('Connections'),
 );
 
@@ -70,8 +71,8 @@ foreach ($analyse_dropdowns as $anl_item => $title) {
       $item['url'] = buildurl($params, 'view', $anl_item, 's', null);
       break;
 
-    case 'graph_ne':
-      $item['url'] = buildurl($params, 'view', 'graph_ne', 's', null);
+    case 'entities':
+      $item['url'] = buildurl($params, 'view', 'entities', 's', null);
       break;
 
     case 'graph_co':

@@ -1,8 +1,6 @@
 <div id="facets">
   <?php
 
-  // todo: hover durchgestrichen bei (x)-Werten
-
   // if active facets, show them and possibility to unlink
   if ($selected_facets or $not_content_types or $deselected_facets or $deselected_paths or $types or $typegroups) {
     ?>
