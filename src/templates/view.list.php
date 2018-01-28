@@ -131,15 +131,6 @@ function get_snippets($result_nr, $snippets) {
       $result_nr++;
       $id = $doc->id;
 
-      ?>
-      <!-- <?php
-      $fn = $doc->getFieldNames();
-      foreach ($fn as $n) {
-        print "Name: $n = " . $doc->{$n} . "\n";
-      }
-      ?> -->
-      <?php
-
       // Type
       $type = $doc->content_type;
 
