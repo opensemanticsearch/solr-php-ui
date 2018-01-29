@@ -157,7 +157,6 @@
 
   <?php
 
-
   // Print all configurated facets
   foreach ($cfg['facets'] as $facet => $facet_config) {
 
@@ -166,7 +165,12 @@
       print_r($facet_config);
     }
 
-    print_facet($results, $facet, t($facet_config['label']), $facets_limit);
+    if ( !in_array($facet, $exclude_facets) ) {
+
+      print_facet($results, $facet, t($facet_config['label']), $facets_limit);
+
+    }
+
   }
   ?>
 

@@ -900,6 +900,24 @@ if ($view == 'audios') {
 }
 
 
+// which facets to show
+$exclude_facets = [];
+
+if ( $view == 'entities') {
+
+  // don't show more technical facets in main area, but later as facets in sidebar
+  $exclude_entities = ['content_type','content_type_group','language_s'];
+
+  // TODO: add entities_enabled and entities_limit to facet config and facet config ui
+
+  // show only facets, that excluded in entities view main area where all important facets are shown
+  foreach ($cfg['facets'] as $facet => $facet_config) {
+    if ( !in_array($facet, $exclude_entities) ) {
+      $exclude_facets[] = $facet;
+    }
+  }
+
+}
 
 //
 // date filter
