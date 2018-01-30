@@ -8,6 +8,7 @@
       <li><a href="#"
              data-toggle="searchoptions"><?php echo t("advanced_search"); ?></a>
       </li>
+      <li><a title="Subscribe this search by RSS-Newsfeed" href="<?= $link_rss ?>"><?php echo t("Alert"); ?></a></li>
       <li><a target="_blank"
              title="Search with a list if there are results for each list entry"
              href="/search-apps/search-list/"><?php echo t("search_by_list"); ?></a>
