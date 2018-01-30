@@ -182,20 +182,6 @@
 }
 
 
-
-
-#author_s h2 {
-  background-color: orange;
-  border-color: orange;
-}
-
-
-#tag_ss h2 {
-  background-color: darkred;
-  border-color: darkred;
-
-}
-
 #meta_date_dts h2 {
   background-color: brown;
   border-color: brown;
@@ -203,27 +189,12 @@
 }
 
 
-
-#person_ss h2 {
-  background-color: blue;
-  border-color: blue;
-
-}
-
-#organization_ss h2 {
-  background-color: darkgray;
-  border-color: darkgray;
-
-}
-
 #text h2{
   
 	background-color: rgb(57, 181, 74);
 	border-color: rgb(57, 181, 74);
   
 }
-
-
 
 
 #meta_date_dts h2 {
@@ -304,7 +275,7 @@ em {
 }
 
 .author {
-  color: darkorange;
+  color: #c5b9b2;
   font-style: italic;
   font-size: 11px;
 }
@@ -388,6 +359,48 @@ a.disabled {
     margin-top: 4px;
 }
 
+
+#author_s h2 {
+  color: black;
+  background-color: #e5d9d2;
+  border-color: #e5d9d2;
+}
+
+
+#tag_ss h2 {
+  background-color: #e5f9d2;
+  border-color: #e5f9d2;
+
+}
+
+#hashtag_ss h2 {
+  background-color: #e5f9d2;
+  border-color: #e5f9d2;
+
+}
+
+#person_ss h2 {
+  color: black;
+  background-color: #f9ebdd;
+  border-color: #f9ebdd;
+
+}
+
+#organization_ss h2 {
+  color: black;
+  background-color: #eaf9d5;
+  border-color: #eaf9d5;
+
+}
+
+#location_ss h2 {
+  color: black;
+  background-color: #e3ebf9;
+  border-color: #e3ebf9;
+
+}
+
+
 .facet {
     background-color: transparent;
     line-height: 24px;
@@ -411,7 +424,15 @@ a.disabled {
     background-color: #d8f9f4;
 }
 
+.author_s .facet-value {
+    background-color: e5d9d2;
+}
+
 .hashtag_ss .facet-value {
+    background-color: #e5f9d2;
+}
+
+.tag_ss .facet-value {
     background-color: #e5f9d2;
 }
 
