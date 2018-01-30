@@ -400,6 +400,11 @@ a.disabled {
 
 }
 
+#entities h2 {
+  font-size: 1.5em;
+  margin-right: 20px;
+
+}
 
 .facet {
     background-color: transparent;
