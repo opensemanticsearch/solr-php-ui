@@ -284,7 +284,7 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
                 if ($field != 'id' and $field != 'content_type' and $field != 'content_type_group' and $field != 'container_s' and isset($doc->$field)) { ?>
                   <div>
                     <?php
-                    print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b>:<br />';
+                    print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b><br />';
 
                     if (is_array($doc->$field)) {
                       print "<ul>";
