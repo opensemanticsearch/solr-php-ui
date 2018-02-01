@@ -3,13 +3,12 @@
 // Show preview
 
 
-// todo: bei table alle fields ausser content?! und erst felder sammeln, dann html tabelle und for each field if exist
 foreach ($results->response->docs as $doc) {
 $id = $doc->id;
 
 
 // Type
-$type = $doc->content_type; // todo: contentype schoener mit wertearray
+$type = $doc->content_type;
 
 
 // URI
@@ -139,11 +138,7 @@ if (isset($doc->ocr_t) && $preview_allowed) {
   }
 }
 
-
-// Find all columns (=fields)
-$cols = array();
-
-$exclude_fields = array('_version_', 'content', 'preview_s', 'ocr_t');
+$exclude_fields = array('_version_', 'title', 'content', 'preview_s', 'ocr_t');
 
 // exclude fields that are only copied for language specific analysis in index
 foreach ($cfg['languages'] as $language) {
@@ -156,20 +151,9 @@ foreach ($cfg['languages'] as $language) {
 
 }
 
-foreach ($doc as $field => $value) {
+$exclude_fields_prefixes = array('etl_');
 
-  $exclude = FALSE;
-  if (in_array($field, $exclude_fields)) {
-    $exclude = TRUE;
-  }
-
-  // if not yet there and not excluded, include field to cols
-  if (!in_array($field, $cols) && $exclude == FALSE) {
-    $cols[] = $field;
-  };
-}
-
-asort($cols);
+$fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes);
 
 ?>
 <div id="results" class="row">
@@ -232,13 +216,13 @@ asort($cols);
         <li class="tabs-title is-active"><a href="#preview-image"
                                             aria-selected="true">Preview</a>
         </li>
-        <li class="tabs-title"><a href="#preview-text">Text</a></li>
+        <li class="tabs-title"><a href="#preview-content">Text</a></li>
 
         <?php
 // if preview image
       }
       else { ?>
-        <li class="tabs-title is-active"><a href="#preview-text"
+        <li class="tabs-title is-active"><a href="#preview-content"
                                             aria-selected="true">Text</a></li>
       <?php } // no preview image ?>
 
@@ -259,11 +243,11 @@ asort($cols);
       </div>
 
     </div>
-    <div class="tabs-panel" id="preview-text">
+    <div class="tabs-panel" id="preview-content">
       <?php
       // if preview image
       } else { ?>
-      <div class="tabs-panel is-active" id="preview-text">
+      <div class="tabs-panel is-active" id="preview-content">
         <?php } // no preview image ?>
 
         <div id="content">
@@ -292,24 +276,24 @@ asort($cols);
             } // if audio ?>
 
 
-            <?php if ($type == 'CSV row') {
+            <?php if ($type == 'CSV row' || $type =='Knowledge graph') {
 
-              foreach ($cols as $col) {
-                if ($col != 'id' and $col != 'content_type' and $col != 'container_s' and isset($doc->$col)) { ?>
+              foreach ($fields as $field) {
+                if ($field != 'id' and $field != 'content_type' and $field != 'container_s' and isset($doc->$field)) { ?>
                   <div>
                     <?php
-                    print "<b>" . htmlentities($col) . '</b>:<br />';
+                    print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b>:<br />';
 
-                    if (is_array($doc->$col)) {
+                    if (is_array($doc->$field)) {
                       print "<ul>";
-                      foreach ($doc->$col as $value) {
+                      foreach ($doc->$field as $value) {
                         print '<li>' . htmlspecialchars($value) . '</li>';
 
                       }
                       print "</ul>";
                     }
                     else {
-                      print htmlspecialchars($doc->$col);
+                      print htmlspecialchars($doc->$field);
                     }
 
 
@@ -356,23 +340,23 @@ asort($cols);
       <div class="tabs-panel" id="preview-meta">
         <div class="meta">
           <?php
-          foreach ($cols as $col) {
-            if (isset($doc->$col)) {
+          foreach ($fields as $field) {
+            if (isset($doc->$field)) {
               ?>
               <div>
                 <?php
-                print "<b>" . htmlentities($col) . '</b>:<br />';
+                print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b>:<br />';
 
-                if (is_array($doc->$col)) {
+                if (is_array($doc->$field)) {
                   print "<ul>";
-                  foreach ($doc->$col as $value) {
+                  foreach ($doc->$field as $value) {
                     print '<li>' . htmlspecialchars($value) . '</li>';
 
                   }
                   print "</ul>";
                 }
                 else {
-                  print htmlspecialchars($doc->$col);
+                  print htmlspecialchars($doc->$field);
                 }
 
 

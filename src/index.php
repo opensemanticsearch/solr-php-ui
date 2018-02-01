@@ -300,6 +300,55 @@ function filesize_formatted($size)
 }
 
 
+// Get field/property/facet label
+function get_label($facet) {
+global $cfg;
+
+	if ( isset($cfg['facets'][$facet]) && isset($cfg['facets'][$facet]['label']) ) {
+		$label=$cfg['facets'][$facet]['label'];
+	} else {
+		$label=$facet;
+	}
+
+	return $label;
+
+}
+
+
+// Get fields / columns
+function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $sort=TRUE)
+{
+	foreach ($doc as $field => $value) {
+
+	  $exclude_field = FALSE;
+
+	  // is field in excluded fields ?
+	  if (in_array($field, $exclude)) {
+	    $exclude_field = TRUE;
+	  }
+
+	  // field name begins with one of excluded prefixes?
+	  foreach($exclude_prefixes as $exclude_prefix) {
+
+	   if (strncmp($field, $exclude_prefix, strlen($exclude_prefix)) === 0) {
+	     $exclude_field = TRUE;
+	   }
+
+	  }
+
+	  // if not excluded, include field to result
+	  if (!$exclude_field) {
+	    $fields[] = $field;
+	  };
+	
+	}
+
+	if ($sort) {
+		asort($fields);
+	}
+
+	return $fields;
+}
 
 
 // print a facet and its values as links
