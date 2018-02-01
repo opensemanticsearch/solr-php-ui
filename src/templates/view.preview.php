@@ -153,7 +153,9 @@ foreach ($cfg['languages'] as $language) {
 
 $exclude_fields_prefixes = array('etl_');
 
-$fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes);
+$exclude_fields_suffixes = array('_uri_ss', '_preflabel_and_uri_ss');
+
+$fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_fields_suffixes);
 
 ?>
 <div id="results" class="row">
@@ -279,7 +281,7 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes);
             <?php if ($type == 'CSV row' || $type =='Knowledge graph') {
 
               foreach ($fields as $field) {
-                if ($field != 'id' and $field != 'content_type' and $field != 'container_s' and isset($doc->$field)) { ?>
+                if ($field != 'id' and $field != 'content_type' and $field != 'content_type_group' and $field != 'container_s' and isset($doc->$field)) { ?>
                   <div>
                     <?php
                     print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b>:<br />';

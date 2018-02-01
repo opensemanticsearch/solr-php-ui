@@ -304,10 +304,24 @@ function filesize_formatted($size)
 function get_label($facet) {
 global $cfg;
 
+	// strip Solr data field type suffixes like _ss
+	$strip_suffixes = array('_s', '_ss');
+
+	// if field in facet config, use facet label
 	if ( isset($cfg['facets'][$facet]) && isset($cfg['facets'][$facet]['label']) ) {
-		$label=$cfg['facets'][$facet]['label'];
+		$label = $cfg['facets'][$facet]['label'];
 	} else {
-		$label=$facet;
+		// else use facet/field name
+		$label = $facet;
+
+		// strip suffixes
+		foreach ($strip_suffixes as $strip_suffix) {
+
+			   if (substr_compare( $label, $strip_suffix, -strlen( $strip_suffix ) ) === 0) {
+				$label = substr($label, 0, -strlen($strip_suffix));
+				break;
+			}
+		}
 	}
 
 	return $label;
@@ -316,7 +330,7 @@ global $cfg;
 
 
 // Get fields / columns
-function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $sort=TRUE)
+function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $exclude_suffixes=array(), $sort=TRUE)
 {
 	foreach ($doc as $field => $value) {
 
@@ -336,6 +350,14 @@ function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $sort=TR
 
 	  }
 
+	  // field name ends with one of excluded suffixes?
+	  foreach($exclude_suffixes as $exclude_suffix) {
+
+	   if (substr_compare( $field, $exclude_suffix, -strlen( $exclude_suffix ) ) === 0) {
+	     $exclude_field = TRUE;
+	   }
+
+	  }
 	  // if not excluded, include field to result
 	  if (!$exclude_field) {
 	    $fields[] = $field;
