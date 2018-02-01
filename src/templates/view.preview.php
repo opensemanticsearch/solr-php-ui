@@ -4,8 +4,8 @@
 
 
 foreach ($results->response->docs as $doc) {
+	
 $id = $doc->id;
-
 
 // Type
 $type = $doc->content_type;
@@ -286,19 +286,61 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
                     <?php
                     print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b><br />';
 
+
+						  $field_linkeddata = $field . '_preflabel_and_uri_ss';
+
+						  $linked_values = array();
+
+						  // if there, print links to linked data entities
+	                 if (isset($doc->$field_linkeddata)) {
+
+                        print "<ul>";
+
+								// if only one value in field, convert to array, so we can handle it with same code
+								if (is_array($doc->$field_linkeddata)) {
+									$linked_data = $doc->$field_linkeddata;
+								} else {
+									$linked_data = array($doc->$field_linkeddata);
+								}
+
+                      	foreach ($linked_data as $value) {
+									$label_and_uri = get_preflabel_and_uri($value);
+									$label = $label_and_uri['label'];
+									$value_uri = $label_and_uri['uri'];
+									if ($value_uri) {
+	                       		print '<li><a href="'. $value_uri . '">' . htmlspecialchars($label) . '</a></li>';
+	                       		$linked_values[] = $label;
+									} else {
+	                       		print '<li>' . htmlspecialchars($value) . '</li>';
+              		       		$linked_values[] = $value;				
+									}
+                      	}
+								print '</ul>';
+						  }
+
                     if (is_array($doc->$field)) {
-                      print "<ul>";
-                      foreach ($doc->$field as $value) {
-                        print '<li>' . htmlspecialchars($value) . '</li>';
+                    		$field_values = $doc->$field;
+                    } else {
+                    		$field_values = array($doc->$field);
+						  }
 
-                      }
-                      print "</ul>";
-                    }
-                    else {
-                      print htmlspecialchars($doc->$field);
-                    }
+						  // delete all former printed linked values
+						  $field_values = array_diff($field_values, $linked_values);
+						  if (!empty($field_values)) {
+					
+						  	if (!empty($linked_values) ) {
+						  		print '<small><i>Alternate labels for this entities</i></small>:';
+						  	}
 
+						  	print '<ul>';
+						   
+                    	foreach ($field_values as $value) {
+                     		print '<li>' . htmlspecialchars($value) . '</li>';
+                    	}
+                   
+                    	print "</ul>";
 
+						  }
                     print '<br /><br />';
                     ?>
                   </div>

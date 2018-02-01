@@ -328,6 +328,21 @@ global $cfg;
 
 }
 
+// get the label and uri of a (mixed) field from Solr index which stores both in one field
+function get_preflabel_and_uri($preflabel_and_uri) {
+	
+	// extract lanbel and uri from format "preferred label <uri>"
+	if (preg_match('/(.+)\ \<(\S+)\>$/', $preflabel_and_uri, $matches)) {
+		$label = $matches[1];
+		$uri = $matches[2];
+	} else {
+		$label = $preflabel_and_uri;
+		$uri = FALSE;
+	}
+
+	return array('label' => $label, 'uri' => $uri);
+}
+
 
 // Get fields / columns
 function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $exclude_suffixes=array(), $sort=TRUE)
