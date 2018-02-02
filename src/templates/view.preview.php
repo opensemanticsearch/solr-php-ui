@@ -307,8 +307,11 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 									$label_and_uri = get_preflabel_and_uri($value);
 									$label = $label_and_uri['label'];
 									$value_uri = $label_and_uri['uri'];
+									// link uri to preview of this id
+									$value_uri = '?view=preview&q=id:' . urlencode($value_uri);
+									
 									if ($value_uri) {
-	                       		print '<li><a href="'. $value_uri . '">' . htmlspecialchars($label) . '</a></li>';
+	                       		print '<li><a target="_blank" href="'. $value_uri . '">' . htmlspecialchars($label) . '</a></li>';
 	                       		$linked_values[] = $label;
 									} else {
 	                       		print '<li>' . htmlspecialchars($value) . '</li>';
