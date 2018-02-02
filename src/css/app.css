@@ -429,6 +429,39 @@ a.disabled {
     background-color: #d8f9f4;
 }
 
+
+.graph h2 {
+	margin-top: 20px;
+	margin-bottom: 15px;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.entity li {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 30px;
+    border-radius: 12px;
+    padding: 5px 8px;
+    margin-left: 3px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    background-color: #f9ebdd;
+}
+
+
+.alternatelabel li {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 30px;
+    margin: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .author_s .facet-value {
     background-color: e5d9d2;
 }

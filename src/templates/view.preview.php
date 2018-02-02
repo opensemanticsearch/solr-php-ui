@@ -280,11 +280,13 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
             <?php if ($type == 'CSV row' || $type =='Knowledge graph') {
 
+				  print '<div class="graph">';
+
               foreach ($fields as $field) {
-                if ($field != 'id' and $field != 'content_type' and $field != 'content_type_group' and $field != 'container_s' and isset($doc->$field)) { ?>
-                  <div>
-                    <?php
-                    print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b><br />';
+                if ($field != 'id' and $field != 'content_type' and $field != 'content_type_group' and $field != 'container_s' and isset($doc->$field)) {
+
+						  print '<div>';
+                    print "<h2 title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</h2>';
 
 
 						  $field_linkeddata = $field . '_preflabel_and_uri_ss';
@@ -294,15 +296,13 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 						  // if there, print links to linked data entities
 	                 if (isset($doc->$field_linkeddata)) {
 
-                        print "<ul>";
-
 								// if only one value in field, convert to array, so we can handle it with same code
 								if (is_array($doc->$field_linkeddata)) {
 									$linked_data = $doc->$field_linkeddata;
 								} else {
 									$linked_data = array($doc->$field_linkeddata);
 								}
-
+								print '<ul class="entity">';
                       	foreach ($linked_data as $value) {
 									$label_and_uri = get_preflabel_and_uri($value);
 									$label = $label_and_uri['label'];
@@ -311,14 +311,14 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 									$value_uri = '?view=preview&q=id:' . urlencode($value_uri);
 									
 									if ($value_uri) {
-	                       		print '<li><a target="_blank" href="'. $value_uri . '">' . htmlspecialchars($label) . '</a></li>';
+	                       		print '<li class="entity"><a target="_blank" href="'. $value_uri . '">' . htmlspecialchars($label) . '</a></li>';
 	                       		$linked_values[] = $label;
 									} else {
-	                       		print '<li>' . htmlspecialchars($value) . '</li>';
+	                       		print '<li class="entity">' . htmlspecialchars($value) . '</li>';
               		       		$linked_values[] = $value;				
 									}
                       	}
-								print '</ul>';
+                      	print '</ul>';
 						  }
 
                     if (is_array($doc->$field)) {
@@ -332,26 +332,24 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 						  if (!empty($field_values)) {
 					
 						  	if (!empty($linked_values) ) {
-						  		print '<small><i>Alternate labels for this entities</i></small>:';
+						  		print '<div><small><i>Alternate labels for this entities</i></small>:</div>';
 						  	}
-
-						  	print '<ul>';
-						   
+						   print ('<ul class="alternatelabel">');
                     	foreach ($field_values as $value) {
-                     		print '<li>' . htmlspecialchars($value) . '</li>';
+                     		print '<li class="alternatelabel">' . htmlspecialchars($value) . '</li>';
                     	}
-                   
-                    	print "</ul>";
-
+                     print '</ul>';
 						  }
-                    print '<br /><br />';
-                    ?>
-                  </div>
-                  <?php
+	      			  print '</div>';
                 }
-              }
 
-            } // if csv row
+              }
+            ?>
+            </div>
+
+            <?php
+
+            } // if knowledge graph or csv row
 
             ?>
 
