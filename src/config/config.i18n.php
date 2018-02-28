@@ -178,7 +178,7 @@ $lang['pt']['file_size_i'] = 'Tamanho (bytes)';
 $lang['pt']['view_words'] = 'Palavras (lista de palavras e nuvem)';
 $lang['pt']['view_analytics'] = 'Análise';
 
-$lang['pt']['Words'] = 'Palavras (countagem de documentos)';
+$lang['pt']['Words'] = 'Palavras (contagem de documentos)';
 
 
 // imitate drupal style translate function, so we can one day use the other code as a drupal module
