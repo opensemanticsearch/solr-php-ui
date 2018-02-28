@@ -143,7 +143,8 @@ $lang['pt']['result'] = 'Resultados';
 $lang['pt']['result to'] = 'até';
 $lang['pt']['result of'] = 'de';
 
-$lang['pt']['newest_documents'] = 'Mais recentes';
+$lang['pt']['New search'] = 'Nova Busca';
+$lang['pt']['Newest documents'] = 'Documentos Mais Recentes';
 $lang['pt']['newest_documents_of'] = 'de';
 $lang['pt']['newest_documents_of_total'] = 'documentos indexados';
 
@@ -155,6 +156,8 @@ $lang['pt']['meta'] = 'Marcação &amp; Anotação';
 $lang['pt']['meta description'] = 'Adicionar metadados: com marcação ou anotação, você pode adicionar palavras-chave ou notas sobre o documento ou arquivo para que ele possa ser encontrado com essas palavras-chave, mesmo que não estejam escritas no documento';
 
 $lang['pt']['wait'] = 'Procurando ...';
+$lang['pt']['Help'] = 'Ajuda';
+$lang['pt']['Alert'] = 'Alertas';
 
 $lang['pt']['view_trend'] = 'Tendência';
 
