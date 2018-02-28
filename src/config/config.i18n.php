@@ -121,6 +121,61 @@ $lang['de']['file_size'] = 'Dateigrösse';
 
 $lang['de']['Words'] = 'Wörter (Dokumente)';
 
+//
+// Portuguese (Brazil)
+//
+
+$lang['pt']['advanced_search'] = 'Busca Avançada';
+$lang['pt']['search_by_list'] = 'Busca com Lista';
+$lang['pt']['manage_structure'] = 'Gerência de Estruturas';
+$lang['pt']['manage_datasources'] = 'Gerência de Fontes de Dados';
+
+
+$lang['pt']['next'] = 'Próximo';
+$lang['pt']['prev'] = 'Anterior';
+$lang['pt']['page'] = 'Página';
+$lang['pt']['page of'] = 'de';
+
+$lang['pt']['sort'] = 'Ordenação:';
+
+
+$lang['pt']['result'] = 'Resultados';
+$lang['pt']['result to'] = 'até';
+$lang['pt']['result of'] = 'de';
+
+$lang['pt']['newest_documents'] = 'Mais recentes';
+$lang['pt']['newest_documents_of'] = 'de';
+$lang['pt']['newest_documents_of_total'] = 'documentos indexados';
+
+
+$lang['pt']['open'] = 'Abrir';
+$lang['pt']['years'] = 'Últimos anos';
+$lang['pt']['meta'] = 'Marcação &amp; Anotação';
+
+$lang['pt']['meta description'] = 'Adicionar metadados: com marcação ou anotação, você pode adicionar palavras-chave ou notas sobre o documento ou arquivo para que ele possa ser encontrado com essas palavras-chave, mesmo que não estejam escritas no documento';
+
+$lang['pt']['wait'] = 'Procurando ...';
+
+$lang['pt']['view_trend'] = 'Tendência';
+
+$lang['pt']['file_size'] = 'Tamanho do Arquivo';
+
+$lang['pt']['content type'] = 'Tipo de Conteúdo';
+$lang['pt']['content_ocr'] = 'Reconhecimento automático de texto (OCR) a partir das imagens:';
+
+// Field labels
+$lang['pt']['ocr_t'] = 'OCR';
+$lang['pt']['title'] = 'Título';
+$lang['pt']['author_s'] = 'Autor';
+$lang['pt']['content_type'] = 'Content type';
+$lang['pt']['file_modified_dt'] = 'Data da Última Modificação';
+$lang['pt']['last_modified'] = 'Última modificação';
+$lang['pt']['file_size_i'] = 'Tamanho (bytes)';
+
+$lang['pt']['view_words'] = 'Palavras (lista de palavras e nuvem)';
+$lang['pt']['view_analytics'] = 'Análise';
+
+$lang['pt']['Words'] = 'Palavras (countagem de documentos)';
 
 
 // imitate drupal style translate function, so we can one day use the other code as a drupal module

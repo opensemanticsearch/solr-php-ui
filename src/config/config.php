@@ -24,6 +24,9 @@ $cfg['language'] = 'en';
 // German / Deutsch
 //$cfg['language'] = 'de';
 
+// Portuguese / Português (Brasil)
+//$cfg['language'] = 'pt';
+
 
 // indexed languages to search in by language specific text analysis
 // if not set/limited here, all languages that are supported in index are enabled
