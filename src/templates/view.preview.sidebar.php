@@ -1,7 +1,7 @@
 <?php
 
 // print a facet and its values as links
-function print_field(&$doc, $field, $label) {
+function print_facet_field(&$doc, $field, $label) {
   global $params;
 
   if (isset($doc->$field)) {
@@ -76,7 +76,7 @@ function print_field(&$doc, $field, $label) {
   foreach ($cfg['facets'] as $facet => $facet_config) {
 
     if ($facet != 'text') {
-      print_field($doc, $facet, t($facet_config['label']));
+      print_facet_field($doc, $facet, t($facet_config['label']));
     }
   }
 

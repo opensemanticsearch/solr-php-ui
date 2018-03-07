@@ -3,6 +3,22 @@
 // Show preview
 
 
+// print value(s) from field
+function print_field($doc, $field) {
+
+	if (is_array($doc->$field)) {
+		print "<ul>";
+			foreach ($doc->$field as $value) {
+				print '<li>' . htmlspecialchars($value) . '</li>';
+			}
+		print "</ul>";
+	} else {
+		print htmlspecialchars($doc->$field);
+	}
+
+}
+
+
 foreach ($results->response->docs as $doc) {
 	
 $id = $doc->id;
@@ -31,7 +47,7 @@ $uri_label = $uri;
 $uri_tip = FALSE;
 
 // if file:// then only filename
-if (strpos($uri, "file://") == 0) {
+if (strpos($uri, "file://") === 0) {
   $uri_label = basename($uri);
   // for tooptip remove file:// from beginning
   $uri_tip = substr($uri, 7);
@@ -41,7 +57,7 @@ if ($deepid) {
   $deep_uri_label = $deepid;
   $deep_uri_tip = FALSE;
   // if file:// then only filename
-  if (strpos($deepid, "file://") == 0) {
+  if (strpos($deepid, "file://") === 0) {
     $deep_uri_label = basename($deepid);
     // for tooptip remove file:// from beginning
     $deep_uri_tip = substr($deepid, 7);
@@ -138,6 +154,13 @@ if (isset($doc->ocr_t) && $preview_allowed) {
   }
 }
 
+// Annotations
+$annotations = FALSE;
+if ( isset($doc->annotation_text_tt) || isset($doc->annotation_tag_ss) || isset($doc->comment_tt) || isset($doc->tag_ss) ) {
+	$annotations = TRUE;
+}
+
+
 $exclude_fields = array('_version_', 'title', 'content', 'preview_s', 'ocr_t');
 
 // exclude fields that are only copied for language specific analysis in index
@@ -230,8 +253,12 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
       <?php if ($ocr) { ?>
         <li class="tabs-title"><a href="#preview-ocr">OCR</a></li>
-
       <?php } // if ocr ?>
+
+      <?php if ($annotations) { ?>
+        <li class="tabs-title"><a href="#preview-annotations">Tags & Annotations</a></li>
+      <?php } // if annotations ?>
+ 
       <li class="tabs-title"><a href="#preview-meta">Meta</a></li>
     </ul>
   </div>
@@ -278,7 +305,7 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
             } // if audio ?>
 
 
-            <?php if ($type == 'CSV row' || $type =='Knowledge graph') {
+            <?php if ( $type == 'CSV row' || strpos($type, 'Knowledge graph') === 0 ) {
 
 				  print '<div class="graph">';
 
@@ -363,7 +390,6 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
               print $ocr;
             }
 
-
           } // preview allowed
           else {
             print (t('preview_not_allowed'));
@@ -384,6 +410,34 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
           </div>
         </div>
       <?php } // if ocr ?>
+
+      <?php if ($annotations && $preview_allowed) { ?>
+        <div class="tabs-panel" id="preview-annotations">
+
+			<?php
+			if (isset($doc->annotation_tag_ss)) {
+				print '<h2>Tags (Hypothesis)</h2>';
+				print_field($doc, 'annotation_tag_ss');
+			}
+
+			if (isset($doc->tag_ss)) {
+				print '<h2>Tags</h2>';
+				print_field($doc, 'tag_ss');
+			}
+
+			if (isset($doc->comment_tt)) {
+				print '<h2>Notes</h2>';
+				print_field($doc, 'comment_tt');
+			}
+			if (isset($doc->annotation_text_tt)) {
+				print '<h2>Annotations (Hypothesis)</h2>';
+				print_field($doc, 'annotation_text_tt');
+			}
+			?>
+
+        </div>
+      <?php } // if annotations ?>
+
       <div class="tabs-panel" id="preview-meta">
         <div class="meta">
           <?php
@@ -394,18 +448,7 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
                 <?php
                 print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b>:<br />';
 
-                if (is_array($doc->$field)) {
-                  print "<ul>";
-                  foreach ($doc->$field as $value) {
-                    print '<li>' . htmlspecialchars($value) . '</li>';
-
-                  }
-                  print "</ul>";
-                }
-                else {
-                  print htmlspecialchars($doc->$field);
-                }
-
+					 print_field($doc, $field);
 
                 print '<br /><br />';
                 ?>

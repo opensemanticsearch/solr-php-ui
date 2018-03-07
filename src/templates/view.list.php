@@ -330,7 +330,7 @@ function get_snippets($result_nr, $snippets) {
                  href="<?= get_metadata_uri($cfg['metadata']['server'], $uri_unmasked); ?>"><?= t('meta'); ?></a>
           <?php endif; ?>
           | <a
-            href="preview.php?id='<?= urlencode($uri_unmasked) ?>"><?= t('Preview') ?></a>
+            href="preview.php?id=<?= urlencode($uri_unmasked) ?>"><?= t('Preview') ?></a>
         </div>
       </li>
     <?php endforeach; ?>
