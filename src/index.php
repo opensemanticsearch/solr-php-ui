@@ -33,6 +33,7 @@ $cfg['solr']['admin']['uri'] = false;
 
 // only metadata option if server set in config
 $cfg['metadata']['server'] = false;
+$cfg['hypothesis']['server'] = false;
 
 // size of the snippet
 $cfg['snippetsize'] = 300;
