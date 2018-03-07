@@ -329,6 +329,12 @@ function get_snippets($result_nr, $snippets) {
             | <a title="<?= t('meta description'); ?>"
                  href="<?= get_metadata_uri($cfg['metadata']['server'], $uri_unmasked); ?>"><?= t('meta'); ?></a>
           <?php endif; ?>
+          
+          <?php if ($cfg['hypothesis']['server']): ?>
+            | <a title="<?= t('meta description'); ?>"
+                 href="<?= get_metadata_uri($cfg['hypothesis']['server'], $uri_unmasked); ?>"><?= t('Annotate visual'); ?></a>
+          <?php endif; ?>
+
           | <a
             href="preview.php?id=<?= urlencode($uri_unmasked) ?>"><?= t('Preview') ?></a>
         </div>

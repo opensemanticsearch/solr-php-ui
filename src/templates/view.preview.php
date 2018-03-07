@@ -42,6 +42,7 @@ else {
   $deepid = FALSE;
 }
 
+$uri_unmasked = $uri;
 
 $uri_label = $uri;
 $uri_tip = FALSE;
@@ -466,12 +467,20 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
     <hr/>
 
-    <div class="commands">
-      <a target="_blank"
-         href="<?= $uri ?>"><?php echo t('open'); ?></a> <?php if ($cfg['metadata']['server']) { ?> |
-        <a target="_blank" title="<?php echo t('meta description'); ?>"
-           href="<?php print get_metadata_uri($cfg['metadata']['server'], $id); ?>"><?php echo t('meta'); ?></a> <?php } ?>
-    </div>
+        <div class="commands">
+          <a href="<?= $uri ?>"><?= t('open'); ?></a>
+          <?php if ($cfg['metadata']['server']): ?>
+            | <a title="<?= t('meta description'); ?>"
+                 href="<?= get_metadata_uri($cfg['metadata']['server'], $uri_unmasked); ?>"><?= t('meta'); ?></a>
+          <?php endif; ?>
+          
+          <?php if ($cfg['hypothesis']['server']): ?>
+            | <a title="<?= t('meta description'); ?>"
+                 href="<?= get_metadata_uri($cfg['hypothesis']['server'], $uri_unmasked); ?>"><?= t('Annotate visual'); ?></a>
+          <?php endif; ?>
+
+        </div>
+
 
     <?php
     } // foreach doc

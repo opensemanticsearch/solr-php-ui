@@ -74,6 +74,9 @@ $cfg['solr']['admin']['uri'] = 'http://' . $cfg['solr']['host'] . ':' . $cfg['so
 // URI to open semantic search tagger
 $cfg['metadata']['server'] = '/search-apps/annotate/edit?uri=';
 
+// URI to Hypothesis annotator for visual annotations
+//$cfg['hypothesis']['server'] = 'https://via.hypothes.is/';
+
 
 //
 // If no query, show newest documents
