@@ -7,6 +7,7 @@ $view_selectors = array(
   'images' => t('Images'),
   'videos' => t('Videos'),
   'audios' => t('Audios'),
+  'map' => t('Map'),
   'table' => t('Table'),
 );
 $analyse_dropdowns = array(

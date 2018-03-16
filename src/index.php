@@ -557,6 +557,12 @@ if ($view=='words') {
 	$cfg['facets']['_text_'] = array('label'=>'Words', 'facet_limit' => 100, 'facet_enabled' => true);
 }
 
+
+if ($view=='map') {
+	$cfg['facets']['location_wkt_ss'] = array('label'=>'Location coordinates', 'facet_limit' => 1000, 'facet_enabled' => true);
+}
+
+
 if ($view == 'rss') {
     $start = 1;
     $sort = 'newest';
@@ -645,6 +651,9 @@ elseif ($view=='graph_co') {
 	$limit = 0;
 }
 elseif ($view=='trend') {
+	$limit = 0;
+}
+elseif ($view=='map') {
 	$limit = 0;
 }
 elseif ($view=='entities') {
@@ -790,7 +799,7 @@ if (!$query) {
 * table view (where we want to see all fields)
 */
 if ($view != 'table' && $view != 'preview') {
-	$additionalParameters['fl']='id,title,container_s,author_s,file_modified_dt,last_modified,file_size_i';
+	$additionalParameters['fl']='id,title,container_s,author_s,file_modified_dt,last_modified,file_size_i,location_p';
 }
 
 
@@ -982,6 +991,15 @@ if ($view == 'audios') {
 	$solrfilterquery .= ' +(';
 
 	$solrfilterquery .= 'content_type:audio*';
+
+	$solrfilterquery .= ')';
+}
+
+
+if ($view == 'map') {
+	$solrfilterquery .= ' +(';
+
+	$solrfilterquery .= 'location_wkt_ss:*';
 
 	$solrfilterquery .= ')';
 }
