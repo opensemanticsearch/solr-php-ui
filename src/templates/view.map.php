@@ -57,7 +57,7 @@
 		$uri_entities = buildurl_addvalue($params, 'location_wkt_ss', $facet, 'view', 'entities', 's', 1);
 
 		$title = $count . ' document(s) found related to this location within search results of your search query<br>';
-		$description = '<a href="' . $uri . '">Show & analyze</a> the ' . $count . ' found document(s)</a><br /><br /><a href="' . $uri . '">Show entities</a> (people, organizations, ...) which occur in document(s) in which this location occurs';
+		$description = '<a href="' . $uri . '">Show & analyze</a> the ' . $count . ' found document(s)</a><br /><br /><a href="' . $uri_entities . '">Show entities</a> (people, organizations, ...) which occur in document(s) in which this location occurs';
 ?>
 
 
