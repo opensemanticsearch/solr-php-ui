@@ -558,8 +558,10 @@ if ($view=='words') {
 }
 
 
+$cfg['facets']['location_wkt_ss'] = array('label'=>'Location coordinates', 'facet_limit' => 0, 'facet_enabled' => false);
+
 if ($view=='map') {
-	$cfg['facets']['location_wkt_ss'] = array('label'=>'Location coordinates', 'facet_limit' => 1000, 'facet_enabled' => true);
+	$cfg['facets']['location_wkt_ss']['facet_limit'] = 10000;
 }
 
 
@@ -1006,7 +1008,7 @@ if ($view == 'map') {
 
 
 // which facets to show
-$exclude_facets = [];
+$exclude_facets = ['location_wkt_ss'];
 
 if ( $view == 'entities') {
 
