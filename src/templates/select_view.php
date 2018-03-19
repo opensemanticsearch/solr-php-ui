@@ -8,9 +8,10 @@ $view_selectors = array(
   'videos' => t('Videos'),
   'audios' => t('Audios'),
   'map' => t('Map'),
-  'table' => t('Table'),
 );
+
 $analyse_dropdowns = array(
+  'table' => t('Table'),
   'trend' => t('view_trend'),
   'words' => t('view_words'),
   'entities' => t('Named entities'),
@@ -38,10 +39,6 @@ foreach ($view_selectors as $selector => $title) {
       }
       break;
 
-    case 'table':
-      $tab['url'] = buildurl($params, 'view', $selector, 's', FALSE);
-      break;
-
     default:
       $tab['url'] = buildurl($params, 'view', $selector, 's', 1);
       break;
@@ -64,6 +61,11 @@ foreach ($analyse_dropdowns as $anl_item => $title) {
   ];
 
   switch ($anl_item) {
+
+    case 'table':
+      $item['url'] = buildurl($params, 'view', $anl_item, 's', null);
+      break;
+
     case 'trend':
       $item['url'] = buildurl($params, 'view', $anl_item, 's', null);
       break;
