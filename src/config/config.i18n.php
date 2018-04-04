@@ -2,7 +2,9 @@
 // translations
 
 
+//
 // English
+//
 
 $lang['en']['advanced_search'] = 'Advanced search';
 $lang['en']['search_by_list'] = 'Search by list';
@@ -56,9 +58,12 @@ $lang['en']['view_analytics'] = 'Analyze';
 
 $lang['en']['Words'] = 'Words (count of docs)';
 
+
+
 //
 // German (de)
 //
+
 $lang['de']['Search'] = 'Suche';
 $lang['de']['Newest documents'] = 'Neueste Dokumente';
 
@@ -121,6 +126,8 @@ $lang['de']['file_size'] = 'Dateigrösse';
 
 $lang['de']['Words'] = 'Wörter (Dokumente)';
 
+
+
 //
 // Portuguese (Brazil)
 //
@@ -179,6 +186,104 @@ $lang['pt']['view_words'] = 'Palavras (lista de palavras e nuvem)';
 $lang['pt']['view_analytics'] = 'Análise';
 
 $lang['pt']['Words'] = 'Palavras (contagem de documentos)';
+
+
+
+//
+// Italian
+//
+
+$lang['it']['Search'] = 'Ricerca';
+$lang['it']['Newest documents'] = 'Nuovi Documenti';
+$lang['it']['advanced_search'] = 'Ricerca Avanzata';
+
+$lang['it']['search_by_list'] = 'Ricerca per elenco';
+
+$lang['it']['manage_structure'] = 'Gestione struttura';
+
+$lang['it']['manage_datasources'] = 'Gestione dati';
+$lang['it']['Wait'] = 'Attendere Prego';
+$lang['it']['Help'] = 'Aiuto';
+$lang['it']['Alert'] = 'Attenzione';
+
+$lang['it']['next'] = 'Avanti';
+
+$lang['it']['prev'] = 'Indietro';
+
+$lang['it']['page'] = 'Pagina';
+
+$lang['it']['result'] = 'risultato';
+
+$lang['it']['result to'] = 'risultato a';
+
+$lang['it']['result of'] = 'risultato di';
+$lang['it']['No results'] = 'Nessun risultato';
+
+$lang['it']['newest_documents'] = 'Documenti più recenti';
+
+$lang['it']['newest_documents_of'] = 'Documenti più recenti di';
+
+$lang['it']['newest_documents_of_total'] = 'nuovi documenti indicizzati di';
+
+$lang['it']['Selected filters'] = 'Filtri selezionati';
+$lang['it']['Filter criterias'] = 'Criteri per raffinare i risultati';
+$lang['it']['Remove filter'] = 'Rimuovi i filtri';
+$lang['it']['Path'] = 'Percorso';
+$lang['it']['All paths'] = 'Tutti i percorsi';
+$lang['it']['Subpaths'] = 'Percorsi secondari';
+$lang['it']['Paths'] = 'Percorsi';
+
+//view labels
+$lang['it']['Images'] = 'Immagini';
+$lang['it']['Table'] = 'Tabella';
+$lang['it']['view_words'] = 'Visualizza parole';
+$lang['it']['view_analytics'] = 'Visualizza analitiche';
+
+// Sort labels
+$lang['it']['Relevance'] = 'Rilevanza';
+$lang['it']['Newest'] = 'Più recenti';
+$lang['it']['Oldest'] = 'Meno recenti';
+
+//context menu
+$lang['it']['open'] = 'Apri';
+$lang['it']['Preview'] = 'Anteprima';
+
+$lang['it']['meta'] = 'Etichette &amp; annotazioni';
+
+$lang['it']['meta description'] = 'Aggiungere Metadati: Con le etichette e le annotazioni, è possibile aggiungere parole chiavi o appunti in relazione al documento o al file in modo che possa essere ricercato anche con queste parole chiavi, anche se non fossero presenti nel documento';
+
+//facet labels
+
+$lang['it']['Author'] = 'Autore';
+$lang['it']['content type group'] = 'Gruppo di contenuti';
+$lang['it']['content type'] = 'Tipo di contenuto';
+$lang['it']['content_ocr'] = 'Riconoscimento automatico del testo (OCR)';
+$lang['it']['file_size'] = 'Dimensioni del file';
+$lang['it']['Words'] = 'Parole (Documento)';
+
+
+$lang['it']['view_trend'] = 'Tendenze';
+
+$lang['it']['file_size'] = 'Dimensioni del file';
+
+$lang['it']['content type'] = 'Tipologia di contenuto';
+
+// Field labels 
+
+$lang['it']['ocr_t'] = 'OCR';
+
+$lang['it']['title'] = 'Titolo';
+
+$lang['it']['author_s'] = 'Autore';
+
+$lang['it']['content_type'] = 'Tipologia di Contenuto';
+
+$lang['it']['file_modified_dt'] = 'File modificato';
+
+$lang['it']['last_modified'] = 'Ultima modifica';
+
+$lang['it']['file_size_i'] = 'Dimensioni (in bytes)';
+
 
 
 // imitate drupal style translate function, so we can one day use the other code as a drupal module
