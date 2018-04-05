@@ -286,6 +286,66 @@ $lang['it']['file_size_i'] = 'Dimensioni (in bytes)';
 
 
 
+//
+// Arabic (العربية)
+//
+
+$lang['ar']['advanced_search'] = 'بحث متقدّم';
+$lang['ar']['search_by_list'] = 'البحث بالقائمة';
+$lang['ar']['manage_structure'] = 'أدِر الهيكل';
+$lang['ar']['manage_datasources'] = 'مصادر البيانات';
+
+
+$lang['ar']['next'] = 'اللاحق';
+$lang['ar']['prev'] = 'السابق';
+$lang['ar']['page'] = 'الصفحة';
+$lang['ar']['page of'] = 'من';
+
+$lang['ar']['sort'] = 'رتّب:';
+
+
+$lang['ar']['result'] = 'النتائج';
+$lang['ar']['result to'] = 'إلى';
+$lang['ar']['result of'] = 'لأجل';
+
+$lang['ar']['newest_documents'] = 'الأحدث';
+$lang['ar']['newest_documents_of'] = 'من';
+$lang['ar']['newest_documents_of_total'] = 'وثيقة مُفهرسة';
+
+
+$lang['ar']['open'] = 'افتح';
+$lang['ar']['years'] = 'السّنوات السابقة';
+$lang['ar']['meta'] = 'الوسوم و&nbsp;الحواشي';
+
+$lang['ar']['meta description'] = 'أضف بيانات فوقية: بالوسوم و الحواشي يمكنك إضافة كلمات مفتاحية أو ملاحظات عن الوثيقة أو الملف بحيث يمكن إيجادها لاحقا بتلك الكلمات حتى إذا لم ترد في متن الوثيقة';
+
+
+
+$lang['ar']['wait'] = 'يجري البحث ...';
+
+$lang['ar']['view_trend'] = 'المَيْل';
+
+$lang['ar']['file_size'] = 'حجم الملف';
+
+$lang['ar']['content type'] = 'نوع المحتوى';
+$lang['ar']['content_ocr'] = 'التعرّف التلقائي على المحارف من الصّوَر (OCR):';
+
+
+// Field labels
+$lang['ar']['ocr_t'] = 'تعرف تلقائي على المحارف';
+$lang['ar']['title'] = 'العنوان';
+$lang['ar']['author_s'] = 'المؤلِّف';
+$lang['ar']['content_type'] = 'نوع المحتوى';
+$lang['ar']['file_modified_dt'] = 'الملف عُدّل';
+$lang['ar']['last_modified'] = 'آخر تعديل في';
+$lang['ar']['file_size_i'] = 'الحجم (بالبايت)';
+
+$lang['ar']['view_words'] = 'الكلمات (قائمة الكلمات و سحابة الكلمات)';
+$lang['ar']['view_analytics'] = 'التحليلات';
+
+$lang['ar']['Words'] = 'الكلمات (عدد الوثائق)';
+
+
 // imitate drupal style translate function, so we can one day use the other code as a drupal module
 function t($string) {
 	global $cfg;
