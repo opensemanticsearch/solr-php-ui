@@ -22,10 +22,16 @@ $cfg['debug'] = false;
 $cfg['language'] = 'en';
 
 // German / Deutsch
-//$cfg['language'] = 'de';
+// $cfg['language'] = 'de';
 
 // Portuguese / Português (Brasil)
-//$cfg['language'] = 'pt';
+// $cfg['language'] = 'pt';
+
+// Italian
+// $cfg['language'] = 'it';
+
+// Arabic
+// $cfg['language'] = 'ar';
 
 
 // indexed languages to search in by language specific text analysis
