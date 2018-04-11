@@ -40,3 +40,5 @@ $mimetypes = array(
   'application/vnd.oasis.opendocument.presentation-template' => array ('name'=>'OpenOffice Presenter template', 'icon'=>'archive.png'),
 
   );
+
+?>

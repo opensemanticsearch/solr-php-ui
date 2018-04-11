@@ -98,3 +98,5 @@ $cfg['facets']['content_type'] = array(
   'snippets_limit' => '10',
   'snippets_enabled' => FALSE
 );
+
+?>

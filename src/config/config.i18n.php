@@ -364,3 +364,5 @@ function t($string) {
 
 	return $result;
 }
+
+?>

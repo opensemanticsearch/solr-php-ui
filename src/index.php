@@ -3,7 +3,7 @@
 //
 // PHP-UI of Open Semantic Search - https://opensemanticsearch.org
 //
-// 2011 - 2017 by Markus Mandalka - https://mandalka.name
+// 2011 - 2018 by Markus Mandalka - https://mandalka.name
 // and others (see Git history & issues)
 //
 // Free Software - License: GPL 3
@@ -52,6 +52,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 // include configs
 include 'config/config.php';
+include 'config/config.webadmin.php';
 include 'config/config.mimetypes.php';
 include 'config/config.i18n.php';
 
@@ -1259,3 +1260,5 @@ if ($view == 'rss') {
 } else {
 	include "templates/view.index.php";
 }
+
+?>
