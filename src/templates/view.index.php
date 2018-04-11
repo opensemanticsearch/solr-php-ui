@@ -15,8 +15,6 @@
 </head>
 <body>
 <?php
-// include configs
-include 'config/config.php';
 
 if (file_exists('templates/custom/view.index.topbar.php')) {
   include 'templates/custom/view.index.topbar.php';
@@ -202,11 +200,9 @@ else {
         include 'templates/view.trend.php';
 
       }
-      elseif ($view == 'timeline') {
+      elseif ($view == 'map') {
 
-        include 'templates/pagination.php';
-        include 'timeline.php';
-        include 'templates/pagination.php';
+        include 'templates/view.map.php';
 
       }
       else {
