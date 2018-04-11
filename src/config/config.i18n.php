@@ -10,6 +10,7 @@ $lang['en']['advanced_search'] = 'Advanced search';
 $lang['en']['search_by_list'] = 'Search by list';
 $lang['en']['manage_structure'] = 'Manage structure';
 $lang['en']['manage_datasources'] = 'Datasources';
+$lang['en']['config'] = 'Config';
 
 
 $lang['en']['next'] = 'Next';
@@ -70,6 +71,7 @@ $lang['de']['Newest documents'] = 'Neueste Dokumente';
 $lang['de']['advanced_search'] = 'Erweiterte Suche';
 $lang['de']['search_by_list'] = 'Suche mit Liste';
 $lang['de']['manage_structure'] = 'Strukturieren';
+$lang['de']['config'] = 'Konfiguration';
 
 $lang['de']['wait'] = 'Suche ...';
 $lang['de']['Help'] = 'Hilfe';

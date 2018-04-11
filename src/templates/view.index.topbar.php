@@ -20,6 +20,9 @@
       <li><a target="_blank" title="Manage datasources"
              href="/search-apps/datasources/"><?php echo t("manage_datasources"); ?></a>
       </li>
+      <li><a target="_blank" title="Configuration"
+             href="/search-apps/setup/"><?php echo t("config"); ?></a>
+      </li>
     </ul>
   </div>
 
