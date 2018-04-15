@@ -66,8 +66,14 @@ if ($deepid) {
 }
 
 
-// Author
-$author = htmlspecialchars($doc->author_s);
+// Authors
+
+if (is_array($doc->author_ss)) {
+	$authors = $doc->author_ss;
+} else {
+	$authors = array($doc->author_ss);
+}
+
 // Title
 $title = t("No Title");
 if (isset($doc->title)) {
@@ -220,8 +226,8 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
   </div>
 
 
-  <?php if ($author) {
-    print '<div class="author row">' . $author . ':</div>';
+  <?php if ($authors) {
+    print '<div class="author row">' . htmlspecialchars(implode(", ", $authors)) . ':</div>';
   } ?>
 
 

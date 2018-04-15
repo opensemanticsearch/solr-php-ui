@@ -184,9 +184,14 @@ function get_snippets($result_nr, $snippets) {
       $uri_label = htmlspecialchars($uri_label);
 
 
-      // Author
-      $author = htmlspecialchars($doc->author_s);
-
+		// Authors
+		if (is_array($doc->author_ss)) {
+			$authors = $doc->author_ss;
+		} else {
+			$authors = array($doc->author_ss);
+		}
+		
+		
       // Title
       // $title = t('No title');
       $title = $uri_label;
@@ -269,8 +274,8 @@ function get_snippets($result_nr, $snippets) {
         <?php $snippets = get_snippets($result_nr, $snippets); ?>
         <div class="snippets">
 
-          <?php if ($author): ?>
-            <div class="author"><?= $author ?></div>
+          <?php if ($authors): ?>
+            <div class="author"><?= htmlspecialchars(implode(", ", $authors)) ?></div>
           <?php endif; ?>
 
           <ul class="snips">

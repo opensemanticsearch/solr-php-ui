@@ -1,7 +1,7 @@
 <?php
 // do not config here, this config file will be overwritten by Thesaurus and Ontologies Manager
 
-$cfg['facets']['author_s'] = array(
+$cfg['facets']['author_ss'] = array(
   'label' => 'Author',
   'facet_limit' => '10',
   'snippets_limit' => '10',
