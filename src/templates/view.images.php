@@ -28,25 +28,25 @@
       }
 
       // Author
-      $author = htmlspecialchars($doc->author_s);
+      $author = htmlspecialchars($doc->author_ss);
 
       // Title
       $title = FALSE;
 
-      if (!empty($doc->title)) {
-        $title = htmlspecialchars($doc->title);
+      if (!empty($doc->title_txt)) {
+        $title = htmlspecialchars($doc->title_txt);
       }
 
       // Type
-      $type = $doc->content_type;
+      $type = $doc->content_type_ss;
 
       // Modified date
       $datetime = FALSE;
       if (isset($doc->file_modified_dt)) {
         $datetime = $doc->file_modified_dt;
       }
-      elseif (isset($doc->last_modified)) {
-        $datetime = $doc->last_modified;
+      elseif (isset($doc->last_modified_dt)) {
+        $datetime = $doc->last_modified_dt;
       }
 
       // File size
@@ -58,11 +58,11 @@
       }
 
       // Snippet
-      if (isset($results->highlighting->$id->content)) {
-        $snippet = $results->highlighting->$id->content[0];
+      if (isset($results->highlighting->$id->content_txt)) {
+        $snippet = $results->highlighting->$id->content_txt[0];
       }
       else {
-        $snippet = $doc->content;
+        $snippet = $doc->content_txt;
         if (strlen($snippet) > $snippetsize) {
           $snippet = substr($snippet, 0, $snippetsize) . "...";
           $snippet = htmlspecialchars($snippet);

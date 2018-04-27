@@ -63,7 +63,7 @@
         $snippet = $results->highlighting->$id->content_txt[0];
       }
       else {
-        $snippet = $doc->content;
+        $snippet = $doc->content_txt;
         if (strlen($snippet) > $snippetsize) {
           $snippet = substr($snippet, 0, $snippetsize) . "...";
           $snippet = htmlspecialchars($snippet);
