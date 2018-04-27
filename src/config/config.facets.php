@@ -85,14 +85,14 @@ $cfg['facets']['hashtag_ss'] = array(
   'snippets_enabled' => TRUE
 );
 
-$cfg['facets']['content_type_group'] = array(
+$cfg['facets']['content_type_group_ss'] = array(
   'label' => 'Content type group',
   'facet_limit' => '10',
   'snippets_limit' => '10',
   'snippets_enabled' => FALSE
 );
 
-$cfg['facets']['content_type'] = array(
+$cfg['facets']['content_type_ss'] = array(
   'label' => 'Content type',
   'facet_limit' => '10',
   'snippets_limit' => '10',
