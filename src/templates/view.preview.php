@@ -24,7 +24,7 @@ foreach ($results->response->docs as $doc) {
 $id = $doc->id;
 
 // Type
-$type = $doc->content_type;
+$type = $doc->content_type_ss;
 
 
 // URI
@@ -76,9 +76,9 @@ if (is_array($doc->author_ss)) {
 
 // Title
 $title = t("No Title");
-if (isset($doc->title)) {
-  if (!empty($doc->title)) {
-    $title = htmlspecialchars($doc->title);
+if (isset($doc->title_txt)) {
+  if (!empty($doc->title_txt)) {
+    $title = htmlspecialchars($doc->title_txt);
   }
 }
 
@@ -168,7 +168,7 @@ if ( isset($doc->annotation_text_tt) || isset($doc->annotation_tag_ss) || isset(
 }
 
 
-$exclude_fields = array('_version_', 'title', 'content', 'preview_s', 'ocr_t');
+$exclude_fields = array('_version_', 'title_txt', 'content_txt', 'preview_s', 'ocr_t');
 
 // exclude fields that are only copied for language specific analysis in index
 foreach ($cfg['languages'] as $language) {

@@ -37,21 +37,21 @@
       // Title
       $title = FALSE;
 
-      if (isset($doc->title)) {
-        if (!empty($doc->title)) {
-          $title = htmlspecialchars($doc->title);
+      if (isset($doc->title_txt)) {
+        if (!empty($doc->title_txt)) {
+          $title = htmlspecialchars($doc->title_txt);
         }
       }
 
       // Type
-      $type = $doc->content_type;
+      $type = $doc->content_type_ss;
 
       // Modified date
       if (isset($doc->file_modified_dt)) {
         $datetime = $doc->file_modified_dt;
       }
-      elseif (isset($doc->last_modified)) {
-        $datetime = $doc->last_modified;
+      elseif (isset($doc->last_modified_dt)) {
+        $datetime = $doc->last_modified_dt;
       }
       else {
         $datetime = FALSE;

@@ -60,7 +60,7 @@ include 'config/config.i18n.php';
 // mask special chars but not operators
 function mask_query ( $query, $facets=array() ) {
 
-	$unmaskfacets = array('id','title','content','exact','_text_');
+	$unmaskfacets = array('id','title_txt','content_txt','exact','_text_');
 
 	// add configured facets
 	foreach ($facets as $facet=>$facetconfig) {
@@ -797,12 +797,12 @@ if (!$query) {
 /*
 * Fields to select
 *
-* Especially the field "content" maybe too big for php's RAM or causing bad
+* Especially the field "content_txt" maybe too big for php's RAM or causing bad
 * for performance, so select only needet fields we want to print except if
 * table view (where we want to see all fields)
 */
 if ($view != 'table' && $view != 'preview') {
-	$additionalParameters['fl']='id,title,container_s,author_s,file_modified_dt,last_modified,file_size_i,location_p';
+	$additionalParameters['fl']='id,title_txt,container_s,author_ss,file_modified_dt,last_modified_dt,Content-Length_i,location_p';
 }
 
 
@@ -827,7 +827,7 @@ $additionalParameters['hl'] = 'true';
 
 $additionalParameters['hl.encoder'] = 'html';
 $additionalParameters['hl.snippets'] = 100;
-$additionalParameters['hl.fl'] = 'content';
+$additionalParameters['hl.fl'] = 'content_txt';
 foreach ($cfg['languages'] as $language) {
 	$additionalParameters['hl.fl'] .= ',content_txt_'.$language;
 }
@@ -854,8 +854,8 @@ elseif ($view =="words") {
 } else {
 	// if there is no snippet for content field, show part of content field
 	// (i.e. if search matches against filename or all results within path or date)
-	$additionalParameters['f.content.hl.alternateField'] = 'content';
-	$additionalParameters['f.content.hl.maxAlternateFieldLength'] = $cfg['snippetsize'];
+	$additionalParameters['f.content_txt.hl.alternateField'] = 'content';
+	$additionalParameters['f.content_txt.hl.maxAlternateFieldLength'] = $cfg['snippetsize'];
 }
 
 
@@ -965,13 +965,13 @@ if ($path) {
 // if view is imagegallery extend solrquery to filter images
 // filter on content_type image* so that we dont show textdocuments in image gallery
 if ($view == 'images') {
-	$solrfilterquery .= ' +content_type:image*';
+	$solrfilterquery .= ' +content_type_ss:image*';
 }
 
 // if view is imagegallery extend solrquery to filter images
 // filter on content_type image* so that we dont show textdocuments in image gallery
 if ($view == 'graph') {
-	$solrfilterquery .= ' +content_type:"Knowledge graph"';
+	$solrfilterquery .= ' +content_type_ss:"Knowledge graph"';
 }
 
 // if view is imagegallery extend solrquery to filter images
@@ -979,7 +979,7 @@ if ($view == 'graph') {
 if ($view == 'videos') {
 	$solrfilterquery .= ' +(';
 
-	$solrfilterquery .= 'content_type:video*';
+	$solrfilterquery .= 'content_type_ss:video*';
 
 	$solrfilterquery .= ' OR content_type:application\/mp4';
 	$solrfilterquery .= ' OR content_type:application\/x-matroska';
@@ -993,7 +993,7 @@ if ($view == 'videos') {
 if ($view == 'audios') {
 	$solrfilterquery .= ' +(';
 
-	$solrfilterquery .= 'content_type:audio*';
+	$solrfilterquery .= 'content_type_ss:audio*';
 
 	$solrfilterquery .= ')';
 }
@@ -1014,7 +1014,7 @@ $exclude_facets = ['location_wkt_ss'];
 if ( $view == 'entities') {
 
   // don't show more technical facets in main area, but later as facets in sidebar
-  $exclude_entities = ['content_type','content_type_group','language_s'];
+  $exclude_entities = ['content_type_ss','content_type_group_ss','language_s'];
 
   // TODO: add entities_enabled and entities_limit to facet config and facet config ui
 

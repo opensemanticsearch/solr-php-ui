@@ -132,7 +132,7 @@ function get_snippets($result_nr, $snippets) {
       $id = $doc->id;
 
       // Type
-      $type = $doc->content_type;
+      $type = $doc->content_type_ss;
 
       // URI
 
@@ -195,8 +195,8 @@ function get_snippets($result_nr, $snippets) {
       // Title
       // $title = t('No title');
       $title = $uri_label;
-      if (!empty($doc->title)) {
-        $title = htmlspecialchars($doc->title);
+      if (!empty($doc->title_txt)) {
+        $title = htmlspecialchars($doc->title_txt);
       }
 
       // Modified date
@@ -211,8 +211,8 @@ function get_snippets($result_nr, $snippets) {
       $file_size = 0;
       $file_size_txt = '';
       // File size
-      if (isset($doc->file_size_i)) {
-        $file_size = $doc->file_size_i;
+      if (isset($doc->Content-Length_i)) {
+        $file_size = $doc->Content-Length_i;
         $file_size_txt = filesize_formatted($file_size);
       }
 
@@ -221,8 +221,8 @@ function get_snippets($result_nr, $snippets) {
 
       $snippets = array();
 
-      if (isset($results->highlighting->$id->content)) {
-        $snippets = $results->highlighting->$id->content;
+      if (isset($results->highlighting->$id->content_txt)) {
+        $snippets = $results->highlighting->$id->content_txt;
       }
 
       foreach ($cfg['languages'] as $language) {
@@ -232,9 +232,9 @@ function get_snippets($result_nr, $snippets) {
         }
       }
 
-      if (count($snippets) === 0 && isset($doc->content)) {
+      if (count($snippets) === 0 && isset($doc->content_txt)) {
         // if no snippets available, use content as snippet
-        $snippets = array($doc->content);
+        $snippets = array($doc->content_txt);
         // and cut it to snippet size
         if (strlen($snippets[0]) > $cfg['snippetsize']) {
           $snippets[0] = substr($snippets[0], 0, $cfg['snippetsize']) . "...";
