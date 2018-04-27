@@ -59,8 +59,8 @@
 
 
       // Snippet
-      if (isset($results->highlighting->$id->content)) {
-        $snippet = $results->highlighting->$id->content[0];
+      if (isset($results->highlighting->$id->content_txt)) {
+        $snippet = $results->highlighting->$id->content_txt[0];
       }
       else {
         $snippet = $doc->content;

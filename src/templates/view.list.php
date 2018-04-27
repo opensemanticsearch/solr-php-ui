@@ -211,8 +211,9 @@ function get_snippets($result_nr, $snippets) {
       $file_size = 0;
       $file_size_txt = '';
       // File size
-      if (isset($doc->Content-Length_i)) {
-        $file_size = $doc->Content-Length_i;
+      $file_size_field = 'Content-Length_i';
+      if (isset($doc->$file_size_field)) {
+        $file_size = $doc->$file_size_field;
         $file_size_txt = filesize_formatted($file_size);
       }
 

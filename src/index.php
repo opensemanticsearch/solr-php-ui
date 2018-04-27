@@ -981,8 +981,8 @@ if ($view == 'videos') {
 
 	$solrfilterquery .= 'content_type_ss:video*';
 
-	$solrfilterquery .= ' OR content_type:application\/mp4';
-	$solrfilterquery .= ' OR content_type:application\/x-matroska';
+	$solrfilterquery .= ' OR content_type_ss:application\/mp4';
+	$solrfilterquery .= ' OR content_type_ss:application\/x-matroska';
 
 	$solrfilterquery .= ')';
 }

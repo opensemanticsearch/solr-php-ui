@@ -125,7 +125,7 @@ if (isset($doc->preview_allowed_b)) {
 if ($preview_allowed) {
   //Content
 
-  $content = $doc->content;
+  $content = $doc->content_txt;
   $content = htmlspecialchars($content);
 
   // if highligting available for the language, use highlighted content
