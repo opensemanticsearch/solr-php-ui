@@ -829,7 +829,7 @@ $additionalParameters['hl.encoder'] = 'html';
 $additionalParameters['hl.snippets'] = 100;
 $additionalParameters['hl.fl'] = 'content_txt';
 foreach ($cfg['languages'] as $language) {
-	$additionalParameters['hl.fl'] .= ',content_txt_'.$language;
+	$additionalParameters['hl.fl'] .= ',content_txt_txt_'.$language;
 }
 
 $additionalParameters['hl.fragsize'] = $cfg['snippetsize'];

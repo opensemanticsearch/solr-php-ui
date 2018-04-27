@@ -130,7 +130,7 @@ if ($preview_allowed) {
 
   // if highligting available for the language, use highlighted content
   foreach ($cfg['languages'] as $language) {
-    $language_specific_fieldname = 'content_txt_' . $language;
+    $language_specific_fieldname = 'content_txt_txt_' . $language;
     if (isset($results->highlighting->$id->$language_specific_fieldname)) {
       $content = $results->highlighting->$id->$language_specific_fieldname[0];
     }
