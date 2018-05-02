@@ -784,7 +784,8 @@ if (!$query) {
 	
 	if ($synonyms == true) {
 
-		// add synonym enriched fields to query fields
+		// add fields with synonyms to query fields
+		$additionalParameters['qf'] .= ' synonyms^1';
 	
 		foreach($cfg['languages'] as $language) {
 			$additionalParameters['qf'] .= ' synonyms_'.$language.'^1';
