@@ -34,6 +34,7 @@ $cfg['solr']['admin']['uri'] = false;
 // only metadata option if server set in config
 $cfg['metadata']['server'] = false;
 $cfg['hypothesis']['server'] = false;
+$cfg['neo4j_browser'] = 'http://localhost:7474/browser/';
 
 // size of the snippet
 $cfg['snippetsize'] = 300;
