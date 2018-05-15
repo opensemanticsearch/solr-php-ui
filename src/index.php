@@ -682,6 +682,12 @@ if ( isset($_REQUEST["stemming"]) ) {
 } else { $stemming = false; }
 
 
+$embedded = NULL;
+if ( isset($_REQUEST["embedded"]) ) {
+    $embedded = true;
+}
+
+
 # if new search, default stemming and synonyms on
 if (!$query) {
     $synonyms = true;
@@ -717,6 +723,7 @@ $params = array(
 		'synonyms' => $synonyms,
 		'stemming' => $stemming,
 		'operator' => $operator,
+		'embedded' => $embedded,
 );
 
 foreach ($selected_facets as $selected_facet=>$facet_value) {
@@ -1257,7 +1264,7 @@ $datevalues = get_datevalues($results, $params, $downzoom);
 
 if ($view == 'rss') {
 	include "templates/view.rss.php";
-} elseif (!empty($embedded)) {
+} elseif ($embedded == true) {
 	include "templates/view.embedded.php";
 } else {
 	include "templates/view.index.php";

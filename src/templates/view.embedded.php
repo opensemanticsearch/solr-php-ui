@@ -1,25 +1,20 @@
+<html>
+<head>
+  <title><?= t('Search') . ($query ? ': ' . htmlspecialchars($query) : '') ?></title>
+  <link rel="stylesheet" href="css/foundation.css">
+
+  <script src="js/vendor/jquery.js"></script>
+  <script src="js/vendor/what-input.js"></script>
+  <script src="js/vendor/foundation.js"></script>
+  <script src="js/app.js"></script>
+
+  <script type="text/javascript" src="jquery/jquery.autocomplete.js"></script>
+  <script type="text/javascript" src="autocomplete.js"></script>
+  <link rel="stylesheet" href="css/app.css" type="text/css"/>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="<?= $link_rss ?>">
+</head>
+<body>
 <?php
-
-// if no results, show message
-if ($total == 0) {
-  ?>
-  <div id="noresults" class="panel">
-
-
-    <?php
-    if ($error) {
-      print '<p>Error: </p><p>' . $error . '</p>';
-    }
-    else {
-      // Todo: Vorschlag: (in allen Bereichen, Ähnliches)
-      print t('No results');
-    }
-    ?>
-  </div>
-
-  <?php
-} // total == 0
-else { // there are results documents
 
   if ($error) {
     print '<p>Error:</p><p>' . $error . '</p>';
@@ -27,49 +22,76 @@ else { // there are results documents
 
   // print the results with selected view template
   if ($view == 'list') {
-    include 'templates/pagination.php';
+    include 'templates/select_view.php';
+    include 'templates/select_sort.php';
     include 'templates/view.list.php';
     include 'templates/pagination.php';
 
   }
   elseif ($view == 'preview') {
 
+    include 'templates/select_view.php';
+    include 'templates/pagination.php';
     include 'templates/view.preview.php';
+    include 'templates/pagination.php';
 
   }
   elseif ($view == 'images') {
 
+    include 'templates/select_view.php';
     include 'templates/view.images.php';
+    include 'templates/pagination.php';
 
   }
   elseif ($view == 'videos') {
+    include 'templates/select_view.php';
     include 'templates/view.videos.php';
+    include 'templates/pagination.php';
   }
   elseif ($view == 'table') {
+    include 'templates/select_view.php';
     include 'templates/view.table.php';
+    include 'templates/pagination.php';
   }
   elseif ($view == 'words') {
 
+    include 'templates/select_view.php';
     include 'templates/view.words.php';
 
   }
+  elseif ($view == 'graph_co') {
+
+    include 'templates/select_view.php';
+    include 'templates/view.graph.php';
+
+  }
+
   elseif ($view == 'trend') {
 
+    include 'templates/select_view.php';
     include 'templates/view.trend.php';
 
   }
-  elseif ($view == 'timeline') {
+  elseif ($view == 'map') {
+  	
+	 include 'templates/select_view.php';
+    include 'templates/view.map.php';
 
-    include 'timeline.php';
+  }
+  elseif ($view == 'entities') {
+
+    include 'templates/select_view.php';
+    include 'templates/view.entities.php';
 
   }
   else {
+    include 'templates/select_view.php';
     include 'templates/pagination.php';
     include 'templates/view.list.php';
     include 'templates/pagination.php';
 
   }
 
-
-} // if total <> 0: there were documents
 ?>
+</body>
+</html>
