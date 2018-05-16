@@ -40,6 +40,8 @@ $lang['en']['wait'] = 'Searching ...';
 
 $lang['en']['view_trend'] = 'Trend';
 
+$lang['en']['view_graph'] = 'Connections (Graph)';
+
 $lang['en']['file_size'] = 'Filesize';
 
 $lang['en']['content type'] = 'Content type';
@@ -48,8 +50,8 @@ $lang['en']['content_ocr'] = 'Automatic text recognition (OCR) from image(s):';
 // Field labels
 $lang['en']['ocr_t'] = 'OCR';
 $lang['en']['title'] = 'Title';
-$lang['en']['author_s'] = 'Author';
-$lang['en']['content_type'] = 'Content type';
+$lang['en']['author_ss'] = 'Author';
+$lang['en']['content_type_ss'] = 'Content type';
 $lang['en']['file_modified_dt'] = 'File modified';
 $lang['en']['last_modified'] = 'Last modified';
 $lang['en']['file_size_i'] = 'Size (bytes)';
@@ -118,8 +120,8 @@ $lang['de']['meta description'] = 'Metadaten hinzufügen: Bewerten, Taggen oder 
 
 // facet labels
 $lang['de']['Author'] = 'AutorIn';
-$lang['de']['content type group'] = 'Formen';
-$lang['de']['content type'] = 'Dateiformate';
+$lang['de']['content type group_ss'] = 'Formen';
+$lang['de']['content type_ss'] = 'Dateiformate';
 
 
 $lang['de']['content_ocr'] = 'Automatisch erkannter Text (OCR) aus Grafikdatei(en):';
@@ -178,8 +180,8 @@ $lang['pt']['content_ocr'] = 'Reconhecimento automático de texto (OCR) a partir
 // Field labels
 $lang['pt']['ocr_t'] = 'OCR';
 $lang['pt']['title'] = 'Título';
-$lang['pt']['author_s'] = 'Autor';
-$lang['pt']['content_type'] = 'Content type';
+$lang['pt']['author_ss'] = 'Autor';
+$lang['pt']['content_type_ss'] = 'Content type';
 $lang['pt']['file_modified_dt'] = 'Data da Última Modificação';
 $lang['pt']['last_modified'] = 'Última modificação';
 $lang['pt']['file_size_i'] = 'Tamanho (bytes)';
@@ -276,9 +278,9 @@ $lang['it']['ocr_t'] = 'OCR';
 
 $lang['it']['title'] = 'Titolo';
 
-$lang['it']['author_s'] = 'Autore';
+$lang['it']['author_ss'] = 'Autore';
 
-$lang['it']['content_type'] = 'Tipologia di Contenuto';
+$lang['it']['content_type_ss'] = 'Tipologia di Contenuto';
 
 $lang['it']['file_modified_dt'] = 'File modificato';
 
@@ -336,8 +338,8 @@ $lang['ar']['content_ocr'] = 'التعرّف التلقائي على المحا�
 // Field labels
 $lang['ar']['ocr_t'] = 'تعرف تلقائي على المحارف';
 $lang['ar']['title'] = 'العنوان';
-$lang['ar']['author_s'] = 'المؤلِّف';
-$lang['ar']['content_type'] = 'نوع المحتوى';
+$lang['ar']['author_ss'] = 'المؤلِّف';
+$lang['ar']['content_type_ss'] = 'نوع المحتوى';
 $lang['ar']['file_modified_dt'] = 'الملف عُدّل';
 $lang['ar']['last_modified'] = 'آخر تعديل في';
 $lang['ar']['file_size_i'] = 'الحجم (بالبايت)';

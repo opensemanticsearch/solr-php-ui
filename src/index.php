@@ -430,14 +430,19 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit, $view
 
 			if ($i<$facetlimit) {
 				$link_filter = buildurl_addvalue($params, $facet_field, $facet, 's', 1);
-				$link_filter_exclude = buildurl_addvalue($params, 'NOT_'.$facet_field, $facet, 's', 1);
+				$link_filter_exclude = buildurl_addvalue($params, 'NOT_' . $facet_field, $facet, 's', 1);
 
 				if ($view == 'entities') {
-					$link_documents = buildurl_addvalue($params, $facet_field, $facet,'view', null, 's', 1);
+					$link_documents = buildurl_addvalue($params, $facet_field, $facet, 'view', null, 's', 1);
 
 	 				print '<li class="entities"><a title="Add to filters" onclick="waiting_on();" href="' . $link_filter . '">'.htmlspecialchars($facet).'</a> (<a title="Exclude all results with this entity" onclick="waiting_on();" href="' . $link_filter_exclude . '">-</a>)
 in <a title="Search documents for this entity" onclick="waiting_on();" href="' . $link_documents . '">' . $count . ' ' . t('document(s)') . '</a>
 					</li>';
+				} elseif($view == 'graph') {
+					$link_documents = buildurl_addvalue($params, $facet_field, $facet, 'view', null, 's', 1);
+
+	 				print '<li class="entities">' . htmlspecialchars($facet) . ' in <a title="Search documents for this entity" onclick="waiting_on();" href="' . $link_documents . '">' . $count . ' ' . t('document(s)') . '</a>';
+
 
 				} else {
 	 				print '<li><a onclick="waiting_on();" href="' . $link_filter . '">' . htmlspecialchars($facet) . '</a> (' . $count . ')
@@ -609,7 +614,7 @@ foreach ($cfg['facets'] as $facet=>$facet_value) {
 if (
 	($cfg['disable_view_words'] && $view == 'words')
 	||
-	($cfg['disable_view_graph'] && $view == 'graph_co')
+	($cfg['disable_view_graph'] && $view == 'graph')
 )
 {
 	http_response_code(401);
@@ -651,7 +656,7 @@ elseif ($view=='preview') {
 elseif ($view=='timeline') {
 	$limit = 100;
 }
-elseif ($view=='graph_co') {
+elseif ($view=='graph') {
 	$limit = 0;
 }
 elseif ($view=='trend') {
@@ -687,6 +692,12 @@ if ( isset($_REQUEST["embedded"]) ) {
     $embedded = true;
 }
 
+$graph_fl = NULL;
+$graph_fields = array();
+if ( isset($_REQUEST["graph_fl"]) ) {
+	$graph_fl = $_REQUEST["graph_fl"];
+	$graph_fields = explode(',', $graph_fl);
+}
 
 # if new search, default stemming and synonyms on
 if (!$query) {
@@ -724,6 +735,7 @@ $params = array(
 		'stemming' => $stemming,
 		'operator' => $operator,
 		'embedded' => $embedded,
+		'graph_fl' => $graph_fl,
 );
 
 foreach ($selected_facets as $selected_facet=>$facet_value) {
@@ -977,11 +989,6 @@ if ($view == 'images') {
 	$solrfilterquery .= ' +content_type_ss:image*';
 }
 
-// if view is imagegallery extend solrquery to filter images
-// filter on content_type image* so that we dont show textdocuments in image gallery
-if ($view == 'graph') {
-	$solrfilterquery .= ' +content_type_ss:"Knowledge graph"';
-}
 
 // if view is imagegallery extend solrquery to filter images
 // filter on content_type image* so that we don't show textdocuments in image gallery

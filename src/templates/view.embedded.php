@@ -59,7 +59,7 @@
     include 'templates/view.words.php';
 
   }
-  elseif ($view == 'graph_co') {
+  elseif ($view == 'graph') {
 
     include 'templates/select_view.php';
     include 'templates/view.graph.php';
