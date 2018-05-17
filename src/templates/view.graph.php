@@ -22,6 +22,10 @@ foreach ($cfg['facets'] as $facet => $facet_config) {
 
 <hr/>
 
+
+<div class="row">
+<div class="column small-12 large-6">
+
 <h3>Graph visualization</h3>
 
 <p>Graph visualization of co-occurences of entities and knowledge graph connections between entities which occur in the found/filtered <?= $total ?> document(s).</p>
@@ -29,6 +33,9 @@ foreach ($cfg['facets'] as $facet => $facet_config) {
 <a class= "button" href="<?= $link_graph ?>">Visualize graph starting with following (types and amount/limit of) entities</a>
 <p>or set other types of entities and/or amount/limit of starting entities to start with:</p>
 
+
+</div>
+<div class="column small-12 large-6">
 
 <h4>Types of entities (classes) and connections (properties)</h4>
 
@@ -53,6 +60,7 @@ foreach ($cfg['facets'] as $facet => $facet_config) {
 
 ?>
 </p>
+
 
 <p><a class="button small" id="more_classes" data-toggler data-toggle="inactive more_classes" data-animate="hinge-in-from-top slide-out-down">Add more ...</a></p>
 
@@ -82,9 +90,11 @@ Ignored (not queried for connections and not shown in the graph) entity types (c
   </button>
 
 </div>
+</div>
 
+</div>
 
-<h4>Amount of entities (Limit)</h4>
+<h4>Amount of entities for each entity type (limit)</h4>
 
 <p>Limit amount of entities to start with:</p>
 
