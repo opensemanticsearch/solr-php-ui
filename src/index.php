@@ -692,11 +692,22 @@ if ( isset($_REQUEST["embedded"]) ) {
     $embedded = true;
 }
 
+$graph_fields=array();
 $graph_fl = NULL;
-$graph_fields = array();
+
 if ( isset($_REQUEST["graph_fl"]) ) {
+
 	$graph_fl = $_REQUEST["graph_fl"];
 	$graph_fields = explode(',', $graph_fl);
+
+} else {
+
+	foreach ($cfg['facets'] as $facet => $facet_config) {
+
+		if($facet_config['graph_enabled'] == true) {
+				$graph_fields[] = $facet;
+		}
+	}
 }
 
 # if new search, default stemming and synonyms on

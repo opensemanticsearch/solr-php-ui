@@ -1,8 +1,9 @@
 <?php
+
 // Setup parameters for graph visualization by Open Semantic Visual Linked Data Graph Explorer
 
 $link_graph = '/search-apps/graph/?q='.$query;
-$link_graph .= '&fl=' . $graph_fl;
+$link_graph .= '&fl=' . implode(',', $graph_fields);
 
 foreach ($cfg['facets'] as $facet => $facet_config) {
 
@@ -30,14 +31,14 @@ foreach ($cfg['facets'] as $facet => $facet_config) {
 
 <p>Graph visualization of co-occurences of entities and knowledge graph connections between entities which occur in the found/filtered <?= $total ?> document(s).</p>
 
-<a class= "button" href="<?= $link_graph ?>">Visualize graph starting with following (types and amount/limit of) entities</a>
+<a class= "button" target="_blank" href="<?= $link_graph ?>">Visualize graph starting with following (types and amount/limit of) entities</a>
 <p>or set other types of entities and/or amount/limit of starting entities to start with:</p>
 
 
 </div>
 <div class="column small-12 large-6">
 
-<h4>Types of entities (classes) and connections (properties)</h4>
+<h4>Types of entities (classes) &amp; connections (properties)</h4>
 
 <p>Select types of entities (entity classes) and connections (properties) to query, connect and show in your analysis / visualization:</p>
 
