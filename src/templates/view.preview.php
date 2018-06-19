@@ -26,6 +26,9 @@ $id = $doc->id;
 // Type
 $type = $doc->content_type_ss;
 
+if (isset($doc->content_type_group_ss)) {
+    $type_group = $doc->content_type_group_ss;
+} else $type_group = false;
 
 // URI
 
@@ -312,12 +315,12 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
             } // if audio ?>
 
 
-            <?php if ( $type == 'CSV row' || strpos($type, 'Knowledge graph') === 0 ) {
+            <?php if ( $type == 'CSV row' || strpos($type_group, 'Knowledge graph') === 0 || strpos($type, 'Knowledge graph') === 0 ) {
 
 				  print '<div class="graph">';
 
               foreach ($fields as $field) {
-                if ($field != 'id' and $field != 'content_type' and $field != 'content_type_group' and $field != 'container_s' and isset($doc->$field)) {
+                if ($field != 'id' and $field != 'content_type' and $field != 'content_type_group_ss' and $field != 'container_s' and isset($doc->$field)) {
 
 						  print '<div>';
                     print "<h2 title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</h2>';
