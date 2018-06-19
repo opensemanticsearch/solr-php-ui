@@ -71,8 +71,12 @@ if ($date_label) {
           // Data2JSON
 
           $first = TRUE;
-
+          $pre_val = 0;
           foreach ($datevalues as $value) {
+            if($value['count'] == $pre_val){
+								$prev_val = $value['count'];
+								continue;
+							}
 
             // todo: link the chart
             $link = '';
