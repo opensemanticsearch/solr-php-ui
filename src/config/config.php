@@ -40,7 +40,7 @@ $cfg['language'] = 'en';
 
 // indexed languages to search in by language specific text analysis
 // if not set/limited here, all languages that are supported in index are enabled
-//$cfg['languages'] = array('en','es','de','fr','nl','ro','cz','it','ar','fa','pt');
+//$cfg['languages'] = array('en','de','es','fr','hu','nl','ro','cz','it','ar','fa','pt');
 
 
 //
