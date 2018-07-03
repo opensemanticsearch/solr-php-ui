@@ -799,17 +799,14 @@ if (!$query) {
 	}
 
 	// fields
-	$additionalParameters['qf'] = '_text_';
+	$additionalParameters['qf'] = '_text_^3 title_txt^5';
 
 	if ($stemming == true || $synonyms == true) {
 
-		// boost relevance of exact text field by 20
-		$additionalParameters['qf'] .= '^20';
-
-		// add stemmed fields to query fields with bust 5 so same word in other form more relevant than a synonym maybe coming from later fields
+		// add stemmed fields to query fields with boost 2 so same word in other form more relevant than a synonym maybe coming from later fields
 
 		foreach($cfg['languages'] as $language) {
-			$additionalParameters['qf'] .= ' text_txt_'.$language.'^5';
+			$additionalParameters['qf'] .= ' text_txt_'.$language.'^2';
 		}
 	}
 	
