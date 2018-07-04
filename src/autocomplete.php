@@ -13,7 +13,7 @@
   $cfg['solr']['port'] = 8983;
   $cfg['solr']['path'] = '/solr';
   
-  $cfg['solr']['core'] = 'core1';
+  $cfg['solr']['core'] = 'opensemanticsearch';
 
   // include configs
   
