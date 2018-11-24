@@ -1,6 +1,15 @@
 <?php
 // do not config here, this config file will be overwritten by Thesaurus and Ontologies Manager
 
+$cfg['facets']['path'] = array(
+  'tree' => TRUE,
+  'label' => 'Path(s)',
+  'facet_limit' => '10',
+  'graph_enabled' => FALSE,
+  'snippets_limit' => '0',
+  'snippets_enabled' => FALSE
+);
+
 $cfg['facets']['author_ss'] = array(
   'label' => 'Author',
   'facet_limit' => '10',
