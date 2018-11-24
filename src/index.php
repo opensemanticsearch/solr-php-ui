@@ -1023,15 +1023,6 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				$pathfilter = path2query($deselected_value, $deselected_facet);
 				$solrfilterquery .= ' -(' . $pathfilter.')';
 
-			#todo: migrate to general function below
-#if ($deselected_paths) {
-#	foreach ($deselected_paths as $deselected_path) {
-#		$pathfilter = path2query($deselected_path, 'path');
-#		$solrfilterquery .= ' -('.$pathfilter.')';
-
-#	}
-#}
-
 			} else {
 
 				#mask special chars in facet name
