@@ -34,7 +34,7 @@
         ?>
         <?php echo t('newest_documents') ?>
 
-        <?= $limit ?>
+        <?= $stat_limit ?>
 
         <?php echo t('newest_documents_of') ?>
 
