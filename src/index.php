@@ -879,7 +879,7 @@ if ($view == 'list') {
 			if ($facet == 'path') {
 				$pathfacet_suffix = '_s';
 			} else {
-				$pathfacet_suffix = '_txt';
+				$pathfacet_suffix = '_ss';
 			}
 			
 			$additionalParameters['fl'] .= ',' . $facet . '0' . $pathfacet_suffix;
@@ -959,7 +959,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 		if ($configured_facet == 'path') {
 			$pathfacet_suffix = '_s';
 		} else {
-			$pathfacet_suffix = '_txt';
+			$pathfacet_suffix = '_ss';
 		}
 
 		$arr_facets[] = $configured_facet . '0' . $pathfacet_suffix;
@@ -977,7 +977,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 		if ($configured_facet == 'path') {
 			$pathfacet_suffix = '_s';
 		} else {
-			$pathfacet_suffix = '_txt';
+			$pathfacet_suffix = '_ss';
 		}
 
 		$pathfacet = $configured_facet . '0' . $pathfacet_suffix;
@@ -1016,7 +1016,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				if ($configured_facet == 'path') {
 					$pathfacet_suffix = '_s';
 				} else {
-					$pathfacet_suffix = '_txt';
+					$pathfacet_suffix = '_ss';
 				}
 
 				$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
@@ -1064,7 +1064,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				if ($configured_facet == 'path') {
 					$pathfacet_suffix = '_s';
 				} else {
-					$pathfacet_suffix = '_txt';
+					$pathfacet_suffix = '_ss';
 				}
 
 				$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
