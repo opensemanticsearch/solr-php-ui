@@ -1022,6 +1022,9 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				$pathfilter = path2query($selected_value, $selected_facet, $pathfacet_suffix);
 				$solrfilterquery .= ' +' . $pathfilter;
 
+				# filter only facet values of the opened path for the case there are additional other values of a multi valued taxonomy at same depth from other hierarchy in the documents that match the selected hierarchy
+				$additionalParameters['f.' . $pathfacet . '.facet.prefix'] = end($paths) . "\t";
+
 			} else {
 
 				#mask special chars in facet name
