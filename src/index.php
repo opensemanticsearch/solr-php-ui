@@ -856,23 +856,11 @@ if ($view != 'table' && $view != 'preview') {
 }
 
 
-// if listview add (custom) facet fields to query for printing extracted named entites
+// if listview add (custom) fields to results for printing named entites snippets
 if ($view == 'list') {
 	foreach ($cfg['facets'] as $facet => $facet_config) {
 
-
-		if (isset($facet_config['tree']) && $facet_config['tree'] == true) {
-
-			if ($facet == 'path') {
-				$pathfacet_suffix = '_s';
-			} else {
-				$pathfacet_suffix = '_ss';
-			}
-			
-			$additionalParameters['fl'] .= ',' . $facet . '0' . $pathfacet_suffix;
-		
-		} else {
-			
+		if ($facet_config['snippets_enabled'] == true) {
 			$additionalParameters['fl'] .= ',' . $facet;
 		}
 	}
