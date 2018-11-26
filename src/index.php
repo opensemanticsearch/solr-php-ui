@@ -976,6 +976,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
 
 	// add filters for selected facet values to query
+	// todo: if flat view (like as graph or entities, the filters have to be hierarchical if taxonomy facet)
 	if (isset($selected_facets[$configured_facet])) {
 
 		$selected_facet = $configured_facet;
@@ -1012,8 +1013,9 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				$solrfilterquery .= ' +' . $pathfilter;
 
 				# filter only facet values of the opened path for the case there are additional other values of a multi valued taxonomy at same depth from other hierarchy in the documents that match the selected hierarchy
-				$additionalParameters['f.' . $pathfacet . '.facet.prefix'] = end($paths) . "\t";
-
+				if ($configured_facet	!= 'path') { // do not do that for not multivalued path index structure, where only part of path (without parents) per taxonomy field
+					$additionalParameters['f.' . $pathfacet . '.facet.prefix'] = end($paths) . "\t";
+				}
 			} else {
 
 				#mask special chars in facet name
