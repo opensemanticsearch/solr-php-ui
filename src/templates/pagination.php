@@ -30,7 +30,7 @@
       <?php
 
 
-      if (empty($query) and $start == 1 and !$path) {
+      if (empty($query) and $start == 1) {
         ?>
         <?php echo t('newest_documents') ?>
 
