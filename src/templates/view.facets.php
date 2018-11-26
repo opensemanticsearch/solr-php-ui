@@ -26,10 +26,17 @@
 				      $fullpath = '';
       				for ($i = 0; $i < count($paths) - 1; $i++) {
 							$fullpath .= '/' . $paths[$i];
-							echo '<ul><li><a onclick="waiting_on();" href="' . buildurl($params, $selected_facet, array($fullpath), 's', 1) . '">' . $paths[$i] . '</a>' . "\n";
-						}
+							$label = $paths[$i];
+							$taxonomy = explode("\t", $label);
+							$label = end($taxonomy);
 
-						echo '<ul><li><b>' . htmlspecialchars($paths[count($paths) - 1]) . '</b></li></ul>';
+							echo '<ul><li><a onclick="waiting_on();" href="' . buildurl($params, $selected_facet, array($fullpath), 's', 1) . '">' . htmlspecialchars($label) . '</a>' . "\n";
+						}
+						$label = end($paths);
+						$taxonomy = explode("\t", $label);
+						$label = end($taxonomy);
+
+						echo '<ul><li><b>' . htmlspecialchars($label) . '</b></li></ul>';
 
 				      for ($i = 0; $i < count($paths) - 1; $i++) {
         					echo '</li></ul>' . "\n";

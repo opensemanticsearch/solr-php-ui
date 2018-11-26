@@ -435,7 +435,15 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit, $view
 
 			if ($i<$facetlimit) {
 
+				$label = $facet;
+
 				if ($pathfacet) {
+
+					// if taxonomy (separated by tab), use only last child as label
+					$taxonomy = explode("\t", $label);
+					$label = end($taxonomy);
+				
+					
 					$link_filter = buildurl($params, $pathfacet, array($path . '/' . $facet), 's', 1);
 					$link_filter_exclude = buildurl_addvalue($params, 'NOT_' . $pathfacet, $path . '/' . $facet, 's', 1);
 				} else {
@@ -446,7 +454,7 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit, $view
 				if ($view == 'entities') {
 					$link_documents = buildurl_addvalue($params, $facet_field, $facet, 'view', null, 's', 1);
 
-	 				print '<li class="entities"><a title="Add to filters" onclick="waiting_on();" href="' . $link_filter . '">'.htmlspecialchars($facet).'</a> (<a title="Exclude all results with this entity" onclick="waiting_on();" href="' . $link_filter_exclude . '">-</a>)
+	 				print '<li class="entities"><a title="Add to filters" onclick="waiting_on();" href="' . $link_filter . '">'.htmlspecialchars($label).'</a> (<a title="Exclude all results with this entity" onclick="waiting_on();" href="' . $link_filter_exclude . '">-</a>)
 in <a title="Search documents for this entity" onclick="waiting_on();" href="' . $link_documents . '">' . $count . ' ' . t('document(s)') . '</a>
 					</li>';
 					
@@ -454,11 +462,11 @@ in <a title="Search documents for this entity" onclick="waiting_on();" href="' .
 
 					$link_documents = buildurl_addvalue($params, $facet_field, $facet, 'view', null, 's', 1);
 
-	 				print '<li class="entities">' . htmlspecialchars($facet) . ' in <a title="Search documents for this entity" onclick="waiting_on();" href="' . $link_documents . '">' . $count . ' ' . t('document(s)') . '</a>';
+	 				print '<li class="entities">' . htmlspecialchars($label) . ' in <a title="Search documents for this entity" onclick="waiting_on();" href="' . $link_documents . '">' . $count . ' ' . t('document(s)') . '</a>';
 
 				} else {
 
-		 			print '<li><a onclick="waiting_on();" href="' . $link_filter . '">' . htmlspecialchars($facet) . '</a> (' . $count . ')
+		 			print '<li><a onclick="waiting_on();" href="' . $link_filter . '">' . htmlspecialchars($label) . '</a> (' . $count . ')
 					<a title="Exclude this value" onclick="waiting_on();" href="' . $link_filter_exclude . '">-</a>
 					</li>';
 					
