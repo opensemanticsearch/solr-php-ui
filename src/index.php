@@ -929,7 +929,7 @@ if ($operator == 'OR') {
 
 foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
-	if (isset($facet_config['tree']) && $facet_config['tree'] == true) {
+	if (isset($facet_config['tree']) && $facet_config['tree'] == true && $view != 'entities' && $view != 'graph') {
 
 		if ($configured_facet == 'path') {
 			$pathfacet_suffix = '_s';
@@ -940,8 +940,9 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 		$arr_facets[] = $configured_facet . '0' . $pathfacet_suffix;
 		
 	} else {
-	
-		$arr_facets[] = $configured_facet;
+		if ($configured_facet != 'path') {
+			$arr_facets[] = $configured_facet;
+		}
 	}
 
 
