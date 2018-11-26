@@ -420,27 +420,6 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit, $view
 <div id="<?= $facet_field ?>" class="facet">
 	<h2>
 		<?= $facet_label ?>
-
-<?php
-				      $trimmedpath = trim($facet_value, '/');
-
-				      $paths = explode('/', $trimmedpath);
-
-						print '<a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, $selected_facet, $facet_value, 's', 1) . '">(&times;)</a> ' . $cfg['facets'][$selected_facet]['label'] . ': <ul>';
-
-				      $fullpath = '';
-      				for ($i = 0; $i < count($paths) - 1; $i++) {
-							$fullpath .= '/' . $paths[$i];
-							echo '<ul><li><a onclick="waiting_on();" href="' . buildurl($params, $selected_facet, array($fullpath), 's', 1) . '">' . $paths[$i] . '</a>' . "\n";
-						}
-
-						echo '<ul><li><b>' . htmlspecialchars($paths[count($paths) - 1]) . '</b></li></ul>';
-
-				      for ($i = 0; $i < count($paths) - 1; $i++) {
-        					echo '</li></ul>' . "\n";
-				      }
-				      echo '</ul>';
-?>
 	</h2>
 	
 	<?php
@@ -1041,6 +1020,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				$solrfacet = addcslashes($selected_facet, '+-&|!(){}[]^"~*?:\/ ');
 				#mask special chars in facet value
 				$solrfacetvalue = addcslashes($selected_value, '+-&|!(){}[]^"~*?:\/ ');
+				$solrfacetvalue = str_replace("\t", "\\\t", $solrfacetvalue);
 				
 				$solrfilterquery .= ' +' . $solrfacet . ':' . $solrfacetvalue;
 			}
@@ -1081,7 +1061,8 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				$solrfacet = addcslashes($deselected_facet, '+-&|!(){}[]^"~*?:\/ ');
 				#mask special chars in facet value
 				$solrfacetvalue = addcslashes($deselected_value, '+-&|!(){}[]^"~*?:\/ ');
-				
+				$solrfacetvalue = str_replace("\t", "\\\t", $solrfacetvalue);
+
 				$solrfilterquery .= ' -' . $solrfacet . ':' . $solrfacetvalue;
 			}
 		}
@@ -1092,12 +1073,12 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 $additionalParameters['facet.field'] = $arr_facets;
 
 
-function path2query($path, $facet, $pathfacet_suffix) {
+function path2query($path, $facet, $pathfacet_suffix, $separator='/') {
 	
-	$trimmedpath = trim($path, '/');
+	$trimmedpath = trim($path, $separator);
 		
 	// pathfilter to set in Solr query
-	$paths = explode('/', $trimmedpath);
+	$paths = explode($separator, $trimmedpath);
 	
 	$pathfilter = '';
 	$pathcounter = 0;
@@ -1105,7 +1086,8 @@ function path2query($path, $facet, $pathfacet_suffix) {
 	$first=true;
 	foreach ($paths as $subpath) {
 		$solrpath = addcslashes($subpath, '+-&|!(){}[]^"~*?:\/ ');
-	
+		$solrpath = str_replace("\t", "\\\t", $solrpath);
+		
 		if ($first==false) {$pathfilter .= ' +';} else {$first=false;}
 		$pathfilter .= $facet . $pathcounter . $pathfacet_suffix . ':' . $solrpath;
 		$pathcounter++;
