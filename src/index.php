@@ -393,7 +393,7 @@ function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $exclude
 
 // print a facet and its values as links
 function print_facet(&$results, $facet_field, $facet_label, $facets_limit, $view='list', $pathfacet=FALSE, $path=FALSE) {
-	global $params;
+	global $cfg, $params, $selected_facets;
 
 	$facetlimit = 50;
 	$facetlimit_step = 50;
@@ -421,9 +421,50 @@ function print_facet(&$results, $facet_field, $facet_label, $facets_limit, $view
 	<h2>
 		<?= $facet_label ?>
 	</h2>
+
+<?php
+
+
+// If taxonomy filter, show opened hierarchy before the facet values
+if (isset($selected_facets[$pathfacet]) && isset($cfg['facets'][$pathfacet]['tree']) && $cfg['facets'][$pathfacet]['tree']==true) { $is_taxonomy=true;} else { $is_taxonomy=false;}
+
+if ($is_taxonomy==true) {
+
+				$selected_facet = $pathfacet;
+				$facetvalue_array = $selected_facets[$selected_facet];
+
+				foreach ($facetvalue_array as $facet_value) {
+
+
+
+				      $trimmedpath = trim($facet_value, '/');
+
+				      $paths = explode('/', $trimmedpath);
+
+						print '<a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, $selected_facet, $facet_value, 's', 1) . '">' . $cfg['facets'][$selected_facet]['label'] . '</a><ul>';
+
+				      $fullpath = '';
+      				for ($i = 0; $i < count($paths) - 1; $i++) {
+							$fullpath .= '/' . $paths[$i];
+							$label = $paths[$i];
+							$taxonomy = explode("\t", $label);
+							$label = end($taxonomy);
+
+							echo '<ul><li><a onclick="waiting_on();" href="' . buildurl($params, $selected_facet, array($fullpath), 's', 1) . '">' . htmlspecialchars($label) . '</a>' . "\n";
+						}
+						$label = end($paths);
+						$taxonomy = explode("\t", $label);
+						$label = end($taxonomy);
+
+						echo '<ul><li><b>' . htmlspecialchars($label) . '</b>';
+
+
+          }
+        }
+
+
 	
-	<?php
-		if ($view=='entities') { ?>
+		if ($view=='entities' || $is_taxonomy == true) { ?>
 		<ul>
 		<?php } else { ?>
 		<ul class="no-bullet">
@@ -476,6 +517,13 @@ in <a title="Search documents for this entity" onclick="waiting_on();" href="' .
 
 			$i++;
 
+		}
+		
+		if ($is_taxonomy) {
+			for ($i = 0; $i < count($paths); $i++) {
+      		echo '</li></ul>' . "\n";
+		 	}
+			echo '</ul>';
 		}
 		?>
 	</ul>
