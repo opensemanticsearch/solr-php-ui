@@ -171,16 +171,16 @@ if ( isset($doc->annotation_text_tt) || isset($doc->annotation_tag_ss) || isset(
 }
 
 
-$exclude_fields = array('_version_', 'title_txt', 'content_txt', 'preview_s', 'ocr_t');
+$exclude_fields = array('_version_', '_text_', 'title_txt', 'content_txt', 'preview_s', 'ocr_t');
+
+$exclude_fields_suffixes_if_same_content = array();
 
 // exclude fields that are only copied for language specific analysis in index
 foreach ($cfg['languages'] as $language) {
 
-  $exclude_fields[] = 'text_txt_' . $language;
-  $exclude_fields[] = 'content_txt_' . $language;
-  $exclude_fields[] = 'title_txt_' . $language;
-  $exclude_fields[] = 'description_txt_' . $language;
-  $exclude_fields[] = 'hashtag_ss_txt_' . $language;
+	$exclude_fields[] = 'text_txt_' . $language;
+
+	$exclude_fields_suffixes_if_same_content[] = '_txt_' . $language;
 
 }
 
@@ -188,7 +188,7 @@ $exclude_fields_prefixes = array('etl_');
 
 $exclude_fields_suffixes = array('_uri_ss', '_preflabel_and_uri_ss');
 
-$fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_fields_suffixes);
+$fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_fields_suffixes, $exclude_fields_suffixes_if_same_content);
 
 ?>
 <div id="results" class="row">

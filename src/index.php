@@ -348,7 +348,7 @@ function get_preflabel_and_uri($preflabel_and_uri) {
 
 
 // Get fields / columns
-function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $exclude_suffixes=array(), $sort=TRUE)
+function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $exclude_suffixes=array(), $exclude_suffixes_if_same_content=array(), $sort=TRUE)
 {
 	foreach ($doc as $field => $value) {
 
@@ -374,8 +374,22 @@ function get_fields(&$doc, $exclude=array(), $exclude_prefixes=array(), $exclude
 	   if (substr_compare( $field, $exclude_suffix, -strlen( $exclude_suffix ) ) === 0) {
 	     $exclude_field = TRUE;
 	   }
+	  }
+
+	  // field name ends with one of excluded suffixes and has same content in field without suffix?
+	  foreach($exclude_suffixes_if_same_content as $exclude_suffix) {
+
+	   if (substr_compare( $field, $exclude_suffix, -strlen( $exclude_suffix ) ) === 0) {
+			$field_without_suffix = substr( $field, 0, strlen($field)-strlen($exclude_suffix) );
+	   	if ( isset($doc->$field_without_suffix) ) {
+				if ( $doc->$field == $doc->$field_without_suffix ) {
+			     $exclude_field = TRUE;
+		     	}
+		   }
+	   }
 
 	  }
+	  
 	  // if not excluded, include field to result
 	  if (!$exclude_field) {
 	    $fields[] = $field;
