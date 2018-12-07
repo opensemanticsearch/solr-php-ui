@@ -38,9 +38,7 @@ if (isset($doc->content_type_group_ss)) {
 if (isset($doc->container_s) and $type != 'PDF page') {
   $uri = $doc->container_s;
   $deepid = $id;
-
-}
-else {
+} else {
   $uri = $id;
   $deepid = FALSE;
 }
@@ -142,6 +140,17 @@ if ($preview_allowed) {
   $content = strip_empty_lines($content, 3);
   $content = nl2br($content); // new lines
 
+  // get all matches from plain text for PDF preview
+  preg_match_all("/<mark>([\w\W]*?)<\/mark>/", $content, $matches);
+
+  $highlightings = array();
+  foreach ($matches[1] as $match) {
+    if ( !in_array($match, $highlightings) ) {
+		$highlightings[] = $match;    
+    }
+  }
+
+  $highlightings = implode(" ", $highlightings);
 
   if (isset($cfg['preview_path']) and isset($doc->preview_s)) {
     $preview_image = $cfg['preview_path'] . $doc->preview_s;
@@ -246,20 +255,13 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
     <ul class="tabs" data-tabs id="preview-tabs">
 
-      <?php if ($preview_image) { ?>
-
-        <li class="tabs-title is-active"><a href="#preview-image"
-                                            aria-selected="true">Preview</a>
-        </li>
-        <li class="tabs-title"><a href="#preview-content">Text</a></li>
-
-        <?php
-// if preview image
-      }
-      else { ?>
         <li class="tabs-title is-active"><a href="#preview-content"
-                                            aria-selected="true">Text</a></li>
-      <?php } // no preview image ?>
+                                            aria-selected="true">Content</a></li>
+
+      <?php if ($type=='application/pdf') { // if pdf ?>
+        <li class="tabs-title"><a href="#preview-plaintext">Plain text</a></li>
+      <?php } // if pdf ?>
+
 
       <?php if ($ocr) { ?>
         <li class="tabs-title"><a href="#preview-ocr">OCR</a></li>
@@ -274,20 +276,7 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
   </div>
 
   <div class="tabs-content" data-tabs-content="preview-tabs">
-    <?php if ($preview_image) { ?>
-
-    <div class="tabs-panel is-active" id="preview-image">
-      <div class="panel">
-        <a href="<?= $id ?>" target="_blank"><img src="<?= $preview_image ?>"/></a>
-      </div>
-
-    </div>
-    <div class="tabs-panel" id="preview-content">
-      <?php
-      // if preview image
-      } else { ?>
       <div class="tabs-panel is-active" id="preview-content">
-        <?php } // no preview image ?>
 
         <div id="content">
 
@@ -295,6 +284,16 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
           <?php
 
           if ($preview_allowed) {
+
+            // if PDF
+            if (strpos($type, 'application/pdf') === 0) { 
+            	?>
+					
+					<embed src="<?= $id ?>#search=<?= rawurlencode($highlightings) ?>&page=4" type="application/pdf" width="100%" height="100%" />
+
+              	<?php
+            } // if PDF
+
 
             // if image
             if (strpos($type, 'image') === 0) { ?>
@@ -390,11 +389,17 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
             } // if knowledge graph or csv row
 
-            ?>
+				// not pdf, since pdf text previous shown by pdf viewer
+				if ($type != 'application/pdf') {
 
+            ?>
+				
             <?= $content ?>
 
             <?php
+            
+            } // not PDF
+            
             if ($ocr) {
               print "<b>" . t("content_ocr") . "</b><br/>";
               print $ocr;
@@ -409,6 +414,17 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
         </div>
       </div>
+
+
+      <?php if ($type=='application/pdf' && $preview_allowed) { // if pdf ?>
+        <div class="tabs-panel" id="preview-plaintext">
+
+          <div id="plaintext">
+            <?= $content ?>
+          </div>
+        </div>
+      <?php } // if pdf ?>
+
 
       <?php if ($ocr && $preview_allowed) { ?>
         <div class="tabs-panel" id="preview-ocr">
