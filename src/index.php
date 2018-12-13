@@ -939,7 +939,10 @@ $additionalParameters['sow'] = 'false';
 //
 // Highlighting
 //
-$additionalParameters['hl'] = 'true';
+
+if ($view != 'trend' && $view!= 'entities' && $view != 'map' && $view !='graph' && $view!='words') {
+	$additionalParameters['hl'] = 'true';
+}
 
 $additionalParameters['hl.encoder'] = 'html';
 $additionalParameters['hl.snippets'] = 100;
