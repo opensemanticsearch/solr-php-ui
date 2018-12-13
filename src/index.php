@@ -805,7 +805,13 @@ if (!$query) {
 
 
 
-$operator = 'OR';
+$operator = 'AND';
+if (isset($cfg['operator'])) {
+
+	$operator = $cfg['operator'];
+
+}
+
 $solrfilterquery = "";
 
 if ( isset($_REQUEST['operator']) ) {
@@ -813,7 +819,10 @@ if ( isset($_REQUEST['operator']) ) {
 	if ($_REQUEST['operator'] == 'AND') {
 		$operator = 'AND';
 	}
-	if ($_REQUEST['operator'] == 'Phrase') {
+	elseif ($_REQUEST['operator'] == 'OR') {
+		$operator = 'OR';
+	}
+	elseif ($_REQUEST['operator'] == 'Phrase') {
 		$operator = 'Phrase';
 	}
 }

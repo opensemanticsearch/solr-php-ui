@@ -13,6 +13,14 @@ $cfg['debug'] = false;
 
 
 //
+// Default operator (can be switched by users in UI by search options)
+//
+
+$cfg['operator'] = 'AND';
+// $cfg['operator'] = 'OR';
+
+
+//
 // Language
 //
 
