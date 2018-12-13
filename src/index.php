@@ -967,13 +967,17 @@ elseif ($view =="words") {
 
 	$additionalParameters['hl'] = 'false';
 
-} else {
-	// if there is no snippet for content field, show part of content field
+} elseif ($view != 'table') {
+	// if there is no snippet for content field, show first part of content field
 	// (i.e. if search matches against filename or all results within path or date)
-	$additionalParameters['f.content_txt.hl.alternateField'] = 'content';
+	$additionalParameters['f.content_txt.hl.alternateField'] = 'content_txt';
 	$additionalParameters['f.content_txt.hl.maxAlternateFieldLength'] = $cfg['snippetsize'];
 }
 
+// if no query, snippets are generated only by first part of content, so for better performance only this first part has to be analyzed by Solr highligting component
+if ($view != 'preview' && !$query) {
+	$additionalParameters['hl.maxAnalyzedChars'] = $cfg['snippetsize'];
+}
 
 // Solrs default is OR (document contains at least one of the words), we want AND (documents contain all words)
 if ($operator == 'OR') {
