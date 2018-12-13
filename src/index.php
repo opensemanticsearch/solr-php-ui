@@ -758,9 +758,7 @@ elseif ($view=='entities') {
 
 
 $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : $limit;
-if ($limit == "all") {
-	$limit = 10000000;
-}
+$limit = (int)$limit;
 
 $synonyms = true;
 $stemming = true;
