@@ -4,17 +4,56 @@
 
 
 // print value(s) from field
-function print_field($doc, $field) {
+function print_field($doc, $field, $preview_link='?view=preview&q=id:') {
 
+  $field_linkeddata = $field . '_preflabel_and_uri_ss';
+
+  $linked_values = array();
+
+  // if there, print links to linked data entities
+  if (isset($doc->$field_linkeddata)) {
+
+		// if only one value in field, convert to array, so we can handle it with same code
+		if (is_array($doc->$field_linkeddata)) {
+			$linked_data = $doc->$field_linkeddata;
+		} else {
+			$linked_data = array($doc->$field_linkeddata);
+		}
+		print '<ul class="entity">';
+      foreach ($linked_data as $value) {
+			$label_and_uri = get_preflabel_and_uri($value);
+			$label = $label_and_uri['label'];
+			$value_uri = $label_and_uri['uri'];
+									
+			if ($value_uri) {
+
+				// link uri to preview of this id
+				$value_uri = $preview_link . urlencode($value_uri);
+
+        		print '<li class="entity"><a target="_blank" href="'. $value_uri . '">' . htmlspecialchars($label) . '</a></li>';
+        		$linked_values[] = $label;
+			} else {
+        		print '<li>' . htmlspecialchars($value) . '</li>';
+	     		$linked_values[] = $value;
+			}
+     	}
+    	print '</ul>';
+  } else {
+						  
 	if (is_array($doc->$field)) {
 		print "<ul>";
-			foreach ($doc->$field as $value) {
-				print '<li>' . htmlspecialchars($value) . '</li>';
-			}
+		foreach ($doc->$field as $value) {
+			print '<li>' . htmlspecialchars($value) . '</li>';
+		}
 		print "</ul>";
 	} else {
 		print htmlspecialchars($doc->$field);
 	}
+
+
+  }
+
+	return $linked_values;
 
 }
 
@@ -125,25 +164,34 @@ if (isset($doc->preview_allowed_b)) {
 
 if ($preview_allowed) {
   //Content
-
-  $content = $doc->content_txt;
-  $content = htmlspecialchars($content);
-
-  // if highligting available for the language, use highlighted content
-  foreach ($cfg['languages'] as $language) {
-    $language_specific_fieldname = 'content_txt_txt_' . $language;
-    if (isset($results->highlighting->$id->$language_specific_fieldname)) {
-      $content = $results->highlighting->$id->$language_specific_fieldname[0];
-    }
+  $highlightingfield = 'content_txt';
+  if (isset($results->highlighting->$id->$highlightingfield)) {
+      $content = $results->highlighting->$id->$highlightingfield[0];
+  } else {
+  	$content = $doc->content_txt;
+  	$content = htmlspecialchars($content);
   }
 
   $content = strip_empty_lines($content, 3);
   $content = nl2br($content); // new lines
 
-  // get all matches from plain text for PDF preview
-  preg_match_all("/<mark>([\w\W]*?)<\/mark>/", $content, $matches);
+
+  // get all words from query and text matches from plain text / highlightings for PDF preview
 
   $highlightings = array();
+  
+  $queryparts = explode(' ',$query);
+
+  foreach ($queryparts as $querypart) {
+  	 if ($querypart != "") {
+    	if ( !in_array($querypart, $highlightings) ) {
+			$highlightings[] = $querypart;
+	   }
+    }
+  }
+
+  preg_match_all("/<mark>([\w\W]*?)<\/mark>/", $content, $matches);
+
   foreach ($matches[1] as $match) {
     if ( !in_array($match, $highlightings) ) {
 		$highlightings[] = $match;    
@@ -173,18 +221,22 @@ if (isset($doc->ocr_t) && $preview_allowed) {
   }
 }
 
-// Annotations
+// Show annotation tab ?
 $annotations = FALSE;
-if ( isset($doc->annotation_text_tt) || isset($doc->annotation_tag_ss) || isset($doc->comment_tt) || isset($doc->tag_ss) ) {
+if ( isset($doc->annotation_text_txt) || isset($doc->annotation_tag_ss) || isset($doc->comment_txt) || isset($doc->tag_ss) ) {
 	$annotations = TRUE;
 }
 
+// set true until autotagging will activate if values in autotag facets
+$annotations = TRUE;
 
+// exclude fields from (meta) data tab which handled by other tabs
 $exclude_fields = array('_version_', '_text_', 'title_txt', 'content_txt', 'preview_s', 'ocr_t');
-
-$exclude_fields_suffixes_if_same_content = array();
+$exclude_fields_prefixes = array('etl_');
+$exclude_fields_suffixes = array('_uri_ss', '_preflabel_and_uri_ss', '_matchtext_ss');
 
 // exclude fields that are only copied for language specific analysis in index
+$exclude_fields_suffixes_if_same_content = array();
 foreach ($cfg['languages'] as $language) {
 
 	$exclude_fields[] = 'text_txt_' . $language;
@@ -193,9 +245,11 @@ foreach ($cfg['languages'] as $language) {
 
 }
 
-$exclude_fields_prefixes = array('etl_');
-
-$exclude_fields_suffixes = array('_uri_ss', '_preflabel_and_uri_ss');
+foreach ($cfg['facets'] as $facet => $facet_config) {
+	$exclude_fields[] = $facet;
+	$exclude_fields_prefixes[] = $facet . '_taxonomy_';
+}
+  
 
 $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_fields_suffixes, $exclude_fields_suffixes_if_same_content);
 
@@ -319,45 +373,13 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 				  print '<div class="graph">';
 
               foreach ($fields as $field) {
-                if ($field != 'id' and $field != 'content_type' and $field != 'content_type_group_ss' and $field != 'container_s' and isset($doc->$field)) {
+                if ($field != 'id' and $field != 'content_type_ss' and $field != 'content_type_group_ss' and $field != 'container_s' and isset($doc->$field)) {
 
 						  print '<div>';
                     print "<h2 title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</h2>';
 
 
-						  $field_linkeddata = $field . '_preflabel_and_uri_ss';
-
-						  $linked_values = array();
-
-						  // if there, print links to linked data entities
-	                 if (isset($doc->$field_linkeddata)) {
-
-								// if only one value in field, convert to array, so we can handle it with same code
-								if (is_array($doc->$field_linkeddata)) {
-									$linked_data = $doc->$field_linkeddata;
-								} else {
-									$linked_data = array($doc->$field_linkeddata);
-								}
-								print '<ul class="entity">';
-                      	foreach ($linked_data as $value) {
-									$label_and_uri = get_preflabel_and_uri($value);
-									$label = $label_and_uri['label'];
-									$value_uri = $label_and_uri['uri'];
-									
-									if ($value_uri) {
-									
-										// link uri to preview of this id
-										$value_uri = '?view=preview&q=id:' . urlencode($value_uri);
-
-	                       		print '<li class="entity"><a target="_blank" href="'. $value_uri . '">' . htmlspecialchars($label) . '</a></li>';
-	                       		$linked_values[] = $label;
-									} else {
-	                       		print '<li class="entity">' . htmlspecialchars($value) . '</li>';
-              		       		$linked_values[] = $value;				
-									}
-                      	}
-                      	print '</ul>';
-						  }
+						  $linked_values = print_field($doc, $field);
 
                     if (is_array($doc->$field)) {
                     		$field_values = $doc->$field;
@@ -442,27 +464,34 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
 			<?php
 			if (isset($doc->annotation_tag_ss)) {
-				print '<h2>Tags (Hypothesis)</h2>';
+				print '<h3>Tags (Hypothesis)</h3>';
 				print_field($doc, 'annotation_tag_ss');
 			}
 
-			if (isset($doc->tag_ss)) {
-				print '<h2>Tags</h2>';
-				print_field($doc, 'tag_ss');
+			if (isset($doc->comment_txt)) {
+				print '<h3>Notes</h3>';
+				print_field($doc, 'comment_txt');
+			}
+			if (isset($doc->annotation_text_txt)) {
+				print '<h3>Annotations (Hypothesis)</h3>';
+				print_field($doc, 'annotation_text_txt');
 			}
 
-			if (isset($doc->comment_tt)) {
-				print '<h2>Notes</h2>';
-				print_field($doc, 'comment_tt');
-			}
-			if (isset($doc->annotation_text_tt)) {
-				print '<h2>Annotations (Hypothesis)</h2>';
-				print_field($doc, 'annotation_text_tt');
-			}
+
+  foreach ($cfg['facets'] as $facet => $facet_config) {
+	if (isset($doc->$facet) && $facet!='author_ss' && $facet!='language_s' && $facet!='content_type_ss' && $facet!='content_type_group_ss') {
+    	print ( '<h4>' . t($facet_config['label']) . '</h4>' );
+    	// since taged entities of thesaurus instead imported knowledgegraph, link to entities index preview
+      print_field($doc, $facet, '/search-apps/search_entity/index?doc=' . rawurlencode($doc->id) .'&id=');
+	}
+  }
+
+
 			?>
 
         </div>
       <?php } // if annotations ?>
+
 
       <div class="tabs-panel" id="preview-meta">
         <div class="meta">
