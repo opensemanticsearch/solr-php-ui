@@ -342,7 +342,7 @@ function get_snippets($result_nr, $snippets) {
           <?php endif; ?>
 
           | <a
-            href="?view=preview&q=id:<?= urlencode($uri_unmasked) ?>"><?= t('Preview') ?></a>
+            href="?view=preview&q=<?= rawurlencode('id:"' . $uri_unmasked . '"') ?>"><?= t('Preview') ?></a>
         </div>
       </li>
     <?php endforeach; ?>
