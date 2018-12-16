@@ -905,10 +905,10 @@ if (!$query) {
 	if ($synonyms == true) {
 
 		// add fields with synonyms to query fields
-		$additionalParameters['qf'] .= ' text_txt_synonyms^1';
+		$additionalParameters['qf'] .= ' synonyms^1';
 	
 		foreach($cfg['languages'] as $language) {
-			$additionalParameters['qf'] .= ' text_txt_synonyms_'.$language.'^1';
+			$additionalParameters['qf'] .= ' synonyms_'.$language.'^1';
 		}
 	}
 
