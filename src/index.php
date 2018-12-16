@@ -905,10 +905,10 @@ if (!$query) {
 	if ($synonyms == true) {
 
 		// add fields with synonyms to query fields
-		$additionalParameters['qf'] .= ' synonyms^1';
+		$additionalParameters['qf'] .= ' text_txt_synonyms^1';
 	
 		foreach($cfg['languages'] as $language) {
-			$additionalParameters['qf'] .= ' synonyms_'.$language.'^1';
+			$additionalParameters['qf'] .= ' text_txt_synonyms_'.$language.'^1';
 		}
 	}
 
@@ -953,10 +953,7 @@ if ($view != 'trend' && $view!= 'entities' && $view != 'map' && $view !='graph' 
 
 $additionalParameters['hl.encoder'] = 'html';
 $additionalParameters['hl.snippets'] = 100;
-$additionalParameters['hl.fl'] = 'content_txt';
-foreach ($cfg['languages'] as $language) {
-	$additionalParameters['hl.fl'] .= ',content_txt_txt_'.$language;
-}
+$additionalParameters['hl.fl'] = 'content_txt,title_txt';
 
 $additionalParameters['hl.fragsize'] = $cfg['snippetsize'];
 
@@ -979,7 +976,7 @@ elseif ($view =="words") {
 
 } elseif ($view != 'table') {
 	// if there is no snippet for content field, show first part of content field
-	// (i.e. if search matches against filename or all results within path or date)
+	// (i.e. if search matches against filename or all results within only facet filters like path or date)
 	$additionalParameters['f.content_txt.hl.alternateField'] = 'content_txt';
 	$additionalParameters['f.content_txt.hl.maxAlternateFieldLength'] = $cfg['snippetsize'];
 }
