@@ -1008,11 +1008,13 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
 		if ($configured_facet == 'path') {
 			$pathfacet_suffix = '_s';
+			$arr_facets[] = $configured_facet . '0' . $pathfacet_suffix;
+
 		} else {
 			$pathfacet_suffix = '_ss';
+			$arr_facets[] = $configured_facet . '_taxonomy_' . '0' . $pathfacet_suffix;
 		}
 
-		$arr_facets[] = $configured_facet . '0' . $pathfacet_suffix;
 		
 	} else {
 		if ($configured_facet != 'path') {
@@ -1027,11 +1029,11 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
 		if ($configured_facet == 'path') {
 			$pathfacet_suffix = '_s';
+			$pathfacet = $configured_facet . '0' . $pathfacet_suffix;
 		} else {
 			$pathfacet_suffix = '_ss';
+			$pathfacet = $configured_facet . '_taxonomy_' . '0' . $pathfacet_suffix;
 		}
-
-		$pathfacet = $configured_facet . '0' . $pathfacet_suffix;
 
 		$cfg['facets'][$configured_facet]['pathfacet'] = $pathfacet;
 	
@@ -1067,11 +1069,12 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
 				if ($configured_facet == 'path') {
 					$pathfacet_suffix = '_s';
+					$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
+
 				} else {
 					$pathfacet_suffix = '_ss';
+					$pathfacet = $configured_facet . '_taxonomy_' . $pathdeepth . $pathfacet_suffix;
 				}
-
-				$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
 				
 				$arr_facets[] = $pathfacet;
 	
@@ -1120,15 +1123,14 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
 				if ($configured_facet == 'path') {
 					$pathfacet_suffix = '_s';
+					$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
 				} else {
 					$pathfacet_suffix = '_ss';
+					$pathfacet = $configured_facet . '_taxonomy_' . $pathdeepth . $pathfacet_suffix;
 				}
 
-				$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
-				
 				$arr_facets[] = $pathfacet;
-	
-																	
+																		
 				$pathfilter = path2query($deselected_value, $deselected_facet, $pathfacet_suffix);
 				$solrfilterquery .= ' -(' . $pathfilter.')';
 
@@ -1166,7 +1168,13 @@ function path2query($path, $facet, $pathfacet_suffix, $separator='/') {
 		$solrpath = str_replace("\t", "\\\t", $solrpath);
 		
 		if ($first==false) {$pathfilter .= ' +';} else {$first=false;}
-		$pathfilter .= $facet . $pathcounter . $pathfacet_suffix . ':' . $solrpath;
+
+		if ($facet == 'path') {
+			$pathfilter .= $facet . $pathcounter . $pathfacet_suffix . ':' . $solrpath;
+		} else {
+			$pathfilter .= $facet . '_taxonomy_' . $pathcounter . $pathfacet_suffix . ':' . $solrpath;
+		}
+
 		$pathcounter++;
 	}
 	return $pathfilter;
