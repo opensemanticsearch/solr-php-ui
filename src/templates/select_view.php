@@ -110,6 +110,11 @@ foreach ($analyse_dropdowns as $anl_item => $title) {
 
     </div>
 
+    <?php
+       if ($view == 'list' || $view == 'images' || $view == 'videos' || $view == 'audios') {
+         include 'templates/select_sort.php';
+       }
+    ?>
   </div>
 
 </div>

@@ -54,14 +54,14 @@ else {
 
         <div class="row">
           <div class="small-12 columns">
-            <h4>Search options</h4>
+            <h4><?= t('Search options'); ?></h4>
           </div>
         </div>
 
         <div class="row">
           <div id="search-op" class="small-12 columns">
             <fieldset class="fieldset">
-              <legend><?= t("Search operator:"); ?></legend>
+              <legend><?= t("Search operator"); ?>:</legend>
               <div class="small-12 large-12 columns"><?= t("Find:") ?></div>
               <div class="small-12 large-4 columns">
                 <input type="radio"
@@ -135,8 +135,6 @@ else {
       // print the results with selected view template
       if ($view == 'list') {
 
-        include 'templates/select_sort.php';
-
         include 'templates/pagination.php';
         include 'templates/view.list.php';
         include 'templates/pagination.php';
@@ -151,7 +149,6 @@ else {
       }
       elseif ($view == 'images') {
 
-        include 'templates/select_sort.php';
         include 'templates/pagination.php';
         include 'templates/view.images.php';
         include 'templates/pagination.php';
@@ -159,7 +156,6 @@ else {
       }
       elseif ($view == 'videos') {
 
-        include 'templates/select_sort.php';
         include 'templates/pagination.php';
         include 'templates/view.videos.php';
         include 'templates/pagination.php';
@@ -167,7 +163,6 @@ else {
       }
       elseif ($view == 'audios') {
 
-        include 'templates/select_sort.php';
         include 'templates/pagination.php';
         include 'templates/view.audios.php';
         include 'templates/pagination.php';
