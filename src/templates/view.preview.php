@@ -204,6 +204,51 @@ if ($preview_allowed) {
     $preview_image = $cfg['preview_path'] . $doc->preview_s;
   }
 
+  // if single page pdf segments, search matching pages to start preview with a matching page
+  $preview_segments = false;
+  $preview_page = 1;
+  $preview_pages = 1;
+  
+  if (isset($doc->etl_thumbnails_s)) {
+	  $preview_segments = true;
+
+	  // how many pages?
+	    
+	  if (isset($doc->pages_i)) {
+			$preview_pages = intval($doc->pages_i);
+	  } elseif (isset($doc->xmpTPg_NPages_ss)) {
+			$preview_pages = intval($doc->xmpTPg_NPages_ss);
+	  }
+
+	  # which pages are matching the search query?
+  
+	  $preview_matching_pages_additionalParameters = array();
+	  $preview_matching_pages_additionalParameters['fl'] = 'page_i';
+	  $preview_matching_pages_additionalParameters['sort'] = 'page_i asc';
+	  $preview_matching_pages_additionalParameters['q.op'] = 'OR';
+	  $preview_matching_pages_additionalParameters['fq'] = 'container_s:"'.mask_query($id).'"';
+	  try {
+		$preview_matching_pages_results = $solr->search($solrquery, 0, 10000, $preview_matching_pages_additionalParameters);
+		if (!empty($preview_matching_pages_results->response)) {
+			$preview_matching_pages_total = (int)($preview_matching_pages_results->response->numFound);
+
+			# set first preview page to first matching page
+			if ($preview_matching_pages_total > 0) {
+				$preview_page = $preview_matching_pages_results->response->docs[0]->page_i;
+	
+			}
+
+		}
+		$error = false;
+
+	  } catch (Exception $e) {
+			$error = $e->__toString();
+	  }
+
+  }
+
+	
+
 }
 else {
   $content = t('preview_not_allowed');
@@ -341,11 +386,91 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
             // if PDF
             if (strpos($type, 'application/pdf') === 0) { 
-            	?>
-					
-					<embed src="<?= $id ?>#search=<?= rawurlencode($highlightings) ?>" type="application/pdf" width="100%" height="100%" />
+
+
+if ($preview_segments == true) {
+
+           ?>
+
+
+<script type="text/javascript">
+
+	var preview_pages = <?= $preview_pages ?>;
+	var preview_page = <?= $preview_page ?>;
+
+	var highlightings_urlencoded = <?= json_encode(rawurlencode($highlightings)) ?>;
+	var thumbnails_dir = '<?= 'thumbnails/' . $doc->etl_thumbnails_s ?>';
+	
+	function show_page(preview_page) {
+
+		var preview_page_url = thumbnails_dir + '/' + preview_page + '.pdf#search=' + highlightings_urlencoded;
+		document.getElementById('pdf').setAttribute('src', preview_page_url);
+
+		document.getElementById("preview_page").innerHTML = preview_page + '/' + preview_pages;
+		
+		if (preview_page == 1) {
+			document.getElementById("preview_prev_page").innerHTML = '<?= t(preview_prev_page) ?>';
+			document.getElementById("preview_prev_page").classList.add("disabled");
+		} else {
+			document.getElementById("preview_prev_page").innerHTML = '<a onclick="preview_show_prev_page();"><?= t(preview_prev_page) ?></a>';
+			document.getElementById("preview_prev_page").classList.remove("disabled");		
+		}
+
+		if (preview_page == preview_pages) {
+			document.getElementById("preview_next_page").innerHTML = '<?= t(preview_next_page) ?>';
+			document.getElementById("preview_next_page").classList.add("disabled");
+		} else {
+			document.getElementById("preview_next_page").innerHTML = '<a onclick="preview_show_next_page();"><?= t(preview_next_page) ?></a>';
+			document.getElementById("preview_next_page").classList.remove("disabled");		
+		}
+		
+				
+	}
+
+	function preview_show_next_page() {
+		if (preview_page < preview_pages) {
+			preview_page += 1;
+			show_page(preview_page);
+		}
+	}
+
+	function preview_show_prev_page() {
+		if (preview_page > 1) {
+			preview_page -= 1;
+			show_page(preview_page);
+		}
+	}
+
+
+</script>
+
+<div class="row">
+<ul class="pagination text-center" role="navigation" aria-label="Pagination">
+
+
+<li id="preview_prev_page" class="pagination-previous <?php if ($preview_page == 1): print 'disabled'; endif; ?>">
+<?php if ($preview_page > 1): print '<a onclick="preview_show_prev_page();">'; endif; ?><?= t(preview_prev_page) ?><?php if ($preview_page > 1): print '</a>'; endif; ?>
+
+</li>
+
+<li id="preview_page"><?= $preview_page ?>/<?= $preview_pages ?></li>
+
+<li id="preview_next_page" class="pagination-next <?php if ($preview_page == $preview_pages): print 'disabled'; endif; ?>">
+<?php if ($preview_page < $preview_pages): print '<a onclick="preview_show_next_page();">'; endif; ?><?= t(preview_next_page) ?><?php if ($preview_page < $preview_pages): print '</a>'; endif; ?>
+</li>
+
+</ul>
+</div>
+					<embed id="pdf" src="<?= 'thumbnails/' . $doc->etl_thumbnails_s . '/' . $preview_page . '.pdf#search=' . rawurlencode($highlightings) ?>" type="application/pdf" width="100%" height="100%" />
+
+
+					<?php
+					} else { // no thumbnails
+					?>
+						<embed id="pdf" src="<?= $id ?>#search=<?= rawurlencode($highlightings) ?>" type="application/pdf" width="100%" height="100%" />
 
               	<?php
+              } // no thumbnails
             } // if PDF
 
 

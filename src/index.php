@@ -912,6 +912,9 @@ if (!$query) {
 		}
 	}
 
+	// boost ranking of documents matching whole phrase
+	$additionalParameters['pf'] =	$additionalParameters['qf'];
+
 }
 
 
@@ -1373,9 +1376,12 @@ else {
 # use edismax as query parser
 $additionalParameters['defType'] = 'edismax';
 
+# do not show indexed segments used for previews / links to matching single pages
+$additionalParameters['fq'] = array('-content_type_ss:("PDF page")');
+
 # set filter query
 if ($solrfilterquery) {
-	$additionalParameters['fq'] = $solrfilterquery;	
+	$additionalParameters['fq'][] = $solrfilterquery;
 }
 
 if ($cfg['debug']) {

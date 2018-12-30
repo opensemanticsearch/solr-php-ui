@@ -27,7 +27,7 @@ $lang['en']['result of'] = 'of';
 
 $lang['en']['newest_documents'] = 'Newest';
 $lang['en']['newest_documents_of'] = 'of';
-$lang['en']['newest_documents_of_total'] = 'indexed documents';
+$lang['en']['newest_documents_of_total'] = 'documents';
 
 
 $lang['en']['open'] = 'Open';
@@ -61,7 +61,19 @@ $lang['en']['view_analytics'] = 'Analyze';
 
 $lang['en']['Words'] = 'Words (count of docs)';
 
+$lang['en']['Preview'] = 'Preview';
+$lang['en']['Images'] = 'Images';
+$lang['en']['Audios'] = 'Audios';
+$lang['en']['Videos'] = 'Videos';
+$lang['en']['view_entities'] = 'Entities';
+$lang['en']['Named Entities'] = 'Named Entities';
+$lang['en']['New search'] = 'New search';
+$lang['en']['Newest documents'] = 'Newest documents';
 
+$lang['en']['preview_next_page'] = 'Next page';
+$lang['en']['preview_prev_page'] = 'Previous page';
+
+$lang['en']['Help'] = 'Help';
 
 //
 // German (de)
