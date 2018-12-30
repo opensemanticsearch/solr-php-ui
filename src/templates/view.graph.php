@@ -74,9 +74,10 @@ Ignored (not queried for connections and not shown in the graph) entity types (c
 
     if ( !in_array($facet, $graph_fields) ) {
 
- 		$graph_fields_include = $graph_fl . ',' . $facet;
-
-		$link_graph_fields_include = buildurl($params,'graph_fl', $graph_fields_include);
+		$graph_fields_include = $graph_fields;
+ 		$graph_fields_include[] = $facet;
+ 		
+		$link_graph_fields_include = buildurl($params,'graph_fl', implode(',', $graph_fields_include));
 
       print ("<span class=\"facet-value\"><strike>" . $facet_config['label'] . "</strike>&nbsp;(<a href=\"" . $link_graph_fields_include . "\">include</a>)</span>" );
 
