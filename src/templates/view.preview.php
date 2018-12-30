@@ -227,6 +227,8 @@ if ($preview_allowed) {
 	  $preview_matching_pages_additionalParameters['sort'] = 'page_i asc';
 	  $preview_matching_pages_additionalParameters['q.op'] = 'OR';
 	  $preview_matching_pages_additionalParameters['fq'] = 'container_s:"'.mask_query($id).'"';
+	  $preview_matching_pages_additionalParameters['qf'] = $additionalParameters['qf'];
+
 	  try {
 		$preview_matching_pages_results = $solr->search($solrquery, 0, 10000, $preview_matching_pages_additionalParameters);
 		if (!empty($preview_matching_pages_results->response)) {
