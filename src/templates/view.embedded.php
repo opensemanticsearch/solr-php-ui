@@ -23,7 +23,6 @@
   // print the results with selected view template
   if ($view == 'list') {
     include 'templates/select_view.php';
-    include 'templates/select_sort.php';
     include 'templates/view.list.php';
     include 'templates/pagination.php';
 
