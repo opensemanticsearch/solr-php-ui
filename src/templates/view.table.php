@@ -11,7 +11,7 @@
   // Find all columns (=fields)
   $fields = array();
 
-  $exclude_fields = array('_version_', 'content_txt', 'preview_s');
+  $exclude_fields = array('_version_','_text_', 'content_txt', 'preview_s');
 
   // exclude fields that are only copied for language specific analysis in index
   foreach ($cfg['languages'] as $language) {
