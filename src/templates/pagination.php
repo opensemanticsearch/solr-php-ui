@@ -52,11 +52,11 @@
 
           <?php echo t('result'); ?>
           <?= $page ?>
-          <?php echo t('page of'); ?>
+          <?php echo t('result of'); ?>
           <?= $total ?>
 
-
         <?php } else { ?>
+                
           <?php echo t('page'); ?>
           <?= $page ?>
           <?php echo t('page of'); ?>
