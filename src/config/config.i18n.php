@@ -93,6 +93,7 @@ $lang['de']['next'] = 'Nächste';
 $lang['de']['prev'] = 'Vorherige';
 $lang['de']['page'] = 'Seite';
 $lang['de']['page of'] = 'von';
+$lang['de']['results'] = 'Ergebnisse';
 $lang['de']['result'] = 'Ergebnis';
 $lang['de']['result of'] = 'von';
 $lang['de']['result to'] = 'bis';
@@ -117,6 +118,16 @@ $lang['de']['Images'] = 'Bilder';
 $lang['de']['Table'] = 'Tabelle';
 $lang['de']['view_words'] = 'Wörter';
 $lang['de']['view_analytics'] = 'Analyse';
+
+// subtabs of preview
+$lang['de']['Content'] = 'Inhalt';
+$lang['de']['Plain text'] = 'Extrahierter text';
+$lang['de']['Meta'] = 'Metadaten';
+$lang['de']['Tags & Annotations'] = 'Tags und Annotationen';
+
+$lang['de']['preview_prev_page'] = 'Vorherige Seite';
+$lang['de']['preview_next_page'] = 'Nächste Seite';
+
 // Sort labels
 
 $lang['de']['Relevance'] = 'Relevanz';

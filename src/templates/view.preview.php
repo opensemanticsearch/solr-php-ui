@@ -357,10 +357,10 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
     <ul class="tabs" data-tabs id="preview-tabs">
 
         <li class="tabs-title is-active"><a href="#preview-content"
-                                            aria-selected="true">Content</a></li>
+                                            aria-selected="true"><?= t('Content') ?></a></li>
 
       <?php if ($type=='application/pdf') { // if pdf ?>
-        <li class="tabs-title"><a href="#preview-plaintext">Plain text</a></li>
+        <li class="tabs-title"><a href="#preview-plaintext"><?= t('Plain text') ?></a></li>
       <?php } // if pdf ?>
 
 
@@ -369,10 +369,10 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
       <?php } // if ocr ?>
 
       <?php if ($annotations) { ?>
-        <li class="tabs-title"><a href="#preview-annotations">Tags & Annotations</a></li>
+        <li class="tabs-title"><a href="#preview-annotations"><?= t('Tags & Annotations') ?></a></li>
       <?php } // if annotations ?>
  
-      <li class="tabs-title"><a href="#preview-meta">Meta</a></li>
+      <li class="tabs-title"><a href="#preview-meta"><?= t('Meta') ?></a></li>
     </ul>
   </div>
 
