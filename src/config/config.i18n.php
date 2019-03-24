@@ -372,6 +372,76 @@ $lang['ar']['view_analytics'] = 'التحليلات';
 
 $lang['ar']['Words'] = 'الكلمات (عدد الوثائق)';
 
+// French (Switzerland)
+$lang['fr']['advanced_search'] = 'recherche avancée';
+$lang['fr']['search_by_list'] = 'recherche avec liste';
+$lang['fr']['manage_structure'] = 'gestion structure';
+$lang['fr']['manage_datasources'] = 'Sources du donnée';
+$lang['fr']['config'] = 'Gestion';
+
+
+$lang['fr']['next'] = 'Suivant';
+$lang['fr']['prev'] = 'Précédent';
+$lang['fr']['page'] = 'Page';
+$lang['fr']['page of'] = 'de';
+
+$lang['fr']['sort'] = 'trier:';
+
+
+$lang['fr']['result'] = 'résultat';
+$lang['fr']['result to'] = 'de';
+$lang['fr']['result of'] = 'de';
+
+$lang['fr']['newest_documents'] = 'Dernier document';
+$lang['fr']['newest_documents_of'] = 'de';
+$lang['fr']['newest_documents_of_total'] = 'documents';
+
+
+$lang['fr']['open'] = 'Ouvrir';
+$lang['fr']['years'] = 'dernières années';
+$lang['fr']['meta'] = 'Tagging &amp; annotation';
+
+$lang['fr']['meta description'] = 'ajour metadonnée: With tagging or annotation you can add keywords or notes about the document or file so it can be found with this keywords, even if they are not written in the document';
+
+$lang['fr']['wait'] = 'en recherche ...';
+
+$lang['fr']['view_trend'] = 'Tendance';
+
+$lang['fr']['view_graph'] = 'Connections (Graph)';
+
+$lang['fr']['file_size'] = 'taille du fichier';
+
+$lang['fr']['content type'] = 'type du fichier';
+$lang['fr']['content_ocr'] = 'Resultat reconnaissance optique de caractères (OCR/ROC) du image:';
+
+// Field labels
+$lang['fr']['ocr_t'] = 'OCR/ROC';
+$lang['fr']['title'] = 'Titre';
+$lang['fr']['author_ss'] = 'Auteur';
+$lang['fr']['content_type_ss'] = 'Type du fichier';
+$lang['fr']['file_modified_dt'] = 'fichier modifié';
+$lang['fr']['last_modified'] = 'dernière modification';
+$lang['fr']['file_size_i'] = 'taille (en bytes)';
+
+$lang['fr']['view_words'] = 'Mots (liste des mots et nuage de mots-clés cloud)';
+$lang['fr']['view_analytics'] = 'Analyser';
+
+$lang['fr']['Words'] = 'Mots (nombre des docs)';
+
+$lang['fr']['Preview'] = 'Apcerçu';
+$lang['fr']['Images'] = 'Images';
+$lang['fr']['Audios'] = 'Audios';
+$lang['fr']['Videos'] = 'Videos';
+$lang['fr']['view_entities'] = 'entités';
+$lang['fr']['Named Entities'] = 'entité nommés';
+$lang['fr']['New search'] = 'Nouvelle recherche';
+$lang['fr']['Newest documents'] = 'dernier document';
+
+$lang['fr']['preview_next_page'] = 'page suivante';
+$lang['fr']['preview_prev_page'] = 'page précédente';
+
+$lang['fr']['Help'] = 'Aide';
+
 
 // imitate drupal style translate function, so we can one day use the other code as a drupal module
 function t($string) {
