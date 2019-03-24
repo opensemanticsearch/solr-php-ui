@@ -926,7 +926,7 @@ if (!$query) {
 * table view (where we want to see all fields)
 */
 if ($view != 'table' && $view != 'preview') {
-	$additionalParameters['fl']='id,title_txt,container_s,author_ss,file_modified_dt,last_modified_dt,Content-Length_i,location_p';
+	$additionalParameters['fl']='id,content_type_ss,title_txt,container_s,author_ss,file_modified_dt,last_modified_dt,Content-Length_i,location_p';
 }
 
 
@@ -1377,7 +1377,8 @@ else {
 $additionalParameters['defType'] = 'edismax';
 
 # do not show indexed segments used for previews / links to matching single pages
-$additionalParameters['fq'] = array('-content_type_ss:("PDF page")');
+$additionalParameters['fq'] = array();
+#$additionalParameters['fq'] = array('-content_type_ss:("PDF page")');
 
 # set filter query
 if ($solrfilterquery) {
