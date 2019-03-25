@@ -233,6 +233,12 @@ function get_snippets($result_nr, $snippets) {
         }
       }
 
+      if (count($snippets) === 0) {
+        if (isset($results->highlighting->$id->ocr_t)) {
+          $snippets = $results->highlighting->$id->ocr_t;
+        }
+		}
+
       if (count($snippets) === 0 && isset($doc->content_txt)) {
         // if no snippets available, use content as snippet
         $snippets = array($doc->content_txt);

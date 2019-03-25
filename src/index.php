@@ -956,7 +956,7 @@ if ($view != 'trend' && $view!= 'entities' && $view != 'map' && $view !='graph' 
 
 $additionalParameters['hl.encoder'] = 'html';
 $additionalParameters['hl.snippets'] = 100;
-$additionalParameters['hl.fl'] = 'content_txt,title_txt';
+$additionalParameters['hl.fl'] = 'content_txt,title_txt,ocr_t';
 
 $additionalParameters['hl.fragsize'] = $cfg['snippetsize'];
 
