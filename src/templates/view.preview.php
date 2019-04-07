@@ -373,6 +373,12 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
       <?php } // if annotations ?>
  
       <li class="tabs-title"><a href="#preview-meta"><?= t('Meta') ?></a></li>
+
+      <?php if ($cfg['etl_status']) { ?>
+        <li class="tabs-title"><a href="#preview-etl"><?= t('Import & analysis process (ETL)') ?></a></li>
+      <?php } // if ETL status ?>
+
+
     </ul>
   </div>
 
@@ -642,6 +648,35 @@ if ($preview_segments == true) {
         </div>
 
       </div>
+
+      <?php if ($cfg['etl_status']) { ?>
+
+
+      <div class="tabs-panel" id="preview-etl">
+        <div class="etl">
+          <?php
+			 foreach ($doc as $field => $value) {
+            if (strpos($field, 'etl_') === 0) {
+              ?>
+              <div>
+                <?php
+                print "<b><span title=\"" . htmlentities($field) . "\">" . htmlentities(get_label($field)) . '</span></b>:<br />';
+
+					 print_field($doc, $field);
+
+                print '<br /><br />';
+                ?>
+              </div>
+              <?php
+            }
+          }
+          ?>
+        </div>
+
+      </div>
+
+      <?php } // if ETL status ?>
+
 
 
     </div>

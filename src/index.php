@@ -17,6 +17,9 @@
 
 $cfg['debug'] = false;
 
+$cfg['etl_status'] = false;
+
+
 $cfg['solr']['host'] = 'localhost';
 $cfg['solr']['port'] = 8983;
 $cfg['solr']['path'] = '/solr';
@@ -664,7 +667,14 @@ if ($view == 'rss') {
     $sort = 'newest';
 }
 
+if ($cfg['etl_status']) {
+
+	$cfg['facets']['etl_error_plugins_ss'] = array ('label'=>'Failed tasks while import & analysis (ETL)');
+
+}
+
 include 'config/config.facets.php';
+
 
 // get parameters for each configurated facet
 $selected_facets = array();

@@ -11,6 +11,9 @@ $cfg['debug'] = false;
 
 //$cfg['debug'] = true;
 
+// Show preview tab and facet with ETL status like used plugins / ETL error messages
+$cfg['etl_status'] = true;
+
 
 //
 // Default operator (can be switched by users in UI by search options)
