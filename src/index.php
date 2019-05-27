@@ -1438,8 +1438,14 @@ $end = min($start + $limit - 1, $total);
 $stat_limit = $limit;
 if ($stat_limit > $total) { $stat_limit=$total; }
 
-$page = ceil($start / $limit);
-$pages = ceil($total / $limit);
+if ($limit > 0) {
+    $page = ceil($start / $limit);
+    $pages = ceil($total / $limit);
+}
+else {
+    $page = 1;
+    $pages = 1;
+}
 
 // if isnextpage build link
 if ($total > $start + $limit - 1) {
