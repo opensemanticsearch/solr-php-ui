@@ -34,7 +34,7 @@
       $title = FALSE;
 
       if (!empty($doc->title_txt)) {
-        $title = htmlspecialchars($doc->title_txt);
+        $title = htmlspecialchars(implode(", ", $doc->title_txt));
       }
 
       // Type
