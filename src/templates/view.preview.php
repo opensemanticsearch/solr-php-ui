@@ -118,7 +118,7 @@ if (is_array($doc->author_ss)) {
 $title = t("No Title");
 if (isset($doc->title_txt)) {
   if (!empty($doc->title_txt)) {
-    $title = htmlspecialchars($doc->title_txt);
+    $title = htmlspecialchars(implode(", ", $doc->title_txt));
   }
 }
 
