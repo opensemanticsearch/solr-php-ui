@@ -2,7 +2,7 @@
 // Standard view
 //
 // Show results as list
-
+require_once(__DIR__ . '/helpers.php');
 ?>
 
 <div id="results" class="row">
@@ -35,13 +35,7 @@
       $author = htmlspecialchars($doc->author_ss);
 
       // Title
-      $title = FALSE;
-
-      if (isset($doc->title_txt)) {
-        if (!empty($doc->title_txt)) {
-          $title = htmlspecialchars(implode(", ", $doc->title_txt));
-        }
-      }
+      $title = format_title($doc->title_txt);
 
       // Type
       $type = $doc->content_type_ss;
