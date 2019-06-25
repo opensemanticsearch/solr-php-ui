@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/helpers.php');
+
 // Show preview
 
 
@@ -115,12 +117,7 @@ if (is_array($doc->author_ss)) {
 }
 
 // Title
-$title = t("No Title");
-if (isset($doc->title_txt)) {
-  if (!empty($doc->title_txt)) {
-    $title = htmlspecialchars(implode(", ", $doc->title_txt));
-  }
-}
+$title = format_title($doc->title_txt, t("No Title"));
 
 // Modified date
 if (isset($doc->file_modified_dt)) {

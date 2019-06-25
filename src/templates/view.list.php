@@ -3,6 +3,8 @@
 //
 
 // Number of snippets initially displayed.
+require_once(__DIR__ . '/helpers.php');
+
 define('SNIPPETS_OPEN', 3);
 
 function get_facets($result_nr, $doc, $facet_cfg /*=$cfg['facets']*/) {
@@ -193,11 +195,7 @@ function get_snippets($result_nr, $snippets) {
 		
 		
       // Title
-      // $title = t('No title');
-      $title = $uri_label;
-      if (!empty($doc->title_txt)) {
-        $title = htmlspecialchars(implode(", ", $doc->title_txt));
-      }
+      $title = format_title($doc->title_txt, $uri_label);
 
       // Modified date
       $datetime = FALSE;

@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/helpers.php');
 
 //
 // Search results as RSS Feed
@@ -60,10 +61,7 @@ foreach ($results->response->docs as $doc) {
       $author = $doc->author_ss;
 
       // Title
-      $title = $uri_label;
-      if (!empty($doc->title_txt)) {
-        $title = htmlspecialchars(implode(", ", $doc->title_txt));
-      }
+      $title = format_title($doc->title_txt, $uri_label);
 
       // Modified date
       $datetime = FALSE;
