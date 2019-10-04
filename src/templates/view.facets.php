@@ -12,20 +12,31 @@
         <?php
 
 			foreach ($selected_facets as $selected_facet => $facetvalue_array) {
+				
+				if ($selected_facet == 'path') {
+						$pathfacet_valueseparator = '/';
+				} else {
+						$pathfacet_valueseparator = "\t";
+				}
+
 				foreach ($facetvalue_array as $facet_value) {
 
 
 					if (isset($cfg['facets'][$selected_facet]['tree']) && $cfg['facets'][$selected_facet]['tree']==true) {
 
-				      $trimmedpath = trim($facet_value, '/');
+				      $trimmedpath = trim($facet_value, $pathfacet_valueseparator);
 
-				      $paths = explode('/', $trimmedpath);
+				      $paths = explode($pathfacet_valueseparator, $trimmedpath);
 
 						print '<a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, $selected_facet, $facet_value, 's', 1) . '">(&times;)</a> ' . $cfg['facets'][$selected_facet]['label'] . ': <ul>';
 
 				      $fullpath = '';
       				for ($i = 0; $i < count($paths) - 1; $i++) {
-							$fullpath .= '/' . $paths[$i];
+       					if ($fullpath != '') {
+      						$fullpath .= $pathfacet_valueseparator;
+      					}
+							$fullpath .= $paths[$i];
+
 							$label = $paths[$i];
 							$taxonomy = explode("\t", $label);
 							$label = end($taxonomy);
@@ -51,7 +62,11 @@
 
         foreach ($deselected_facets as $deselected_facet => $facetvalue_array) {
           foreach ($facetvalue_array as $facet_value) {
-            print '<li><a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, 'NOT_' . $deselected_facet, $facet_value, 's', 1) . '">(&times;)</a> NOT ' . $cfg['facets'][$deselected_facet]['label'] . ': ' . htmlspecialchars($facet_value) . '</li>';
+
+				$taxonomy = explode("\t", $facet_value);
+				$label = end($taxonomy);
+
+            print '<li><a onclick="waiting_on();" title="' . t('Remove filter') . '" href="' . buildurl_delvalue($params, 'NOT_' . $deselected_facet, $facet_value, 's', 1) . '">(&times;)</a> NOT ' . $cfg['facets'][$deselected_facet]['label'] . ': ' . htmlspecialchars($label) . '</li>';
           }
         }
 
@@ -115,7 +130,11 @@
     if ( !in_array($facet, $exclude_facets) ) {
 
 		if ( isset($facet_config['pathfacet']) ) {
-      	print_facet($results, $facet_config['pathfacet'], t($facet_config['label']), $facets_limit, 'list', $facet, $facet_config['path']);
+			$path = FALSE;
+			if (isset($facet_config['path'])) {
+				$path=$facet_config['path'];
+			}
+      	print_facet($results, $facet_config['pathfacet'], t($facet_config['label']), $facets_limit, 'list', $facet, $path);
       } else {
       	print_facet($results, $facet, t($facet_config['label']), $facets_limit);
       }
