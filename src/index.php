@@ -57,7 +57,6 @@ header('Content-Type: text/html; charset=utf-8');
 // include configs
 include 'config/config.php';
 include 'config/config.webadmin.php';
-include 'config/config.mimetypes.php';
 include 'config/config.i18n.php';
 if (file_exists('config/config.i18n.custom.php')) {
 	include 'config/config.i18n.custom.php';
