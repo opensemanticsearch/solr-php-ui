@@ -103,13 +103,11 @@ require_once(__DIR__ . '/helpers.php');
           } ?>
           <?= $snippet ?>
         </div>
-        <div class="commands">
-          <a target="_blank"
-             href="<?= $id ?>"><?php echo t('open'); ?></a> <?php if ($cfg['metadata']['server']) { ?> |
-            <a target="_blank" title="<?php echo t('meta description'); ?>"
-               href="<?php print get_metadata_uri($cfg['metadata']['server'], $id); ?>"><?php echo t('meta'); ?></a> <?php } ?>
-          | <?php print '<a target="_blank" href="preview.php?id=' . urlencode($id) . '">' . t('Preview') . '</a>'; ?>
-        </div>
+
+        <?php
+          include 'templates/view.commands.php';
+        ?>
+
       </li>
 
       <?php
