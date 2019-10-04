@@ -158,61 +158,24 @@ require_once(__DIR__ . '/helpers.php');
         </div>
 
 
-        <?php $snippets = get_snippets($result_nr, $snippets); ?>
         <div class="snippets">
 
           <?php if ($authors): ?>
             <div class="author"><?= htmlspecialchars(implode(", ", $authors)) ?></div>
           <?php endif; ?>
 
-          <ul class="snips">
-            <?php foreach ($snippets['values'] as $snip): ?>
-              <li class="<?= implode(' ', $snip['class']) ?>"><?= $snip['value'] ?></li>
-            <?php endforeach; ?>
-          </ul>
-
-          <?php if (!empty($snippets['more-values'])): ?>
-            <a class="tiny button" id="<?= $snippets['more']['btn_id'] ?>"
-               href="<?= $snippets['more']['href'] ?>"
-               onClick="<?= $snippets['more']['onclick'] ?>"
-               title="<?= $snippets['more']['title'] ?>"><?= t('More') ?></a>
-            <ul id="<?= $snippets['more']['more_id'] ?>" class="more-snips <?= implode(' ', $snippets['class']) ?>">
-              <?php foreach ($snippets['more-values'] as $snip): ?>
-                <li class="<?= implode(' ', $snip['class']) ?>"><?= $snip['value'] ?></li>
-              <?php endforeach; ?>
-            </ul>
-          <?php endif; ?>
-
+          <?php
+            $snippets = get_snippets($result_nr, $snippets);
+            include 'templates/view.snippets.text.php';
+          ?>
         </div>
 
-
-        <?php $facets = get_facets($result_nr, $doc, $cfg['facets']); ?>
         <span class="facets">
-          <?php foreach ($facets as $field => $facet): ?>
+        <?php
+          $facets = get_facets($result_nr, $doc, $cfg['facets']);
+          include 'templates/view.snippets.entities.php';
+        ?>
 
-            <span class="<?= implode(' ', $facet['class']) ?>">
-            <span class="facet-name"
-                  title="<?= $facet['title'] ?>"><?= $facet['name'] ?></span>
-
-              <?php foreach ($facet['values'] as $value): ?>
-                <span class="<?= implode(' ', $value['class']) ?>"><?= $value['value'] ?></span>
-              <?php endforeach; ?>
-
-              <?php if (!empty($facet['more-values'])): ?>
-                <a class="tiny button" id="<?= $facet['more']['btn_id'] ?>"
-                   href="<?= $facet['more']['href'] ?>"
-                   onClick="<?= $facet['more']['onclick'] ?>"
-                   title="<?= $facet['more']['title'] ?>"><?= t('More') ?></a>
-                <span class="more-values" id="<?= $facet['more']['more_id'] ?>">
-                  <?php foreach ($facet['more-values'] as $value): ?>
-                    <span class="<?= implode(' ', $value['class']) ?>"><?= $value['value'] ?></span>
-                  <?php endforeach; ?>
-                </span>
-              <?php endif; // more ?>
-          </span>
-
-          <?php endforeach; // facet
-          ?>
         </span>
 
         <?php
