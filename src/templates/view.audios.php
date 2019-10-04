@@ -11,54 +11,99 @@ require_once(__DIR__ . '/helpers.php');
   <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 
     <?php
-    foreach ($results->response->docs as $doc) {
-
-      // URI
-      if (isset($doc->container_s)) {
-        $id = $doc->container_s;
-      }
-      else {
-        $id = $doc->id;
-      }
-
-
-      $uri_label = htmlspecialchars($id);
-      $uri_tip = FALSE;
-
-      // if file:// then only filename
-      if (strpos($id, "file://") == 0) {
-        $uri_label = htmlspecialchars(basename($id));
-        // for tooptip remove file:// from beginning
-        $uri_tip = htmlspecialchars(substr($id, 7));
-      }
-
-      // Author
-      $author = htmlspecialchars($doc->author_s);
-
-      // Title
-      $title = format_title($doc->title_txt);
+    $result_nr = 0;
+    foreach ($results->response->docs as $doc):
+      $result_nr++;
+      $id = $doc->id;
 
       // Type
       $type = $doc->content_type_ss;
 
+      // URI
+
+      // if part of container like zip, link to container file
+      // if PDF page URI to Deeplink
+      // since PDF Reader can open deep links
+      if (isset($doc->container_s) and $type != 'PDF page') {
+        $uri = $doc->container_s;
+        $deepid = $id;
+
+      }
+      else {
+        $uri = $id;
+        $deepid = FALSE;
+      }
+
+      $uri_label = $uri;
+      $uri_tip = FALSE;
+
+      // if file:// then only filename
+      if (strpos($uri, "file://") == 0) {
+        $uri_label = basename($uri);
+
+        // for tooptip remove file:// from beginning
+        $uri_tip = substr($uri, 7);
+        $uri_tip = htmlspecialchars($uri_tip);
+
+      }
+
+      if ($deepid) {
+        $deep_uri_label = $deepid;
+        $deep_uri_label = htmlspecialchars($deep_uri_label);
+
+        $deep_uri_tip = FALSE;
+        // if file:// then only filename
+        if (strpos($deepid, "file://") == 0) {
+          $deep_uri_label = basename($deepid);
+          $deep_uri_label = htmlspecialchars($deep_uri_label);
+
+          // for tooltip remove file:// from beginning
+          $deep_uri_tip = substr($deepid, 7);
+          $deep_uri_tip = htmlspecialchars($deep_uri_tip);
+
+        }
+      }
+
+      $uri_unmasked = $uri;
+      $uri = htmlspecialchars($uri);
+      $uri_label = htmlspecialchars($uri_label);
+
+
+		// Authors
+		if (is_array($doc->author_ss)) {
+			$authors = $doc->author_ss;
+		} else {
+			$authors = array($doc->author_ss);
+		}
+		
+		
+      // Title
+      $title = format_title($doc->title_txt, $uri_label);
+
       // Modified date
+      $datetime = FALSE;
       if (isset($doc->file_modified_dt)) {
         $datetime = $doc->file_modified_dt;
       }
-      elseif (isset($doc->last_modified_dt)) {
-        $datetime = $doc->last_modified_dt;
-      }
-      else {
-        $datetime = FALSE;
+      elseif (isset($doc->last_modified)) {
+        $datetime = $doc->last_modified;
       }
 
-
+      $file_size = 0;
+      $file_size_txt = '';
+      // File size
+      $file_size_field = 'Content-Length_i';
+      if (isset($doc->$file_size_field)) {
+        $file_size = $doc->$file_size_field;
+        $file_size_txt = filesize_formatted($file_size);
+      }
+      
       // Snippet
-      if (isset($results->highlighting->$id->content)) {
-        $snippet = $results->highlighting->$id->content[0];
+      if (isset($results->highlighting->$id->content_txt)) {
+        $snippet = $results->highlighting->$id->content_txt[0];
       }
       else {
-        $snippet = $doc->content;
+        $snippet = $doc->content_txt;
         if (strlen($snippet) > $snippetsize) {
           $snippet = substr($snippet, 0, $snippetsize) . "...";
           $snippet = htmlspecialchars($snippet);
@@ -98,23 +143,19 @@ require_once(__DIR__ . '/helpers.php');
         </div>
 
         <div class="snippet">
-          <?php if ($author) {
-            print '<div class="author">' . $author . '</div>:';
-          } ?>
+          <?php if ($authors): ?>
+            <div class="author"><?= htmlspecialchars(implode(", ", $authors)) ?></div>
+          <?php endif; ?>
           <?= $snippet ?>
         </div>
-        <div class="commands">
-          <a target="_blank"
-             href="<?= $id ?>"><?php echo t('open'); ?></a> <?php if ($cfg['metadata']['server']) { ?> |
-            <a target="_blank" title="<?php echo t('meta description'); ?>"
-               href="<?php print get_metadata_uri($cfg['metadata']['server'], $id); ?>"><?php echo t('meta'); ?></a> <?php } ?>
-          | <?php print '<a target="_blank" href="preview.php?id=' . urlencode($id) . '">' . t('Preview') . '</a>'; ?>
-        </div>
+        
+        <?php
+          include 'templates/view.commands.php';
+        ?>
+        
       </li>
+      <?php endforeach; ?>
 
-      <?php
-    } // foreach doc
-    ?>
 
   </ul>
 </div>
