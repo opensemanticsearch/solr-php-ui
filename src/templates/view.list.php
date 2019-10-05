@@ -13,6 +13,7 @@ require_once(__DIR__ . '/helpers.php');
     $result_nr = 0;
     foreach ($results->response->docs as $doc):
       $result_nr++;
+      $id = $doc->id;
 
 		$container = isset($doc->container_s) ? $doc->container_s : NULL;
 		list ($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basenname) = get_urls($doc->id, $container);
@@ -25,7 +26,7 @@ require_once(__DIR__ . '/helpers.php');
 		}
 		
       // Title
-      $title = format_title($doc->title_txt, $url_label);
+      $title = format_title($doc->title_txt, $url_display_basename);
 
       // Modified date
       $datetime = FALSE;
