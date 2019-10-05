@@ -138,4 +138,30 @@ function get_snippets($result_nr, $snippets) {
   return $result;
 }
 
+
+function get_urls($id, $container) {
+
+		# url for display
+		$url_display = htmlspecialchars($id);
+		$url_display_basename = htmlspecialchars(basename($id));
+
+		# url for preview
+		$url_preview = $id;
+
+		# url for linking/opening file and annotation / url of container for displaying
+		if ($container) {
+	      $url_container_display = htmlspecialchars($container);
+	      $url_container_display_basename = htmlspecialchars(basename($container));
+	      $url_openfile = htmlspecialchars($container);
+	      $url_annotation = $container;
+		} else {
+			$url_container_display = FALSE;
+	      $url_container_display_basename = FALSE;
+	      $url_openfile = htmlspecialchars($id);
+	      $url_annotation = $id;
+		}
+		      
+      return array($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basenname);
+}
+
 ?>

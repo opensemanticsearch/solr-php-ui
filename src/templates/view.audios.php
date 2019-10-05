@@ -14,60 +14,9 @@ require_once(__DIR__ . '/helpers.php');
     $result_nr = 0;
     foreach ($results->response->docs as $doc):
       $result_nr++;
-      $id = $doc->id;
 
-      // Type
-      $type = $doc->content_type_ss;
-
-      // URI
-
-      // if part of container like zip, link to container file
-      // if PDF page URI to Deeplink
-      // since PDF Reader can open deep links
-      if (isset($doc->container_s) and $type != 'PDF page') {
-        $uri = $doc->container_s;
-        $deepid = $id;
-
-      }
-      else {
-        $uri = $id;
-        $deepid = FALSE;
-      }
-
-      $uri_label = $uri;
-      $uri_tip = FALSE;
-
-      // if file:// then only filename
-      if (strpos($uri, "file://") == 0) {
-        $uri_label = basename($uri);
-
-        // for tooptip remove file:// from beginning
-        $uri_tip = substr($uri, 7);
-        $uri_tip = htmlspecialchars($uri_tip);
-
-      }
-
-      if ($deepid) {
-        $deep_uri_label = $deepid;
-        $deep_uri_label = htmlspecialchars($deep_uri_label);
-
-        $deep_uri_tip = FALSE;
-        // if file:// then only filename
-        if (strpos($deepid, "file://") == 0) {
-          $deep_uri_label = basename($deepid);
-          $deep_uri_label = htmlspecialchars($deep_uri_label);
-
-          // for tooltip remove file:// from beginning
-          $deep_uri_tip = substr($deepid, 7);
-          $deep_uri_tip = htmlspecialchars($deep_uri_tip);
-
-        }
-      }
-
-      $uri_unmasked = $uri;
-      $uri = htmlspecialchars($uri);
-      $uri_label = htmlspecialchars($uri_label);
-
+		$container = isset($doc->container_s) ? $doc->container_s : NULL;
+		list ($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basenname) = get_urls($doc->id, $container);
 
 		// Authors
 		if (is_array($doc->author_ss)) {
@@ -114,25 +63,23 @@ require_once(__DIR__ . '/helpers.php');
       <li>
 
         <div class="title">
-          <a class="title" target="_blank" href="<?= $id ?>">
+          <a class="title" target="_blank" href="<?= $url_openfile ?>">
             <?php if ($title) { ?>
               <?= $title ?>
             <?php } ?>
 
           </a>
         </div>
-        <?php if ($uri_tip) { ?><span class="uri">
-					<span data-tooltip class="has-tip" title="<?= $uri_tip ?>">
-				<?php } ?>
-        <?= $uri_label ?>
-        <?php if ($uri_tip) { ?>
-					</span></span>
-      <?php } ?>
+
+
+        <?php
+          include 'templates/view.url.php';
+        ?>
 
 
         <div class="audio">
 
-          <audio controls="controls" preload="none" src="<?= $id ?>"></audio>
+          <audio controls="controls" preload="none" src="<?= $url_openfile ?>"></audio>
 
         </div>
 
