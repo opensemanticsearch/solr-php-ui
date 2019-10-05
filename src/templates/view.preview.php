@@ -64,48 +64,15 @@ foreach ($results->response->docs as $doc) {
 	
 $id = $doc->id;
 
+$container = isset($doc->container_s) ? $doc->container_s : NULL;
+list ($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basenname) = get_urls($doc->id, $container);
+
 // Type
 $type = $doc->content_type_ss;
 
 if (isset($doc->content_type_group_ss)) {
     $type_group = $doc->content_type_group_ss;
 } else $type_group = false;
-
-// URI
-
-// if part of container like zip, link to container file
-// if PDF page URI to Deeplink
-// since PDF Reader can open deep links
-if (isset($doc->container_s) and $type != 'PDF page') {
-  $uri = $doc->container_s;
-  $deepid = $id;
-} else {
-  $uri = $id;
-  $deepid = FALSE;
-}
-
-$uri_unmasked = $uri;
-
-$uri_label = $uri;
-$uri_tip = FALSE;
-
-// if file:// then only filename
-if (strpos($uri, "file://") === 0) {
-  $uri_label = basename($uri);
-  // for tooptip remove file:// from beginning
-  $uri_tip = substr($uri, 7);
-}
-
-if ($deepid) {
-  $deep_uri_label = $deepid;
-  $deep_uri_tip = FALSE;
-  // if file:// then only filename
-  if (strpos($deepid, "file://") === 0) {
-    $deep_uri_label = basename($deepid);
-    // for tooptip remove file:// from beginning
-    $deep_uri_tip = substr($deepid, 7);
-  }
-}
 
 
 // Authors
@@ -305,31 +272,12 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
   </div>
 
   <div class="row">
-		<span class="uri">
-		
-				<?php
-        if ($deepid) {
-          ?>
-          <?php if ($deep_uri_tip) { ?>
-            <span data-tooltip class="has-tip" title="<?= $deep_uri_tip ?>">
-          <?php } ?>
-          <?= $deep_uri_label ?>
-          <?php if ($deep_uri_tip) { ?>
-            </span>
-          <?php } ?>
-          in
-          <?php
-        } // if deepid
-        ?>
 
-      <?php if ($uri_tip) { ?>
-      <span data-tooltip class="has-tip" title="<?= $uri_tip ?>">
-				<?php } ?>
-        <?= $uri_label ?>
-        <?php if ($uri_tip) { ?>
-					</span>
-    <?php } ?>
-		</span>
+    <?php
+      include 'templates/view.url.php';
+    ?>
+
+		
     <?php if ($file_size_txt) { ?>
       <span class="size">(<?= $file_size_txt ?>)</span>
     <?php } // if filesize?>
@@ -342,7 +290,7 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
 
   <div class="row">
-    <h1><a class="title" target="_blank" href="<?= $uri ?>"><?= $title ?></a>
+    <h1><a class="title" target="_blank" href="<?= $url_openfile ?>"><?= $title ?></a>
     </h1>
   </div>
 
@@ -472,7 +420,7 @@ if ($preview_segments == true) {
 					<?php
 					} else { // no thumbnails
 					?>
-						<embed id="pdf" src="<?= $id ?>#search=<?= rawurlencode($highlightings) ?>" type="application/pdf" width="100%" height="100%" />
+						<embed id="pdf" src="<?= $url_openfile ?>#search=<?= rawurlencode($highlightings) ?>" type="application/pdf" width="100%" height="100%" />
 
               	<?php
               } // no thumbnails
@@ -481,19 +429,19 @@ if ($preview_segments == true) {
 
             // if image
             if (strpos($type, 'image') === 0) { ?>
-              <a href="<?= $id ?>" target="_blank"><img src="<?= $id ?>"/></a>
+              <a href="<?= $url_openfile ?>" target="_blank"><img src="<?= $url_openfile ?>"/></a>
               <?php
             } // if image
 
             // if video
             if (strpos($type, 'video') === 0) { ?>
-              <video controls="controls" src="<?= $id ?>"></video>
+              <video controls="controls" src="<?= $url_openfile ?>"></video>
               <?php
             } // if video
 
             // if audio
             if (strpos($type, 'audio') === 0) { ?>
-              <audio controls="controls" src="<?= $id ?>"></audio>
+              <audio controls="controls" src="<?= $url_openfile ?>"></audio>
               <?php
             } // if audio ?>
 
