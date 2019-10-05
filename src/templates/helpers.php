@@ -161,7 +161,7 @@ function get_urls($id, $container) {
 	      $url_annotation = $id;
 		}
 		      
-      return array($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basenname);
+      return array($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basename);
 }
 
 ?>
