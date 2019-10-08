@@ -1253,7 +1253,7 @@ $exclude_facets = ['location_wkt_ss'];
 if ( $view == 'entities') {
 
   // don't show more technical facets in main area, but later as facets in sidebar
-  $exclude_entities = ['content_type_ss','content_type_group_ss','language_s'];
+  $exclude_entities = ['content_type_ss', 'content_type_group_ss', 'language_s', 'etl_error_plugins_ss'];
 
   // TODO: add entities_enabled and entities_limit to facet config and facet config ui
 
