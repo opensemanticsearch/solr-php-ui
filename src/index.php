@@ -3,7 +3,7 @@
 //
 // PHP-UI of Open Semantic Search - https://opensemanticsearch.org
 //
-// 2011 - 2018 by Markus Mandalka - https://mandalka.name
+// 2011 - 2019 by Markus Mandalka - https://mandalka.name
 // and others (see Git history & issues)
 //
 // Free Software - License: GPL 3
@@ -1017,21 +1017,19 @@ if ($operator == 'OR') {
 foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
 	if ($configured_facet == 'path') {
-		$pathfacet_prefix = '';
 		$pathfacet_suffix = '_s';
 		$pathfacet_valueseparator = '/';
 	} else {
-		$pathfacet_prefix = '_taxonomy_';
 		$pathfacet_suffix = '_ss';
 		$pathfacet_valueseparator = "\t";
 
-		$arr_facets[] = $configured_facet . $pathfacet_prefix . '0' . $pathfacet_suffix;
+		$arr_facets[] = $configured_facet . '0' . $pathfacet_suffix;
 	}
 
 
-	if (isset($facet_config['tree']) && $facet_config['tree'] == true && $view != 'entities' && $view != 'graph') {
+	if (isset($facet_config['tree']) && $facet_config['tree'] == true) {
 
-		$arr_facets[] = $configured_facet .$pathfacet_prefix . '0' . $pathfacet_suffix;
+		$arr_facets[] = $configured_facet . '0' . $pathfacet_suffix;
 		
 	} else {
 		if ($configured_facet != 'path') {
@@ -1044,7 +1042,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 
 		// map virtual taxonomy facet to Solr facet
 
-		$pathfacet = $configured_facet . $pathfacet_prefix . '0' . $pathfacet_suffix;
+		$pathfacet = $configured_facet . '0' . $pathfacet_suffix;
 
 		$cfg['facets'][$configured_facet]['pathfacet'] = $pathfacet;
 	
@@ -1077,7 +1075,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				// if path check which path_x_s facet to select
 				$pathdeepth = count($paths);
 
-				$pathfacet = $configured_facet . $pathfacet_prefix . $pathdeepth . $pathfacet_suffix;
+				$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
 				
 				$arr_facets[] = $pathfacet;
 	
@@ -1091,13 +1089,13 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				$cfg['facets'][$configured_facet]['path'] = $selected_value;
 				
 				if ($pathfacet_valueseparator == '/') {
-					$pathfilter = path2query($selected_value, $selected_facet, $pathfacet_prefix, $pathfacet_suffix, $pathfacet_valueseparator);
+					$pathfilter = path2query($selected_value, $selected_facet, $pathfacet_suffix, $pathfacet_valueseparator);
 					$solrfilterquery .= ' +' . $pathfilter;
 				} else {
 
 					$filterpathdeepth = count($paths) - 1;
 					
-					$filterpathfacet = $configured_facet . $pathfacet_prefix . $filterpathdeepth . $pathfacet_suffix;
+					$filterpathfacet = $configured_facet . $filterpathdeepth . $pathfacet_suffix;
 					#mask special chars in facet name
 					$solrfacet = addcslashes($filterpathfacet, '+-&|!(){}[]^"~*?:\/ ');
 					#mask special chars in facet value
@@ -1139,18 +1137,18 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 				// if path check which path_x_s facet to select
 				$pathdeepth = count($paths);
 
-				$pathfacet = $configured_facet . $pathfacet_prefix . $pathdeepth . $pathfacet_suffix;
+				$pathfacet = $configured_facet . $pathdeepth . $pathfacet_suffix;
 
 				$arr_facets[] = $pathfacet;
 
 				if ($pathfacet_valueseparator == '/') {
-					$pathfilter = path2query($deselected_value, $deselected_facet, $pathfacet_prefix, $pathfacet_suffix, $pathfacet_valueseparator);
+					$pathfilter = path2query($deselected_value, $deselected_facet, $pathfacet_suffix, $pathfacet_valueseparator);
 					$solrfilterquery .= ' -(' . $pathfilter.')';
 				} else {
 
 					$filterpathdeepth = count($paths) - 1;
 					
-					$filterpathfacet = $configured_facet . $pathfacet_prefix . $filterpathdeepth . $pathfacet_suffix;
+					$filterpathfacet = $configured_facet . $filterpathdeepth . $pathfacet_suffix;
 					#mask special chars in facet name
 					$solrfacet = addcslashes($filterpathfacet, '+-&|!(){}[]^"~*?:\/ ');
 					#mask special chars in facet value
@@ -1179,7 +1177,7 @@ foreach ($cfg['facets'] as $configured_facet => $facet_config) {
 $additionalParameters['facet.field'] = $arr_facets;
 
 
-function path2query($path, $facet, $pathfacet_prefix, $pathfacet_suffix, $separator='\t') {
+function path2query($path, $facet, $pathfacet_suffix, $separator='\t') {
 	
 	$trimmedpath = trim($path, $separator);
 		
@@ -1196,7 +1194,7 @@ function path2query($path, $facet, $pathfacet_prefix, $pathfacet_suffix, $separa
 		
 		if ($first==false) {$pathfilter .= ' +';} else {$first=false;}
 
-		$pathfilter .= $facet . $pathfacet_prefix . $pathcounter . $pathfacet_suffix . ':' . $solrpath;
+		$pathfilter .= $facet . $pathcounter . $pathfacet_suffix . ':' . $solrpath;
 
 		$pathcounter++;
 	}
