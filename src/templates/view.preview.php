@@ -242,8 +242,8 @@ if ( isset($doc->annotation_text_txt) || isset($doc->annotation_tag_ss) || isset
 $annotations = TRUE;
 
 // exclude fields from (meta) data tab which handled by other tabs
-$exclude_fields = array('_version_', '_text_', 'title_txt', 'content_txt', 'preview_s', 'ocr_t');
-$exclude_fields_prefixes = array('etl_');
+$exclude_fields = array('_version_', '_text_', 'title_txt', 'content_txt', 'preview_s', 'ocr_t','X-Parsed-By_ss');
+$exclude_fields_prefixes = array('etl_', 'X-TIKA_');
 $exclude_fields_suffixes = array('_uri_ss', '_preflabel_and_uri_ss', '_matchtext_ss');
 
 // exclude fields that are only copied for language specific analysis in index
@@ -601,7 +601,7 @@ if ($preview_segments == true) {
         <div class="etl">
           <?php
 			 foreach ($doc as $field => $value) {
-            if (strpos($field, 'etl_') === 0) {
+            if (strpos($field, 'etl_') === 0 or strpos($field, 'X-TIKA_') === 0 or $field=='X-Parsed-By_ss') {
               ?>
               <div>
                 <?php
