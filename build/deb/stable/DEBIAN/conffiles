@@ -1,5 +1,4 @@
 /etc/solr-php-ui/config.webadmin.php
-/etc/solr-php-ui/config.mimetypes.php
 /etc/solr-php-ui/config.i18n.php
 /etc/solr-php-ui/config.facets.php
 /etc/solr-php-ui/config.php

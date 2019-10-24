@@ -1,5 +1,5 @@
 Package: solr-php-ui
-Version: 18.01.23
+Version: 19.10.24
 Section: misc
 Priority: optional
 Architecture: all
