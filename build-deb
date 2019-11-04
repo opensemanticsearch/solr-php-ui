@@ -2,22 +2,18 @@
 
 VERSION=`date +%y.%m.%d`
 PACKAGE=solr-php-ui_${VERSION}.deb
-DEBIAN_VERSION=stable
 BUILDDIR=/tmp/solr-php-ui-$$
 
 
 echo "Building ${PACKAGE} in temp directory ${BUILDDIR}"
 
-# since this script is in build/deb, the basedir with sources, configs and files is two directories up
-BASEDIR=`dirname "$0"`
-BASEDIR="${BASEDIR}/../../"
-
 mkdir ${BUILDDIR}
+
+cp -a DEBIAN ${BUILDDIR}/
+cp -a etc ${BUILDDIR}/
+
 mkdir -p ${BUILDDIR}/usr/share/solr-php-ui/
-
-cp -a ${BASEDIR}/build/deb/${DEBIAN_VERSION}/* ${BUILDDIR}/
-
-cp -a ${BASEDIR}/src/* ${BUILDDIR}/usr/share/solr-php-ui/
+cp -a src/* ${BUILDDIR}/usr/share/solr-php-ui/
 
 # Move config from php directory config to systems config directory /etc
 mv ${BUILDDIR}/usr/share/solr-php-ui/config/* ${BUILDDIR}/etc/solr-php-ui
