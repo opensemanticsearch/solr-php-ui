@@ -19,8 +19,12 @@ $cfg['debug'] = false;
 
 $cfg['etl_status'] = false;
 
+if (getenv('SOLR_PHP_UI_SOLR_HOST')) {
+    $cfg['solr']['host'] = getenv('SOLR_PHP_UI_SOLR_HOST');
+} else {
+    $cfg['solr']['host'] = 'localhost';
+}
 
-$cfg['solr']['host'] = 'localhost';
 $cfg['solr']['port'] = 8983;
 $cfg['solr']['path'] = '/solr';
 
