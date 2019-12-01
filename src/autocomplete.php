@@ -3,13 +3,16 @@
 
 	autocomplete.php - List of words for autocompletition
 
-   Version 15.03.14 by Markus Mandalka
 */
 
   header('Content-Type: application/json; charset=utf-8');
 
-  
-  $cfg['solr']['host'] = 'localhost';
+  if (getenv('SOLR_PHP_UI_SOLR_HOST')) {
+    $cfg['solr']['host'] = getenv('SOLR_PHP_UI_SOLR_HOST');
+  } else {
+    $cfg['solr']['host'] = 'localhost';
+  }
+
   $cfg['solr']['port'] = 8983;
   $cfg['solr']['path'] = '/solr';
   
@@ -26,7 +29,7 @@
 
   $query = (string)$_GET["query"];
 
-  $uri = $solruri . '/terms?terms.fl=_text_&terms.limit=' . $limit . '&terms.prefix=' . urlencode(strtolower($query));
+  $uri = $solruri . '/terms?wt=xml&terms.fl=_text_&terms.limit=' . $limit . '&terms.prefix=' . urlencode(strtolower($query));
   $result = file_get_contents($uri);
 
   $termsxml = simplexml_load_string($result);
