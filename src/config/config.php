@@ -98,6 +98,13 @@ $cfg['metadata']['server'] = '/search-apps/annotate/edit?uri=';
 // URI to Hypothesis annotator for visual annotations
 //$cfg['hypothesis']['server'] = 'https://via.hypothes.is/';
 
+//
+// Name variants recommender tool
+//
+
+// URI to aliases recommender app
+$cfg['morphology'] = '/search-apps/morphology/?list=';
+
 
 //
 // If no query, show newest documents

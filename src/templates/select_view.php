@@ -11,6 +11,7 @@ $view_selectors = array(
 );
 
 $analyse_dropdowns = array(
+  'morphology' => t('Fuzzy search for name variants'),
   'entities' => t('Named entities'),
   'graph' => t('view_graph'),
   'trend' => t('view_trend'),
@@ -61,6 +62,10 @@ foreach ($analyse_dropdowns as $anl_item => $title) {
   ];
 
   switch ($anl_item) {
+
+    case 'morphology':
+      $item['url'] = $cfg['morphology'] . rawurlencode($query);
+      break;
 
     case 'table':
       $item['url'] = buildurl($params, 'view', $anl_item, 's', null);
