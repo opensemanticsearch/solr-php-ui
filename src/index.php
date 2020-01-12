@@ -3,7 +3,7 @@
 //
 // PHP-UI of Open Semantic Search - https://opensemanticsearch.org
 //
-// 2011 - 2019 by Markus Mandalka - https://mandalka.name
+// 2011 - 2020 by Markus Mandalka - https://mandalka.name
 // and others (see Git history & issues)
 //
 // Free Software - License: GPL 3
@@ -18,6 +18,8 @@
 $cfg['debug'] = false;
 
 $cfg['etl_status'] = false;
+$cfg['etl_status_warning'] = false;
+
 
 if (getenv('SOLR_PHP_UI_SOLR_HOST')) {
     $cfg['solr']['host'] = getenv('SOLR_PHP_UI_SOLR_HOST');
@@ -877,6 +879,22 @@ require_once('./Apache/Solr/Service.php');
 
 
 $solr = new Apache_Solr_Service($cfg['solr']['host'], $cfg['solr']['port'], $cfg['solr']['path'].'/'.$cfg['solr']['core']);
+
+
+// get ETL status / count of open ETL tasks
+$count_open_etl_tasks_extraction = 0;
+if ($cfg['etl_status_warning']) {
+
+	$etl_status_solr_query_params['facet'] = "true";
+	$etl_status_solr_query_params['facet.query'] = ['{!key=count_open_etl_tasks_extraction}etl_file_b:true AND -etl_enhance_extract_text_tika_server_b:true'];
+	try {
+		$results = $solr->search('*:*', 0, 0, $etl_status_solr_query_params);
+		
+		$count_open_etl_tasks_extraction = (int)($results->facet_counts->facet_queries->count_open_etl_tasks_extraction);
+	} catch (Exception $e) {
+		$error = $e->__toString();
+	}
+}
 
 // if magic quotes is enabled then stripslashes will be needed
 if (get_magic_quotes_gpc() == 1) {

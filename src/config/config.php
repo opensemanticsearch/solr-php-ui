@@ -14,6 +14,9 @@ $cfg['debug'] = false;
 // Show preview tab and facet with ETL status like used plugins / ETL error messages
 $cfg['etl_status'] = true;
 
+// Show import status, if still open file import / text extraction tasks
+$cfg['etl_status_warning'] = true;
+
 
 //
 // Default operator (can be switched by users in UI by search options)

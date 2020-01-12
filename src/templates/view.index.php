@@ -112,6 +112,11 @@ else {
   <div id="main" class="small-12 medium-8 large-9 columns">
     <?php
     include 'templates/select_view.php';
+
+    if ($cfg['etl_status_warning']) {
+      include 'templates/view.etl_status.php';
+    }
+
     // if no results, show message
     if ($total == 0) {
       ?>
