@@ -127,7 +127,12 @@
       print_r($facet_config);
     }
 
-    if ( !in_array($facet, $exclude_facets) ) {
+    $facet_enabled = true;
+    if (isset($facet_config['enabled'])) {
+    	$facet_enabled = $facet_config['enabled'];
+    }
+
+    if ($facet_enabled==true && !in_array($facet, $exclude_facets)) {
 
 		if ( isset($facet_config['pathfacet']) ) {
 			$path = FALSE;
