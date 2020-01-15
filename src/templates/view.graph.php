@@ -72,7 +72,9 @@ Ignored (not queried for connections and not shown in the graph) entity types (c
 
   foreach ($cfg['facets'] as $facet => $facet_config) {
 
-    if ( !in_array($facet, $graph_fields) ) {
+    // exclude yet active facets from option to add facet
+    // and exclude facet phone_ss (maybe same number in different values of different format) since for graph view additional existent facet phone_normalized_ss (same number, independent of format) works better
+    if ($facet != 'phone_ss' && !in_array($facet, $graph_fields) ) {
 
 		$graph_fields_include = $graph_fields;
  		$graph_fields_include[] = $facet;
