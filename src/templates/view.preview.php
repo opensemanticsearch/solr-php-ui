@@ -187,6 +187,7 @@ if ($preview_allowed) {
 	  # which pages are matching the search query?
   
 	  $preview_matching_pages_additionalParameters = array();
+	  $preview_matching_pages_additionalParameters['fq'] = 'content_type_ss:"PDF page"';
 	  $preview_matching_pages_additionalParameters['fl'] = 'page_i';
 	  $preview_matching_pages_additionalParameters['sort'] = 'page_i asc';
 	  $preview_matching_pages_additionalParameters['q.op'] = 'OR';
