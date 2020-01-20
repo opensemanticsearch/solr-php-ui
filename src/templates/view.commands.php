@@ -12,4 +12,10 @@
 
           | <a
             href="?view=preview&q=<?= rawurlencode('id:"' . $url_preview . '"') ?>"><?= t('Preview') ?></a>
+
+          <?php if (isset($url_prioritize) && $url_prioritize): ?>
+          | <a
+            target="_blank" href="<?= $url_prioritize ?>"><?= t('Prioritize import') ?></a>
+          <?php endif; ?>
+            
         </div>

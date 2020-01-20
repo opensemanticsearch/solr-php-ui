@@ -18,6 +18,14 @@ require_once(__DIR__ . '/helpers.php');
 		$container = isset($doc->container_s) ? $doc->container_s : NULL;
 		list ($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basenname) = get_urls($doc->id, $container);
 
+		$url_prioritize = NULL;
+
+		if ($cfg['etl_status'] && $count_open_etl_tasks_extraction > -1) {
+	      if (isset($doc->etl_file_b) && !isset($doc->etl_enhance_extract_text_tika_server_b)) {
+				$url_prioritize = "/search-apps/files/prioritize?url=" . rawurlencode($id);
+			}
+		}
+		
 		// Authors
 		if (is_array($doc->author_ss)) {
 			$authors = $doc->author_ss;
