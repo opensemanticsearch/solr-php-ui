@@ -70,6 +70,11 @@ list ($url_display, $url_display_basename, $url_preview, $url_openfile, $url_ann
 // Type
 $type = $doc->content_type_ss;
 
+// If multiple types (because recursive content extraction like archives or PDF with embedded images), use the type of the file, only
+if (is_array($type)) {
+	$type = $type[0];
+}
+
 if (isset($doc->content_type_group_ss)) {
     $type_group = $doc->content_type_group_ss;
 } else $type_group = false;
