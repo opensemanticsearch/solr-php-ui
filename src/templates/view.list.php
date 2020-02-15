@@ -16,7 +16,7 @@ require_once(__DIR__ . '/helpers.php');
       $id = $doc->id;
 
 		$container = isset($doc->container_s) ? $doc->container_s : NULL;
-		list ($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basenname) = get_urls($doc->id, $container);
+		list ($url_display, $url_display_basename, $url_preview, $url_openfile, $url_annotation, $url_container_display, $url_container_display_basename) = get_urls($doc->id, $container);
 
 		$url_prioritize = NULL;
 
