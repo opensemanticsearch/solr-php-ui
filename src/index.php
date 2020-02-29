@@ -50,7 +50,7 @@ $cfg['snippetsize'] = 300;
 
 // todo: convert labels to t() function or read labels from ontology
 // and add to facet config: $lang['en']['facetname'] = 'Facet label';
-$cfg['facets']=array();
+$cfg['facets'] = array();
 
 
 $cfg['disable_view_graph'] = false;
@@ -883,14 +883,19 @@ $solr = new Apache_Solr_Service($cfg['solr']['host'], $cfg['solr']['port'], $cfg
 
 // get ETL status / count of open ETL tasks
 $count_open_etl_tasks_extraction = 0;
+$count_open_etl_tasks_ocr = 0;
 if ($cfg['etl_status_warning']) {
 
 	$etl_status_solr_query_params['facet'] = "true";
-	$etl_status_solr_query_params['facet.query'] = ['{!key=count_open_etl_tasks_extraction}etl_file_b:true AND -etl_enhance_extract_text_tika_server_b:true'];
+	$etl_status_solr_query_params['facet.query'] = array();
+	$etl_status_solr_query_params['facet.query'][] = '{!key=count_open_etl_tasks_extraction}etl_file_b:true AND -etl_enhance_extract_text_tika_server_b:true';
+	$etl_status_solr_query_params['facet.query'][] = '{!key=count_open_etl_tasks_ocr}etl_enhance_extract_text_tika_server_ocr_enabled_b:false AND etl_count_images_yet_no_ocr_i>0';
+
 	try {
 		$results = $solr->search('*:*', 0, 0, $etl_status_solr_query_params);
 		
 		$count_open_etl_tasks_extraction = (int)($results->facet_counts->facet_queries->count_open_etl_tasks_extraction);
+		$count_open_etl_tasks_ocr = (int)($results->facet_counts->facet_queries->count_open_etl_tasks_ocr);
 	} catch (Exception $e) {
 		$error = $e->__toString();
 	}
