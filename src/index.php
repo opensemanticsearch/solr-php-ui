@@ -889,7 +889,7 @@ if ($cfg['etl_status_warning']) {
 	$etl_status_solr_query_params['facet'] = "true";
 	$etl_status_solr_query_params['facet.query'] = array();
 	$etl_status_solr_query_params['facet.query'][] = '{!key=count_open_etl_tasks_extraction}etl_file_b:true AND -etl_enhance_extract_text_tika_server_b:true';
-	$etl_status_solr_query_params['facet.query'][] = '{!key=count_open_etl_tasks_ocr}etl_enhance_extract_text_tika_server_ocr_enabled_b:false AND etl_count_images_yet_no_ocr_i>0';
+	$etl_status_solr_query_params['facet.query'][] = '{!key=count_open_etl_tasks_ocr}etl_count_images_yet_no_ocr_i:[1 TO *]';
 
 	try {
 		$results = $solr->search('*:*', 0, 0, $etl_status_solr_query_params);
