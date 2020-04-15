@@ -19,7 +19,7 @@ $cfg['debug'] = false;
 
 $cfg['etl_status'] = false;
 $cfg['etl_status_warning'] = false;
-
+$cfg['etl_status_facets'] = array();
 
 if (getenv('SOLR_PHP_UI_SOLR_HOST')) {
     $cfg['solr']['host'] = getenv('SOLR_PHP_UI_SOLR_HOST');
@@ -1278,6 +1278,11 @@ if ($view == 'map') {
 
 // which facets to show
 $exclude_facets = ['location_wkt_ss'];
+
+// exclude facets, which should be only shown, if open analysis / extraction tasks
+if ($count_open_etl_tasks_extraction == 0) {
+	$exclude_facets = array_merge($exclude_facets, $cfg['etl_status_facets']);
+}
 
 if ( $view == 'entities') {
 

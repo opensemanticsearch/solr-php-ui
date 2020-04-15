@@ -17,6 +17,9 @@ $cfg['etl_status'] = true;
 // Show import status, if still open file import / text extraction tasks
 $cfg['etl_status_warning'] = true;
 
+// Only show file extension facet, if yet open import/extraction tasks (after that we have the facet content type)
+$cfg['etl_status_facets'][] = 'filename_extension_s';
+
 
 //
 // Default operator (can be switched by users in UI by search options)
