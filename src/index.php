@@ -101,16 +101,7 @@ function mask_query ( $query, $facets=array() ) {
 
 
 function get_uri_help ($language) {
-
-	$result = 'doc/help.' . $language . '.html';
-
-	// if help.$language.html doesn't exist
-	if (!file_exists ($result) ) {
-		// use default (english)
-		$result = 'doc/help.html';
-	}
-
-	return $result;
+	return 'docs/doc/search/';
 }
 
 
