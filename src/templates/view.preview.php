@@ -295,7 +295,7 @@ $fields = get_fields($doc, $exclude_fields, $exclude_fields_prefixes, $exclude_f
 
 
   <div class="row">
-    <h1><a class="title" target="_blank" href="<?= $url_openfile ?>"><?= $title ?></a>
+    <h1><a class="title" target="_blank" href="<?= str_replace('#', '%23', $url_openfile) ?>"><?= $title ?></a>
     </h1>
   </div>
 
@@ -425,7 +425,7 @@ if ($preview_segments == true) {
 					<?php
 					} else { // no thumbnails
 					?>
-						<embed id="pdf" src="<?= $url_openfile ?>#search=<?= rawurlencode($highlightings) ?>" type="application/pdf" width="100%" height="100%" />
+						<embed id="pdf" src="<?= str_replace('#', '%23', $url_openfile) ?>#search=<?= rawurlencode($highlightings) ?>" type="application/pdf" width="100%" height="100%" />
 
               	<?php
               } // no thumbnails
@@ -434,19 +434,19 @@ if ($preview_segments == true) {
 
             // if image
             if (strpos($type, 'image') === 0) { ?>
-              <a href="<?= $url_openfile ?>" target="_blank"><img src="<?= $url_openfile ?>"/></a>
+              <a href="<?= str_replace('#', '%23', $url_openfile) ?>" target="_blank"><img src="<?= str_replace('#', '%23', $url_openfile) ?>"/></a>
               <?php
             } // if image
 
             // if video
             if (strpos($type, 'video') === 0) { ?>
-              <video controls="controls" src="<?= $url_openfile ?>"></video>
+              <video controls="controls" src="<?= str_replace('#', '%23', $url_openfile) ?>"></video>
               <?php
             } // if video
 
             // if audio
             if (strpos($type, 'audio') === 0) { ?>
-              <audio controls="controls" src="<?= $url_openfile ?>"></audio>
+              <audio controls="controls" src="<?= str_replace('#', '%23', $url_openfile) ?>"></audio>
               <?php
             } // if audio ?>
 
