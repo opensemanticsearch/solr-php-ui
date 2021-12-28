@@ -57,7 +57,7 @@ require_once(__DIR__ . '/helpers.php');
  
       ?>
       <li id="<?= $result_nr ?>">
-        <div class="title"><a class="title" href="<?= $url_openfile ?>"><?= $title ?></a>
+        <div class="title"><a class="title" href="<?= str_replace('#', '%23', $url_openfile) ?>"><?= $title ?></a>
         </div>
         <div class="date"><?= $datetime ?></div>
         <div>
