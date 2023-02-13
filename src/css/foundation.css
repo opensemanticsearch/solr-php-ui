@@ -3289,6 +3289,7 @@ table.hover tr:nth-of-type(even):hover {
   position: absolute;
   z-index: 10;
   top: calc(100% + 0.6495rem);
+  word-break: break-all;
   max-width: 10rem !important;
   border-radius: 0; }
   .tooltip::before {
