@@ -6,7 +6,6 @@
       <?php $sort_relevance = (is_null($sort)) ? 'selected' : ''; ?>
       <option <?= $sort_relevance ?>
         value="<?= buildurl($params, "sort", NULL, 's', 1) ?>"><?= t('Relevance') ?></option>
-      '
 
       <?php $sort_newest = (isset($sort) && $sort == 'newest') ? 'selected' : ''; ?>
       <option <?= $sort_newest ?>
@@ -16,9 +15,11 @@
       <option <?= $sort_oldest ?>
         value="<?= buildurl($params, "sort", 'oldest', 's', 1) ?>"><?= t('Oldest') ?></option>
 
+      <?php if(false): ?>
       <?php $sort_other = ($sort != NULL && $sort != 'newest' && $sort != 'oldest') ? 'selected' : ''; ?>
       <option <?= $sort_other ?>
         value="<?= buildurl($params, "sort", $sort, 's', 1) ?>"><?= htmlspecialchars($sort) ?></option>
+      <?php endif; ?>
 
     </select>
     <script type="text/javascript">
